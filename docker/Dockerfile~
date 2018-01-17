@@ -1,0 +1,42 @@
+
+#
+#
+#
+#  https://hub.docker.com/r/microsoft/dotnet/
+from microsoft/dotnet
+
+
+# install node
+RUN apt-get -qq update
+RUN apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*
+RUN apt-get -qq update
+RUN apt-get -qq -y install curl
+RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+RUN apt-get install -y nodejs
+RUN npm install -g jasmine
+RUN npm install -g typescript
+
+#
+# install mongo
+# https://github.com/dockerfile/mongodb
+#
+RUN  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 
+RUN  echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' > /etc/apt/sources.list.d/mongodb.list 
+RUN  apt-get --allow-unauthenticated update 
+RUN  apt-get --allow-unauthenticated install -y mongodb-org 
+RUN  rm -rf /var/lib/apt/lists/*
+
+# Define mountable directories.
+VOLUME ["/data/db"]
+
+# Define working directory.
+WORKDIR /data
+
+# Define default command.
+#CMD ["mongod"]
+
+# Expose ports.
+#   - 27017: process
+#   - 28017: http
+EXPOSE 27017
+EXPOSE 28017

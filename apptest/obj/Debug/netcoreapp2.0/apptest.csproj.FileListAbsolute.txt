@@ -1,0 +1,15 @@
+/projects/apptest/obj/Debug/netcoreapp2.0/apptest.csproj.CoreCompileInputs.cache
+/projects/apptest/obj/Debug/netcoreapp2.0/apptest.AssemblyInfoInputs.cache
+/projects/apptest/obj/Debug/netcoreapp2.0/apptest.AssemblyInfo.cs
+/projects/apptest/bin/Debug/netcoreapp2.0/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+/projects/apptest/bin/Debug/netcoreapp2.0/xunit.runner.utility.netstandard15.dll
+/projects/apptest/bin/Debug/netcoreapp2.0/xunit.runner.reporters.netstandard15.dll
+/projects/apptest/bin/Debug/netcoreapp2.0/apptest.deps.json
+/projects/apptest/bin/Debug/netcoreapp2.0/apptest.runtimeconfig.json
+/projects/apptest/bin/Debug/netcoreapp2.0/apptest.runtimeconfig.dev.json
+/projects/apptest/bin/Debug/netcoreapp2.0/apptest.dll
+/projects/apptest/bin/Debug/netcoreapp2.0/apptest.pdb
+/projects/apptest/bin/Debug/netcoreapp2.0/app.dll
+/projects/apptest/bin/Debug/netcoreapp2.0/app.pdb
+/projects/apptest/obj/Debug/netcoreapp2.0/apptest.dll
+/projects/apptest/obj/Debug/netcoreapp2.0/apptest.pdb

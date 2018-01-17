@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+#
+#
+#npm update -g
+#sudo npm install -g @angular/cli
+npm install -g jasmine
+#npm install -g typescript
+npm install typescript@'>=2.1.0 <2.4.0'
+export ASPNETCORE_ENVIRONMENT=Development
+echo "This should be running in the docker container not the host"

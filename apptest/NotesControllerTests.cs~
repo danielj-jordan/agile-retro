@@ -1,0 +1,25 @@
+using System;
+using Xunit;
+
+namespace apptest
+{
+    public class NotesControllerTests
+    {
+        
+
+        [Fact]
+        public void GetAllNotes()
+        {
+                var controller = new app.Controllers.NotesController();
+
+                var notes = controller.Notes();
+                var count=0;
+                foreach(var note in notes)
+                {
+                        count++;
+                }
+                Assert.True(count>0, "there are some notes.");
+
+        }
+     }
+  }
