@@ -2,7 +2,16 @@
 
 <p>This is a listing of retrospective notes</p>
 <p>count: {{ count }}</p>
-<p *ngIf="!notes"><em>Loading...</em></p>
-<div *ngFor="let note of notes">{{ note.text }}</div>
-
-
+<p *ngIf="!notes || !categories"><em>Loading...</em></p>
+<div *ngFor="let category of categories">{{ category.name }}
+  <div *ngFor="let note of notes">
+    <ng-container *ngIf="note.categoryId==category.categoryId">
+      <div (click)="onSelect(note)">{{ note.text }} </div>
+    </ng-container>
+  </div>
+</div>
+<div *ngIf="selectedNote">
+  <label>enter note:
+  <input [(ngModel)]="selectedNote.text" >
+</label>
+</div>
