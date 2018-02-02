@@ -12,7 +12,7 @@ export class NotesComponent {
 
     public notes: Note[];
     public categories: Category[];
-    public count: number;
+    public count: Number;
     public selectedNote: Note;
 
     constructor( http: Http, @Inject('BASE_URL') baseUrl: string){
@@ -37,6 +37,28 @@ export class NotesComponent {
       console.log('selected note: note.text');
       this.selectedNote=note;
     }
+
+    onNewNote(categoryId: number): void {
+      console.log("creating a new note " + categoryId)
+      let note =  new NoteEdit(categoryId);
+      this.notes.push(note);
+      this.selectedNote=note;
+    }
+
+
+}
+
+class NoteEdit implements Note{
+  commentId: number;
+  categoryId: number;
+  text: string;
+  updateUser: string;
+
+  constructor(categoryId: number){
+    this.categoryId=categoryId;
+
+  }
+
 }
 
 interface Category{

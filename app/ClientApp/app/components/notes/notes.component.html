@@ -3,7 +3,8 @@
 <p>This is a listing of retrospective notes</p>
 <p>count: {{ count }}</p>
 <p *ngIf="!notes || !categories"><em>Loading...</em></p>
-<div *ngFor="let category of categories">{{ category.name }}
+<div *ngFor="let category of categories"><h4>{{ category.name }}
+  <button (click)="onNewNote(category.categoryId)">New</button></h4>
   <div *ngFor="let note of notes">
     <ng-container *ngIf="note.categoryId==category.categoryId">
       <div (click)="onSelect(note)">{{ note.text }} </div>
