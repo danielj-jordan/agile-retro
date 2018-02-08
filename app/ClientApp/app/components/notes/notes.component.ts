@@ -13,7 +13,7 @@ export class NotesComponent {
     public notes: Note[];
     public categories: Category[];
     public count: Number;
-    public selectedNote: Note;
+    public selectedNote: Note | null;
 
     constructor( http: Http, @Inject('BASE_URL') baseUrl: string){
 
@@ -34,7 +34,7 @@ export class NotesComponent {
 
 
     onSelect(note: Note): void{
-      console.log('selected note: note.text');
+      console.log('selected note: ' + note.text + note.commentId);
       this.selectedNote=note;
     }
 
@@ -43,6 +43,35 @@ export class NotesComponent {
       let note =  new NoteEdit(categoryId);
       this.notes.push(note);
       this.selectedNote=note;
+    }
+
+    onDelete(note: Note): void{
+      if(this.selectedNote)
+      {
+        console.log('deleting note: ' + this.selectedNote.commentId);
+      //  this.selectedNote=null;
+
+        var newNotes: Note[]=[];
+        for(var i: number=0; i< this.notes.length; i++) {
+          console.log(this.notes[i].commentId);
+          if(this.notes[i].commentId!=this.selectedNote.commentId){
+              newNotes.push(this.notes[i]);
+            }
+            else {
+              console.log('deleted');
+            }
+
+        }
+        this.notes=newNotes;
+        this.onClearSelected();
+    }
+
+    }
+
+    onClearSelected(): void{
+      console.log('clearing the selected note');
+      this.selectedNote=null;
+
     }
 
 
