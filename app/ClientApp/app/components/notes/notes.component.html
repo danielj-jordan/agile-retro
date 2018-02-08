@@ -3,16 +3,39 @@
 <p>This is a listing of retrospective notes</p>
 <p>count: {{ count }}</p>
 <p *ngIf="!notes || !categories"><em>Loading...</em></p>
-<div *ngFor="let category of categories"><h4>{{ category.name }}
-  <button (click)="onNewNote(category.categoryId)">New</button></h4>
-  <div *ngFor="let note of notes">
-    <ng-container *ngIf="note.categoryId==category.categoryId">
-      <div (click)="onSelect(note)">{{ note.text }} </div>
-    </ng-container>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3" *ngFor="let category of categories"><h4>{{ category.name }}
+      <button (click)="onNewNote(category.categoryId)">New</button></h4>
+      <div *ngFor="let note of notes">
+        <ng-container *ngIf="note.categoryId==category.categoryId">
+          <div (click)="onSelect(note)">{{ note.text }} </div>
+        </ng-container>
+      </div>
+    </div>
   </div>
 </div>
-<div *ngIf="selectedNote">
-  <label>enter note:
+
+<!--
+<div class="modal" role="dialog" >
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+  <div class="modal-body" >
+  -->
+    <div  *ngIf="selectedNote" >
+
+  <label>category
+
+  </label>
+  <label>comment
   <input [(ngModel)]="selectedNote.text" >
+  <button (click)="onClearSelected()" class="btn btn-primary" data-dismiss="modal">close</button>
+  <button (click)="onDelete(note)" class="btn btn-secondary">delete</button>
 </label>
 </div>
+<!--
+</div>
+</div>
+</div>
+</div>
+-->
