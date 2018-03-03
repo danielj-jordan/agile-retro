@@ -1,5 +1,5 @@
 import { Component,Inject } from '@angular/core';
-import {Http} from '@angular/http'
+import {Http, RequestOptions, Headers} from '@angular/http'
 import {NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
 
@@ -14,8 +14,12 @@ export class NotesComponent {
     public categories: Category[];
     public count: Number;
     public selectedNote: Note | null;
+    private http:Http;
+    private baseUrl:string;
 
     constructor( http: Http, @Inject('BASE_URL') baseUrl: string){
+      this.http=http;
+      this.baseUrl=baseUrl;
 
         http.get(baseUrl + 'api/notes/notes').subscribe(result => {
             this.notes= result.json() as Note[];
@@ -30,6 +34,25 @@ export class NotesComponent {
         }, error=>console.log('categories error'));
 
         console.log('calling constructor');
+    }
+
+    saveSelectedNote(): void{
+      //console.log('saving the selected note' + this.selectedNote.text);
+
+      if(this.selectedNote)
+      {
+        console.log('saving: ' + this.selectedNote.text);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        this.http.put(this.baseUrl + 'api/notes/note',
+          this.selectedNote, options
+          ).subscribe();
+        
+      }
+
+
+      
     }
 
 
@@ -70,6 +93,7 @@ export class NotesComponent {
 
     onClearSelected(): void{
       console.log('clearing the selected note');
+      this.saveSelectedNote();
       this.selectedNote=null;
 
     }

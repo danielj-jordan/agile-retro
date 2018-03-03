@@ -41,6 +41,25 @@ namespace app.Controllers
             return categories;
 
         }
+        [HttpPost("[action]")]
+        public Comment  NewNote(Comment input) 
+        {
+            //create a new note and assign an id
+            Comment newNote= new Comment();
+            newNote.CategoryId=input.CategoryId;
+            newNote.Text=input.Text;
+            newNote.CommentId=10;
+
+            return newNote;
+        }
+
+        [HttpPut("[action]")]
+        public Comment Note ([FromBody] Comment input)
+        {
+            //update an existing note
+            _logger.LogDebug("saving note id:{0} text:{1}", input.CommentId, input.Text);
+            return input;
+        }
 
 
         public class Comment
