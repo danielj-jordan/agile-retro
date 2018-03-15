@@ -37,7 +37,7 @@ namespace app.Controllers
             var categories= new List<Category>();
             categories.Add(new Category { CategoryId=1, Name ="this is a test"});
             categories.Add(new Category {CategoryId=2, Name ="waiting for another category"});
-
+             _logger.LogDebug("returning {0} categories", categories.Count);
             return categories;
 
         }
@@ -59,6 +59,14 @@ namespace app.Controllers
             //update an existing note
             _logger.LogDebug("saving note id:{0} text:{1}", input.CommentId, input.Text);
             return input;
+        }
+
+        [HttpDelete("[action]")]
+        public bool Note (int commentId)
+        {
+            _logger.LogDebug("deleting note id:{0}", commentId);
+            return true;
+
         }
 
 
