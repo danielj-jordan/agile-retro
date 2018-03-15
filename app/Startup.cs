@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.Webpack;
+//using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.SpaServices;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 namespace app
 {
@@ -23,6 +25,11 @@ namespace app
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            //services.UseAngularCliServer();
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "../client";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,11 +37,14 @@ namespace app
         {
             if (env.IsDevelopment())
             {
+
+                /* 
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true
                 });
+                */
             }
             else
             {
@@ -42,6 +52,8 @@ namespace app
             }
 
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+    
 
             app.UseMvc(routes =>
             {
@@ -49,10 +61,24 @@ namespace app
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
 
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+                
             });
+
+            app.UseSpa( spa =>
+            {
+                //spa.Options.DefaultPage = "/index.html";
+                spa.Options.SourcePath = "../client";
+
+                if(env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(  "start");
+                }
+            });
+
+
+
+
+    
         }
     }
 }

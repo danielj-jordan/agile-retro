@@ -37,8 +37,35 @@ namespace app.Controllers
             var categories= new List<Category>();
             categories.Add(new Category { CategoryId=1, Name ="this is a test"});
             categories.Add(new Category {CategoryId=2, Name ="waiting for another category"});
-
+             _logger.LogDebug("returning {0} categories", categories.Count);
             return categories;
+
+        }
+        [HttpPost("[action]")]
+        public Comment  NewNote(Comment input) 
+        {
+            //create a new note and assign an id
+            Comment newNote= new Comment();
+            newNote.CategoryId=input.CategoryId;
+            newNote.Text=input.Text;
+            newNote.CommentId=10;
+
+            return newNote;
+        }
+
+        [HttpPut("[action]")]
+        public Comment Note ([FromBody] Comment input)
+        {
+            //update an existing note
+            _logger.LogDebug("saving note id:{0} text:{1}", input.CommentId, input.Text);
+            return input;
+        }
+
+        [HttpDelete("[action]")]
+        public bool Note (int commentId)
+        {
+            _logger.LogDebug("deleting note id:{0}", commentId);
+            return true;
 
         }
 
