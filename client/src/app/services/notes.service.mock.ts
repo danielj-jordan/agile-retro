@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs/Rx';
 import {Note} from './notes';
 import {Category} from './category';
 
@@ -8,9 +8,13 @@ import {Category} from './category';
 export class NotesServiceMock {
 
 
-    getNotes():Observable<Note[]> {
+    public getNotes():Observable<Note[]> {
         let notes: Note[] =[]
         notes.push({commentId:1, categoryId:1, text:"this is a test", updateUser:"bob"});
+
+        console.log('notes count: ' + notes.length);
+        return Observable.of(notes);
+        /*
 
         let notes$:Observable<Note[]>;
         notes$= Observable.create( (observer:any) => 
@@ -18,7 +22,7 @@ export class NotesServiceMock {
             observer.next(notes);
         })
         return notes$;
-
+*/
     }
 
     getCategories(): Observable<Category[]>{
