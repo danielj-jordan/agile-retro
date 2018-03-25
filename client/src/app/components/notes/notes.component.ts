@@ -22,13 +22,17 @@ export class NotesComponent {
 
     constructor(notesService:NotesService){
       this.notesService=notesService;
-      notesService.getNotes().subscribe(
+    }
+
+    ngOnInit(): void {
+     
+      this.notesService.getNotes().subscribe(
         data => {
           this.notes=data;
         }
       );
       this.count=this.notes.length;
-      notesService.getCategories().subscribe(
+      this.notesService.getCategories().subscribe(
         data=>{
           this.categories=data;
         });

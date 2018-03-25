@@ -5,6 +5,11 @@ module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular/cli'],
+    customLaunchers: {
+      ChromeCustom: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--headless']
+      }},
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
@@ -24,10 +29,10 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
+    browsers: ['ChromeCustom'],
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
     singleRun: false
   });
 };
