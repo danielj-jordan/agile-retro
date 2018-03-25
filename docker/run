@@ -1,1 +1,1 @@
-docker run  -it --rm -v ~/projects/retrospective:/projects -p 5000:5000 -p 4200:4200 --name dotnet -h dotnet dotnet-image
+docker run --shm-size="128m" -it --rm -v ~/projects:/projects -p 9222:9222 -p 5000:5000 -p 4200:4200 --name dotnet -h dotnet dotnet-image

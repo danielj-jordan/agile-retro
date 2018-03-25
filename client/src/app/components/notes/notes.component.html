@@ -9,7 +9,7 @@
       <button (click)="onNewNote(category.categoryId)">New</button></h4>
       <div *ngFor="let note of notes">
         <ng-container *ngIf="note.categoryId==category.categoryId">
-          <div (click)="onSelect(note)">{{ note.text }} </div>
+          <div name="note" (click)="onSelect(note)">{{ note.text }} </div>
         </ng-container>
       </div>
     </div>
