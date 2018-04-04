@@ -1,41 +1,44 @@
 <h1>Notes</h1>
-
-<p>This is a listing of retrospective notes</p>
-<p>count: {{ count }}</p>
 <p *ngIf="!notes || !categories"><em>Loading...</em></p>
 <div class="container">
   <div class="row">
-    <div class="col-lg-3" *ngFor="let category of categories"><h4>{{ category.name }}
-      <button (click)="onNewNote(category.categoryId)">New</button></h4>
-      <div *ngFor="let note of notes">
+    <div class="col-lg-6  card border-0"  *ngFor="let category of categories">
+      <h4 style="text-align:center">{{ category.name }} 
+      <button class="btn btn-secondary  btn-sm" (click)="onNewNote(category.categoryId)">New</button></h4>
+      <div class="card-group">
+      <div class="card-block" *ngFor="let note of notes">
         <ng-container *ngIf="note.categoryId==category.categoryId">
-          <div name="note" (click)="onSelect(note)">{{ note.text }} </div>
+          <div class="card rounded note-yellow">
+          <div  style="overflow: scroll;" class="card-body" (click)="onSelect(note)">{{ note.text }} </div>
+          <div  class="card-footer">
+              <button (click)="onDeleteId(note.commentId)" class="btn btn-secondary btn-sm">Delete</button>
+          </div>
+        </div>
         </ng-container>
       </div>
     </div>
   </div>
+  </div>
 </div>
 
-<!--
-<div class="modal" role="dialog" >
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-  <div class="modal-body" >
-  -->
-    <div  *ngIf="selectedNote" >
 
-  <label>category
+<div class="modal fade"  role="dialog" id="modalEditNote" *ngIf="selectedNote">
+  <div class="modal-dialog modal-dialog-centered"  style="width:300px" role="document">
+    <div class="modal-content">
+      <div class="modal-body" >
+          <label>category</label>
+          <label>comment</label>
+             <div class="card rounded note-yellow">
+                <textarea style="height:100%; background-color:#ffff99;" [(ngModel)]="selectedNote.text" ></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button (click)="onClearSelected()" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+            <button (click)="onDeleteSelected()" class="btn btn-secondary btn-sm" data-dismiss="modal">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  </label>
-  <label>comment
-  <input type="text" [(ngModel)]="selectedNote.text" >
-  <button (click)="onClearSelected()" class="btn btn-primary" data-dismiss="modal">close</button>
-  <button (click)="onDelete(note)" class="btn btn-secondary">delete</button>
-</label>
-</div>
-<!--
-</div>
-</div>
-</div>
-</div>
--->
+
+

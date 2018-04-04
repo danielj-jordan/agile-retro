@@ -1,0 +1,47 @@
+
+
+
+
+
+
+div.note-pink{
+    background-color:#ff99cc;
+    height:240px;
+    width:240px;
+    box-shadow: 5px 5px 2px lightgray;
+    text-align:center;
+
+}
+
+div.note-blue{
+    background-color:#b3d9ff;  
+    height:240px;
+    width:240px;
+    box-shadow: 5px 5px 2px lightgray;
+    text-align:center;
+}
+
+div.note-yellow{
+    background-color: #ffff99;
+    height:240px;
+    width:240px;
+    box-shadow: 5px 5px 2px lightgray;
+    text-align: center;
+    margin:10px;
+}
+
+div.note-green{
+    background-color:#99ffdd;
+    height:240px;
+    width:240px;
+    box-shadow: 5px 5px 2px lightgray;
+    text-align:center;
+}
+
+div.note-purple{
+    background-color: #ff80ff;
+    height:240px;
+    width:240px;
+    box-shadow: 5px 5px 2px lightgray;
+    text-align:center;
+}

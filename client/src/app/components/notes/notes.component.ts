@@ -4,6 +4,8 @@ import {FormsModule} from '@angular/forms'
 import {NotesService} from '../../services/notes.service'
 import {Note} from '../../services/notes';
 import {Category} from '../../services/category';
+declare var $:any;
+
 
 @Component({
     selector: 'notes',
@@ -37,6 +39,7 @@ export class NotesComponent {
           this.categories=data;
         });
       console.log('calling constructor');
+      this.selectedNote=null;
     }
 
     saveSelectedNote(): void{
@@ -48,10 +51,31 @@ export class NotesComponent {
       }
     }
 
+    deleteNote(id:number)
+    {
+
+      console.log('deleting note: ' + id);
+
+        var newNotes: Note[]=[];
+        for(var i: number=0; i< this.notes.length; i++) {
+          console.log(this.notes[i].commentId);
+          if(this.notes[i].commentId!=id){
+              newNotes.push(this.notes[i]);
+            }
+            else {
+              console.log('deleted');
+              this.notesService.deleteNote(id);
+            }
+
+        }
+        this.notes=newNotes;
+    }
+
 
     onSelect(note: Note): void{
       console.log('selected note: ' + note.text + note.commentId);
       this.selectedNote=note;
+      $('#modalEditNote').modal();
     }
 
     onNewNote(categoryId: number): void {
@@ -61,26 +85,23 @@ export class NotesComponent {
       this.selectedNote=note;
     }
 
-    onDelete(note: Note): void{
+    onDeleteId(id: number)
+    {
+      this.deleteNote(id); 
+    }
+
+
+
+    onDeleteSelected(): void{
       if(this.selectedNote)
       {
-        console.log('deleting note: ' + this.selectedNote.commentId);
-
-        var newNotes: Note[]=[];
-        for(var i: number=0; i< this.notes.length; i++) {
-          console.log(this.notes[i].commentId);
-          if(this.notes[i].commentId!=this.selectedNote.commentId){
-              newNotes.push(this.notes[i]);
-            }
-            else {
-              console.log('deleted');
-              this.notesService.deleteNote(this.selectedNote.commentId);
-            }
-
-        }
-        this.notes=newNotes;
+        this.deleteNote(this.selectedNote.commentId);
+      }
+      else{
+        console.log('no selected note to delete');
+      }
         this.onClearSelected();
-    }
+    
 
     }
 
