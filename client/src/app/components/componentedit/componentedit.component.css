@@ -1,0 +1,11 @@
+
+div.note-yellow{
+    background-color: #ffff99;
+    height:200px;
+    width:200px;
+    box-shadow: 5px 5px 2px lightgray;
+    text-align: center;
+    font-size:12px;
+    margin:4px;
+
+}

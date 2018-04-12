@@ -9,6 +9,7 @@ import { AppRoutingModule } from './/app-routing.module';
 
 import { NotesComponent } from './components/notes/notes.component';
 import { NotesService }  from './services/notes.service';
+import { ComponentEdit } from './components/componentedit/componentedit.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { NotesService }  from './services/notes.service';
   declarations: [
     AppComponent,
     NotesComponent,
+    ComponentEdit,
 
   ],
   providers: [NotesService],

@@ -53,17 +53,18 @@ export class NotesService {
         return categories;*/
     }
 
-    saveNotes(note:Note): Note{
+    saveNote(note:Note): Observable<Note>{
         
         
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         var options = { headers : headers};
+
+        if(note.commentId==0){
+            return this.http.post<Note>(this.baseUrl + '/NewNote', note, options );
+        }
        
-        this.http.put(this.baseUrl + '/note',
-          note, options
-          ).subscribe();
-          
-          return note;
+            return this.http.put<Note>(this.baseUrl + '/note', note, options );
+       
 
     }
 

@@ -48,7 +48,12 @@ namespace app.Controllers
             Comment newNote= new Comment();
             newNote.CategoryId=input.CategoryId;
             newNote.Text=input.Text;
-            newNote.CommentId=10;
+
+
+            var temp =new System.Random();
+            newNote.CommentId= temp.Next(100,10000);
+
+            _logger.LogDebug("text:{0}", newNote.Text);                               
 
             return newNote;
         }
