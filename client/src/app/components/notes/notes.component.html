@@ -1,17 +1,20 @@
-<h1>Notes</h1>
+<h3>Notes</h3>
 <p *ngIf="!notes || !categories"><em>Loading...</em></p>
 <div class="container">
   <div class="row">
-    <div class="col-lg-6  card border-0"  *ngFor="let category of categories">
+    <div class="col-lg-6 card border-0"  *ngFor="let category of categories">
+      <div style="background-color:#f0f0f5;padding:3px;">
       <h4 style="text-align:center">{{ category.name }} 
       <button class="btn btn-secondary  btn-sm" (click)="onNewNote(category.categoryId)">New</button></h4>
+      </div>
       <div class="card-group">
       <div class="card-block" *ngFor="let note of notes">
         <ng-container *ngIf="note.categoryId==category.categoryId">
-          <div class="card rounded note-yellow">
-          <div  style="overflow: scroll;" class="card-body" (click)="onSelect(note)">{{ note.text }} </div>
-          <div  class="card-footer">
-              <button (click)="onDeleteId(note.commentId)" class="btn btn-secondary btn-sm">Delete</button>
+          <div class="card rounded note-yellow" (mouseenter)="onNoteMouseEnter(note)" (mouseleave)="onNoteMouseLeave(note)" [attr.id]="this.domId(note)" > 
+          <div  style="overflow: scroll;" class="card-body" >{{ note.text }} </div>
+          <div  class="card-footer" style="display:none">
+              <button (click)="onEditId(note.commentId)" class="btn btn-secondary btn-sm">Edit</button>
+            <button (click)="onDeleteId(note.commentId)" class="btn btn-secondary btn-sm">Delete</button>
           </div>
         </div>
         </ng-container>
@@ -21,8 +24,9 @@
   </div>
 </div>
 
-
-<div class="modal fade"  role="dialog" id="modalEditNote" *ngIf="selectedNote">
+<app-componentedit></app-componentedit>
+<!--
+<div class="modal fade"  role="dialog" id="modalEditNote" *ngIf="selectedNote" >
   <div class="modal-dialog modal-dialog-centered"  style="width:300px" role="document">
     <div class="modal-content">
       <div class="modal-body" >
@@ -38,7 +42,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 
 
 

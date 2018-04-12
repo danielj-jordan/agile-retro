@@ -1,0 +1,30 @@
+<div class="modal fade"  role="dialog" id="modalEditNote" >
+  <div class="modal-dialog modal-dialog-centered"  style="width:300px" role="document">
+    <div class="modal-content">
+      <div class="modal-body" >
+          <label>category</label>
+          <!--
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownCategories" data-toggle="dropdown" 
+            aria-haspopup="true" aria-expanded="false">
+          </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownCategories" *ngFor="let category of categories" >
+              <a class="downdown-menu" href="#">{{ category.name }}</a>
+            </div>  
+          </div>-->
+          <label>comment</label>
+          <div class="card rounded note-yellow">
+            <textarea style="height:100%; background-color:#ffff99;" id="text"></textarea>
+          </div>
+        </div>  
+   
+    <div class="modal-footer">
+     <button (click)="onSave()" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+      <button (click)="onCancel()" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+    </div>
+  </div>
+  </div>
+</div>
+ <p>
+  componentedit works!
+</p>

@@ -1,10 +1,12 @@
-import { Component,Inject } from '@angular/core';
+import { Component,Inject, ViewChild, AfterViewInit } from '@angular/core';
 import {NgModule} from '@angular/core'
 import {FormsModule} from '@angular/forms'
 import {NotesService} from '../../services/notes.service'
 import {Note} from '../../services/notes';
 import {Category} from '../../services/category';
+import {ComponentEdit} from "../componentedit/componentedit.component"
 declare var $:any;
+declare var jQuery:any;
 
 
 @Component({
@@ -13,13 +15,19 @@ declare var $:any;
     styleUrls: ['./notes.component.css'],
     providers : [NotesService]
 })
-export class NotesComponent {
+export class NotesComponent implements AfterViewInit{
 
     public notes: Note[]=[];
     public categories: Category[]=[];
     public count: Number;
     public selectedNote: Note | null=null;
     private notesService:NotesService;
+    @ViewChild(ComponentEdit)
+    private editor: ComponentEdit;
+
+    ngAfterViewInit(){
+
+    }
   
 
     constructor(notesService:NotesService){
@@ -47,7 +55,7 @@ export class NotesComponent {
       if(this.selectedNote)
       {
         console.log('saving: ' + this.selectedNote.text);
-        this.notesService.saveNotes(this.selectedNote);        
+        this.notesService.saveNote(this.selectedNote);        
       }
     }
 
@@ -80,14 +88,40 @@ export class NotesComponent {
 
     onNewNote(categoryId: number): void {
       console.log("creating a new note " + categoryId)
-      let note =  new NoteEdit(categoryId);
-      this.notes.push(note);
-      this.selectedNote=note;
+      //let note =  new NoteEdit(categoryId);
+      //this.notes.push(note);
+      this.editor.newNote();
+      this.editor.categories=this.categories;
+      this.editor.show();
+   
+      
     }
 
     onDeleteId(id: number)
     {
       this.deleteNote(id); 
+    }
+
+    onEditId(id:null)
+    {
+      console.log('editing note: ' + id);
+
+   
+      for(var i: number=0; i< this.notes.length; i++) {
+        if(this.notes[i].commentId==id){
+            this.selectedNote=this.notes[i];
+           // $('#modalEditNote').modal();
+            this.editor.setNote(this.notes[i]);
+            this.editor.categories=this.categories;
+            this.editor.show();
+            console.log('found');
+            break;
+          }
+   
+        }
+
+
+       
     }
 
 
@@ -112,9 +146,32 @@ export class NotesComponent {
 
     }
 
+    onNoteMouseEnter(note):void{
+      console.log('mouse enter');
+      var id:string = "#note" + note.commentId;
+      console.log(id);
+      jQuery(id).children(".card-footer").show();
+      
+     // console.log(jQuery(note));
+    }
+
+    onNoteMouseLeave(note):void{
+      console.log('mouse leave');
+      var id:string = "#note" + note.commentId;
+      console.log(id);
+      jQuery(id).children(".card-footer").hide();
+      
+     // console.log(jQuery(note));
+    }
+
+    domId(note: Note):string{
+      return 'note' + note.commentId;
+    }
+
 
 }
 
+/*
 class NoteEdit implements Note{
   commentId: number=0;
   categoryId: number;
@@ -127,5 +184,6 @@ class NoteEdit implements Note{
   }
 
 }
+*/
 
 
