@@ -1,0 +1,35 @@
+# compiled code
+*.dll
+*.pdb
+*.cache
+
+#data directories
+/data
+
+
+# Build results
+
+/app/bin/
+/app/obj/
+
+/apptest/bin/*
+/apptest/obj/*
+
+/retro-db-model/bin/*
+/retro-db-model/obj/*
+
+/retro-db/bin/*
+/retro-db/obj/*
+
+/retro-db-test/bin/*
+/retro-db-test/obj/*
+
+/app/.vscode/*
+
+
+
+# Visual Studio cache files
+# files ending in .cache can be ignored
+*.[Cc]ache
+# but keep track of directories ending in .cache
+!*.[Cc]ache/
