@@ -18,6 +18,10 @@ namespace app_db_test
             CommentData database = new CommentData();
             database.SaveComment(comment);
 
+
+            Console.WriteLine("created id{0}", comment.Id);
+            Assert.True(comment.Id!=null);
+
             System.Console.WriteLine("test");
 
         }
