@@ -1,6 +1,0 @@
-#!/bin/bash
-#
-#
-#
-
-echo "This should be running in the docker container not the host"
