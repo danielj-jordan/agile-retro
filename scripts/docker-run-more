@@ -1,0 +1,2 @@
+docker ps --filter "name=dotnetdb"
+docker exec -it dotnetdb bash

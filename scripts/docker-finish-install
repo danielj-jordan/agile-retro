@@ -1,0 +1,3 @@
+npm -g config set user root
+npm install -g webpack --unsafe
+npm install -g @angular/cli --unsafe

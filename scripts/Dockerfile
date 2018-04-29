@@ -37,7 +37,7 @@ RUN apt-get update && apt-get install -y google-chrome-beta
 RUN curl -O https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.3.tgz
 RUN tar -zxvf mongodb-linux-x86_64-3.6.3.tgz
 RUN mkdir mongodb
-RUN cp -R -n mongodb-linux-x86_64-3.6.3/ mongodb
+RUN cp -R -n mongodb-linux-x86_64-3.6.3/*  mongodb
 
 
 

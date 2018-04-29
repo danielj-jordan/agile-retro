@@ -1,3 +1,0 @@
-
-export PATH=$PATH:/mongodb/mongodb-linux-x86_64-3.6.3/bin
-mongod --dbpath "/projects/agile-retro/data"
