@@ -19,10 +19,8 @@ namespace app_db_test
             database.SaveComment(comment);
 
 
-            Console.WriteLine("created id{0}", comment.Id);
+            Console.WriteLine("created id:{0}", comment.Id);
             Assert.True(comment.Id!=null);
-
-            System.Console.WriteLine("test");
 
         }
     }

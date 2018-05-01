@@ -24,7 +24,6 @@ namespace Retrospective.Data
 
             if(comment.Id is null) {
                 //if comment does not already have an Id then insert
-                System.Console.WriteLine("** inserting **");
                 this.mongoDatabase.GetCollection<Comment>(collection).InsertOne(comment);
                 
             }
@@ -32,7 +31,6 @@ namespace Retrospective.Data
                 //otherwise update existing
                 var filter = MongoDB.Driver.Builders<Comment>.Filter.Eq("Id", comment.Id);
                 var saved = this.mongoDatabase.GetCollection<Comment>(collection).ReplaceOne(filter, comment);
-                System.Console.WriteLine(saved);
             }
 
             return comment;
