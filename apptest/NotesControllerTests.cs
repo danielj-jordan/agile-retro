@@ -1,5 +1,7 @@
 using System;
 using Xunit;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace apptest
 {
@@ -10,7 +12,9 @@ namespace apptest
         [Fact]
         public void GetAllNotes()
         {
-            var controller = new app.Controllers.NotesController();
+
+            var mock = new Mock<ILogger<app.Controllers.NotesController>>();
+            var controller = new app.Controllers.NotesController(mock.Object);
 
             var notes = controller.Notes();
             var count=0;
@@ -26,7 +30,8 @@ namespace apptest
         [Fact]
         public void GetAllCategories()
         {
-            var controller = new app.Controllers.NotesController();
+            var mock = new Mock<ILogger<app.Controllers.NotesController>>();
+            var controller = new app.Controllers.NotesController(mock.Object);
 
             var categories = controller.Categories();
             var count=0;
