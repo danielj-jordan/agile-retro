@@ -10,9 +10,20 @@ namespace Retrospective.Data
 {
 
 
-    public class CommentData: Database
+    public class CommentData
     {
+
+
         private string collection="comment";
+        private IDatabase database;
+
+
+        public CommentData(IDatabase database)
+        {
+            this.database=database;
+
+        }
+
 
         /// <summary>
         /// save a single comment to the database
@@ -24,13 +35,13 @@ namespace Retrospective.Data
 
             if(comment.Id is null) {
                 //if comment does not already have an Id then insert
-                this.mongoDatabase.GetCollection<Comment>(collection).InsertOne(comment);
+                database.MongoDatabase.GetCollection<Comment>(collection).InsertOne(comment);
                 
             }
             else {
                 //otherwise update existing
                 var filter = MongoDB.Driver.Builders<Comment>.Filter.Eq("Id", comment.Id);
-                var saved = this.mongoDatabase.GetCollection<Comment>(collection).ReplaceOne(filter, comment);
+                var saved = database.MongoDatabase.GetCollection<Comment>(collection).ReplaceOne(filter, comment);
             }
 
             return comment;
@@ -41,7 +52,21 @@ namespace Retrospective.Data
         /// </summary>
         public List<Comment> GetComments(ObjectId retrospectiveObjectId)
         {
-                return new List<Comment>();
+                var filter = MongoDB.Driver.Builders<Comment>.Filter.Eq("RetrospectiveId", retrospectiveObjectId);
+                var found= database.MongoDatabase.GetCollection<Comment>(collection).Find(filter).ToList<Comment>();
+                return found;
+
+
+        }
+
+        /// <summary>
+        /// retreive a single comment
+        /// </summary>
+        public Comment GetComment(ObjectId commentId)
+        {
+                var filter = MongoDB.Driver.Builders<Comment>.Filter.Eq("Id", commentId);
+                var found= database.MongoDatabase.GetCollection<Comment>(collection).Find(filter).FirstOrDefault();
+                return found;
 
 
         }

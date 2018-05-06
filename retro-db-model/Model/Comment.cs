@@ -9,7 +9,7 @@ namespace Retrospective.Data.Model
         public ObjectId? Id {get;set;}
 
         public string Text {get; set;}
-        public ObjectId RestospectiveId{get;set;}
+        public ObjectId RetrospectiveId{get;set;}
         public int CategoryNumber {get;set;}
 
         //email address for the last user to update the record
