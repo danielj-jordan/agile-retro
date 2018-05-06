@@ -10,7 +10,7 @@ namespace Retrospective.Data
 {
 
 
-    public class UserData: Database
+    public class UserData
     {
         private string collection="user";
 

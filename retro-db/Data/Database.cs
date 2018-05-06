@@ -8,12 +8,12 @@ namespace Retrospective.Data
 {
 
 
-    public class Database
+    public class Database: IDatabase
     {
-        private string database = "retro";
-        protected IMongoDatabase mongoDatabase;
+        private string database;
+        
 
-        public Database()
+        public Database(string databaseName)
         {
             BsonClassMap.RegisterClassMap<Comment>(cm =>
             {
@@ -21,10 +21,13 @@ namespace Retrospective.Data
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             });
         
+            this.database=databaseName;
             var client = new MongoClient("mongodb://localhost:27017");
-            this.mongoDatabase= client.GetDatabase(database);
+            MongoDatabase= client.GetDatabase(database);
         }
 
+        public IMongoDatabase MongoDatabase{get; private set;}
+      
 
 
    

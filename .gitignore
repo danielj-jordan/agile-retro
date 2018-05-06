@@ -5,15 +5,18 @@
 
 #data directories
 /data
+/key
 
 
 # Build results
 
+**/bin/
+
 /app/bin/
 /app/obj/
 
-/apptest/bin/*
-/apptest/obj/*
+/apptest/bin/**
+/apptest/obj/
 
 /retro-db-model/bin/*
 /retro-db-model/obj/*

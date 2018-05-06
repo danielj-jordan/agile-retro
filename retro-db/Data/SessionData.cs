@@ -10,7 +10,7 @@ namespace Retrospective.Data
 {
 
 
-    public class SessionData: Database
+    public class SessionData
     {
         private string collection="session";
     

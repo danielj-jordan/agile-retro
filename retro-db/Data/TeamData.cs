@@ -10,7 +10,7 @@ namespace Retrospective.Data
 {
 
 
-    public class TeamData: Database
+    public class TeamData
     {
         private string collection="team";
 
