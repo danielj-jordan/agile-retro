@@ -1,0 +1,12 @@
+#! /bin/sh
+echo '******'
+echo 'testing the DB components'
+dotnet test $PROJECT/retro-db-test/retro-db-test.csproj
+echo '******'
+echo 'testing the app logic in C#'
+dotnet test $PROJECT/apptest/apptest.csproj
+echo '******'
+echo 'testing the UI'
+cd $PROJECT/client
+ng test --watch=false
+

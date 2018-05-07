@@ -1,6 +1,6 @@
 #! /bin/sh
 export PATH=$PATH:/mongodb/bin
-mongod --dbpath "/projects/agile-retro/data"
 export ASPNETCORE_ENVIRONMENT=Development
+export PROJECT=/projects/agile-retro
 echo "This should be running in the docker container not the host"
 bash
