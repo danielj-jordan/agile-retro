@@ -3,6 +3,7 @@ import { NotesComponent } from './notes.component';
 import { TestBed, async, inject, ComponentFixture } from '@angular/core/testing';
 import { NotesService } from '../../services/notes.service';
 import { NotesServiceMock } from '../../services/notes.service.mock';
+import {ComponentEdit} from '../componentedit/componentedit.component';
 import {Note} from '../../services/notes';
 import {Category} from '../../services/category';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +23,7 @@ describe('notes component fixture', () => {
     
     beforeEach(() => {
         TestBed.configureTestingModule({ 
-            declarations: [NotesComponent],
+            declarations: [NotesComponent, ComponentEdit],
             imports:[FormsModule],
             providers: [{provide: NotesService, useValue: new NotesServiceMock() }]
         
@@ -42,20 +43,30 @@ describe('notes component fixture', () => {
     it('header says notes', async(() =>{
         fixture.detectChanges();
 
-        const banner: HTMLElement=fixture.nativeElement.querySelector("h1");
+        const banner: HTMLElement=fixture.nativeElement.querySelector("h3");
         expect(banner.textContent).toEqual("Notes");
 
     }));
 
-    it('clicking on an existing comment sets the selected node', async (() =>{
+    it('move mouse over note to show footer with edit and delete buttons', async (() =>{
+
+         fixture.detectChanges();
+        const nativeElement: HTMLElement= fixture.nativeElement.querySelector('#note1');
+         var note= fixture.nativeElement.querySelector('#note1');
+
+         //console.log(note);
+         console.log(note.querySelector(".card-footer").style.display);
+         expect(note.querySelector(".card-footer").style.display).toBe('none');
+       
+         note.dispatchEvent(new MouseEvent('mouseenter', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+         })); 
 
         fixture.detectChanges();
-        const nativeElement: HTMLElement= fixture.nativeElement;
-        nativeElement.querySelector('div[name="note"]').dispatchEvent(new Event('click'));
-        fixture.detectChanges();
 
-      //  expect(notesComponet.selectedNote.commentId).toBeGreaterThan(0);
-        
+        expect(note.querySelector(".card-footer").style.display).toBe('');        
     }));
 
   
