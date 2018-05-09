@@ -3,6 +3,7 @@ import { NotesComponent } from './notes.component';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { NotesService } from '../../services/notes.service';
 import { NotesServiceMock } from '../../services/notes.service.mock';
+import {ComponentEdit} from '../componentedit/componentedit.component';
 import {Note} from '../../services/notes';
 import {Category} from '../../services/category';
 //import { ControlContainer } from '@angular/forms/src/directives/control_container';
@@ -19,13 +20,13 @@ describe('notes component', () => {
 
     let notesComponet: NotesComponent;
     let noteService: NotesService;
-   
-    
+
+
 
     beforeEach(() => {
         TestBed.configureTestingModule({ 
-            declarations: [],
-            imports:[FormsModule],
+            declarations: [NotesComponent, ComponentEdit],
+            imports:[FormsModule ],
             providers:[NotesComponent,
              {provide: NotesService, useClass: NotesServiceMock},
         ]
@@ -34,6 +35,7 @@ describe('notes component', () => {
 
    notesComponet=TestBed.get(NotesComponent);
    noteService=TestBed.get(NotesService); 
+
     
 
        
