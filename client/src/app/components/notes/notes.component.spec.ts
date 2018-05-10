@@ -48,10 +48,6 @@ describe('notes component', () => {
         expect(notesComponet.notes.length).toBeGreaterThanOrEqual(0);
     }));
 
- 
-
-
-
 
 
 });

@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-6 card border-0"  *ngFor="let category of categories">
-      <div style="background-color:#f0f0f5;padding:3px;">
+      <div style="background-color:#f0f0f5;padding:3px;" [attr.id]="this.CategoryDomId(category)">
       <h4 style="text-align:center">{{ category.name }} 
       <button class="btn btn-secondary  btn-sm" (click)="onNewNote(category.categoryId)">New</button></h4>
       </div>
@@ -13,8 +13,8 @@
           <div class="card rounded note-yellow" (mouseenter)="onNoteMouseEnter(note)" (mouseleave)="onNoteMouseLeave(note)" [attr.id]="this.domId(note)" > 
           <div  style="overflow: scroll;" class="card-body" >{{ note.text }} </div>
           <div  class="card-footer" style="display:none">
-              <button (click)="onEditId(note.commentId)" class="btn btn-secondary btn-sm">Edit</button>
-              <button (click)="onDeleteId(note.commentId)" class="btn btn-secondary btn-sm">Delete</button>
+              <button (click)="onEditId(note.commentId)" class="btn btn-secondary btn-sm retro-btn-edit" >Edit</button>
+              <button (click)="onDeleteId(note.commentId)" class="btn btn-secondary btn-sm retro-btn-delete">Delete</button>
           </div>
         </div>
         </ng-container>
