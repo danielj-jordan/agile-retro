@@ -3,7 +3,7 @@
 #
 #
 #  https://hub.docker.com/r/microsoft/dotnet/
-from microsoft/dotnet
+FROM microsoft/dotnet
 
 #
 # install utilities
