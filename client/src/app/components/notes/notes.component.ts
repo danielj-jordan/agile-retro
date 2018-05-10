@@ -168,6 +168,10 @@ export class NotesComponent implements AfterViewInit{
       return 'note' + note.commentId;
     }
 
+    CategoryDomId(category: Category):string{
+      return "category" + category.categoryId;
+    }
+
 
 }
 

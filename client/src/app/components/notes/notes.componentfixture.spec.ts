@@ -16,7 +16,7 @@ import { By } from '@angular/platform-browser';
 
 
 describe('notes component fixture', () => {
-    let notesComponet: NotesComponent;
+    let notesComponent: NotesComponent;
     let noteService: NotesService;
     let fixture: ComponentFixture<NotesComponent>;
     let component: NotesComponent;
@@ -33,7 +33,7 @@ describe('notes component fixture', () => {
     TestBed.overrideProvider(NotesService, {useValue: new NotesServiceMock() });
     fixture = TestBed.createComponent(NotesComponent);
     fixture.debugElement.injector.get(NotesService);
-    notesComponet = fixture.componentInstance;
+    notesComponent = fixture.componentInstance;
  
     
     
@@ -48,56 +48,80 @@ describe('notes component fixture', () => {
 
     }));
 
-    it('move mouse over note to show footer with edit and delete buttons', async (() =>{
-
-         fixture.detectChanges();
-        const nativeElement: HTMLElement= fixture.nativeElement.querySelector('#note1');
-         var note= fixture.nativeElement.querySelector('#note1');
-
-         //console.log(note);
-         console.log(note.querySelector(".card-footer").style.display);
-         expect(note.querySelector(".card-footer").style.display).toBe('none');
-       
-         note.dispatchEvent(new MouseEvent('mouseenter', {
-            view: window,
-            bubbles: true,
-            cancelable: true
-         })); 
-
+    it('because the service is mocked, there are two categories', async (() =>{
         fixture.detectChanges();
 
-        expect(note.querySelector(".card-footer").style.display).toBe('');        
+        const category1 = fixture.nativeElement.querySelector("#category1");
+        const category2 = fixture.nativeElement.querySelector("#category2");
+        const category3 = fixture.nativeElement.querySelector("#category3");
+
+        expect(category1).toBeDefined();
+        expect(category2).toBeDefined();
+        expect(category3).toBeNull();
+    }));
+
+    it('because the service is mocked, there are two comment in category 1', async (() =>{
+        fixture.detectChanges();
+
+        //todo: still need to check for category
+
+        const note1 = fixture.nativeElement.querySelector("#note1");
+        const note2 = fixture.nativeElement.querySelector("#note2");
+        const note3 = fixture.nativeElement.querySelector("#note3");
+
+        expect(note1).toBeDefined();
+        expect(note2).toBeDefined();
+        expect(note3).toBeNull();
+    
+    }));
+
+
+    it('move mouse over note to show footer with edit and delete buttons', async (() =>{
+
+      fixture.detectChanges();
+      const nativeElement: HTMLElement= fixture.nativeElement.querySelector('#note1');
+      var note= fixture.nativeElement.querySelector('#note1');
+
+      expect(note.querySelector(".card-footer").style.display).toBe('none');
+       
+      note.dispatchEvent(new MouseEvent('mouseenter', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      })); 
+
+      fixture.detectChanges();
+      expect(note.querySelector(".card-footer").style.display).toBe('');        
     }));
 
   
-/*
-    it('deleting the note removes it from the local collection', async(() => {
 
-        fixture.detectChanges();
-        let beforeCount:number= notesComponet.count.valueOf();
-
-        const nativeElement: HTMLElement= fixture.nativeElement;
-       // const debugElement :DebugElement=fixture.debugElement;
-       
-        //debugElement.query(By.css('div[name="note"]')).
-
-        //onsole.log(nativeElement.querySelector('div[name="note"]').innerHTML);
-        nativeElement.querySelector('div[name="note"]').dispatchEvent(new Event('click'));
-        fixture.detectChanges();
-                
-        const  deleteButton = fixture.debugElement.nativeElement.querySelector('.btn-secondary');
+    it('clicking the delete button removes it from the collection', async(() => {
         
-        deleteButton.click();
+        spyOn(notesComponent,"onDeleteId");
         fixture.detectChanges();
-      
-        expect(notesComponet.count).toBeLessThan(beforeCount);
-       // expect(notesComponet.onDelete).toHaveBeenCalled();
-
+        const note1 = fixture.nativeElement.querySelector("#note1");
+        const note1DeleteButton= note1.querySelector(".retro-btn-delete");
+        fixture.detectChanges();
+        note1DeleteButton.dispatchEvent(new Event('click'));
+        fixture.detectChanges();
+    
+        expect(notesComponent.onDeleteId).toHaveBeenCalled();
+    }));
+    
+    it('clicking the edit button displays the edit note component', async(() => {
+        spyOn(notesComponent,"onEditId");
+        fixture.detectChanges();
+        const note1 = fixture.nativeElement.querySelector("#note1");
+        const note1EditButton= note1.querySelector(".retro-btn-edit");
+        fixture.detectChanges();
+        note1EditButton.dispatchEvent(new Event('click'));
+        fixture.detectChanges();
+    
+        expect(notesComponent.onEditId).toHaveBeenCalled();
 
 
     }));
-    */
-
 
 
 });

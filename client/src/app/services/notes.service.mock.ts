@@ -23,6 +23,7 @@ export class NotesServiceMock {
 
 
         categories.push({categoryId:1, name:"test"});
+        categories.push({categoryId:2, name:"another test"});
         categories$= Observable.create( (observer:any) => 
         {
             observer.next(categories);
