@@ -5,23 +5,13 @@ using Retrospective.Data.Model;
 using Retrospective.Data;
 using MongoDB.Bson;
 
-namespace app_db_test
+namespace retro_db_test
 {
 
-    public class DatabaseFixture: IDisposable
+  
+    [Collection("Database collection")]
+    public class CommentDataTest
     {
-        public IDatabase database= new Database("test");
-
-        public void Dispose()
-        {
-        
-        }
-    
-    }
-
-    public class CommentDataTest: IClassFixture<DatabaseFixture>
-    {
-       
         private IDatabase database;
 
         public CommentDataTest(DatabaseFixture fixture)
