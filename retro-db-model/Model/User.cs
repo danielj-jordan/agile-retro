@@ -5,7 +5,7 @@ namespace Retrospective.Data.Model
 {
     public class User
     {
-        public ObjectId Id {get;set;}
+        public ObjectId? Id {get;set;}
         public string Name {get; set;}
         public string Email {get;set;}
 

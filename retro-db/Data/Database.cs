@@ -20,7 +20,10 @@ namespace Retrospective.Data
                 cm.AutoMap();
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             });
-        
+            BsonClassMap.RegisterClassMap<User>(cm =>{
+                cm.AutoMap();
+                cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
+            });        
             this.database=databaseName;
             var client = new MongoClient("mongodb://localhost:27017");
             MongoDatabase= client.GetDatabase(database);

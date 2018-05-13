@@ -13,8 +13,14 @@ namespace Retrospective.Data
     public class UserData
     {
         private string collection="user";
+        private IDatabase database;
 
 
+        public UserData(IDatabase database)
+        {
+            this.database=database;
+            
+        }
 
     
 
@@ -25,8 +31,16 @@ namespace Retrospective.Data
         /// <returns></returns>
         public User SaveUser (User user)
         {
-            return new User();
-
+            if(user.Id is null) {
+                database.MongoDatabase.GetCollection<User>(collection).InsertOne(user);
+            }
+            else{
+                var filter=MongoDB.Driver.Builders<User>.Filter.Eq("Id", user.Id);
+                var saved=database.MongoDatabase.GetCollection<User>(collection).ReplaceOne(filter,user);
+            }
+            
+            return user;
+            
         }
 
         /// <summary>
@@ -34,11 +48,18 @@ namespace Retrospective.Data
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        public User GetUser(string email)
+        public List<User> FindUserByEmail(string email)
         {
-            return new User();
+            var filter=MongoDB.Driver.Builders<User>.Filter.Eq("Email", email);
+            var found=database.MongoDatabase.GetCollection<User>(collection).Find(filter).ToList<User>();
+            return found;
+        }
 
-
+        public User GetUser(ObjectId id)
+        {
+            var filter=MongoDB.Driver.Builders<User>.Filter.Eq("Id", id);
+            var found=database.MongoDatabase.GetCollection<User>(collection).Find(filter).FirstOrDefault();
+            return found;
         }
 
         /// <summary>
