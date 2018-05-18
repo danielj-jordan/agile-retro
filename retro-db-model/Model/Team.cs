@@ -5,7 +5,7 @@ namespace Retrospective.Data.Model
 {
     public class Team
     {
-        public ObjectId Id {get;set;}
+        public ObjectId? Id {get;set;}
         public string Name {get; set;}
 
         //email address for the owner of this team

@@ -46,7 +46,8 @@ RUN tar -zxvf mongodb-linux-x86_64-3.6.3.tgz
 RUN mkdir mongodb
 RUN cp -R mongodb-linux-x86_64-3.6.3/*  /mongodb
 RUN rm -R /mongodb-linux-x86_64-3.6.3
-
+#RUN cp -R /mongodb/mongodb-linux-x86_64-3.6.3/*  /mongodb
+#RUN rm -R /mongodb/mongodb-linux-x86_64-3.6.3
 
 #
 # install ssh server (used for debugging)
