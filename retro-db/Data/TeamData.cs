@@ -64,6 +64,23 @@ namespace Retrospective.Data
         }
 
 
+        /// <summary>
+        /// Get the teams owned by a given user
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public List<Team> GetOwnedTeams(string email)
+        {
+            var teams = database.MongoDatabase.GetCollection<Team>(collection);
+            var query = from team in teams.AsQueryable<Team>()
+            where team.Owner==email
+                select team;
+
+            return query.ToList<Team>();
+
+        }
+
+
 
 
     }

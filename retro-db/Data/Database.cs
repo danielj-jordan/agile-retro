@@ -15,8 +15,7 @@ namespace Retrospective.Data
 
         public Database(string databaseName)
         {
-            BsonClassMap.RegisterClassMap<Comment>(cm =>
-            {
+            BsonClassMap.RegisterClassMap<Comment>(cm =>{
                 cm.AutoMap();
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             });
@@ -25,6 +24,10 @@ namespace Retrospective.Data
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             });      
             BsonClassMap.RegisterClassMap<Team>(cm =>{
+                cm.AutoMap();
+                cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
+            }); 
+            BsonClassMap.RegisterClassMap<RetrospectiveSession>(cm =>{
                 cm.AutoMap();
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             }); 
