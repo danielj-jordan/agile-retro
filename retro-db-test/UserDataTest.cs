@@ -11,11 +11,11 @@ namespace retro_db_test
     [Collection("Database collection")]
     public class UserDataTest
     {
-        private IDatabase database;
+        private DatabaseFixture fixture;
 
         public UserDataTest(DatabaseFixture fixture)
         {
-            database=fixture.database;
+            this.fixture=fixture;
         }
 
 
@@ -31,13 +31,26 @@ namespace retro_db_test
             user.Teams= new ObjectId[0];
         
             
-            UserData userData = new UserData(database);
+            UserData userData = new UserData(fixture.database);
             userData.SaveUser(user);
 
 
             Console.WriteLine("created user id:{0}", user.Id);
             Assert.True(user.Id!=null);
 
+        }
+
+        [Fact]
+        public void UpdateUser()
+        {
+            ObjectId begin= (ObjectId)fixture.owner.Id;
+            fixture.owner.Name+=" more";
+
+            UserData userData= new UserData(fixture.database);
+            userData.SaveUser(fixture.owner);
+
+            Assert.True(begin==(ObjectId)fixture.owner.Id);
+            Assert.Contains(" more", fixture.owner.Name);
         }
 
         [Fact]
@@ -48,13 +61,11 @@ namespace retro_db_test
             user.Email="nobody@here.com";
             user.Name="nobody";
             user.Teams= new ObjectId[0];
-            UserData userData = new UserData(database);
+            UserData userData = new UserData(fixture.database);
             userData.SaveUser(user);
-
 
             List<User> foundbyEmail =userData.FindUserByEmail("nobody@here.com");
             Assert.True(foundbyEmail.Count>0);
-
 
             var foundById =userData.GetUser((ObjectId)user.Id);
             Assert.True(foundById.Id==user.Id);

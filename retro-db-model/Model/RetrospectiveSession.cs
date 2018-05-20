@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace Retrospective.Data.Model
 {
-    public class Session
+    public class RetrospectiveSession
     {
        
         public ObjectId? Id {get;set;}
@@ -12,13 +12,8 @@ namespace Retrospective.Data.Model
 
         public string Name {get; set;}
 
-
         public Category[] Categories {get; set;}
 
-        
-       
-
-        
-
+    
     }
 }
