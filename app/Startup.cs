@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.SpaServices;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using AutoMapper;
 
 namespace app
 {
@@ -25,6 +26,7 @@ namespace app
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddAutoMapper();
             //services.UseAngularCliServer();
             services.AddSpaStaticFiles(configuration =>
             {

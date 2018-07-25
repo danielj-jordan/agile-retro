@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using app.Model;
 
 namespace app.Controllers
 {
@@ -21,10 +22,16 @@ namespace app.Controllers
         [HttpGet("[action]")]
         public IEnumerable<Comment> Notes()
         {
+            String dbName="dev";
+            String retroId="";
+           // IDatabase database = new Database(dbName);
+           // database.GetComments(retroId);
+
+        
 
             var comments = new List<Comment>();
-            comments.Add(new Comment{CommentId=1, CategoryId=2, Text="this sucks", UpdateUser="Snooper"});
-            comments.Add(new Comment{CommentId=2, CategoryId=2, Text="No it does not", UpdateUser="Marcie"});
+            comments.Add(new Comment{CommentId="1", CategoryId=2, Text="this sucks", UpdateUser="Snooper"});
+            comments.Add(new Comment{CommentId="2", CategoryId=2, Text="No it does not", UpdateUser="Marcie"});
 
 
             _logger.LogDebug("returning {0} comments", comments.Count);
@@ -51,7 +58,7 @@ namespace app.Controllers
 
 
             var temp =new System.Random();
-            newNote.CommentId= temp.Next(100,10000);
+            newNote.CommentId= (temp.Next(100,10000)).ToString();
 
             _logger.LogDebug("text:{0}", newNote.Text);                               
 
@@ -75,21 +82,6 @@ namespace app.Controllers
         }
 
 
-        public class Comment
-        {
-            public int CommentId {get;set;}
-            public int CategoryId { get; set; }
-            public string Text { get; set; }
-            public string UpdateUser { get; set; }
 
-        }
-
-
-        public class Category
-        {
-            public int CategoryId {get;set;}
-            public string Name {get;set;}
-
-        }
     }
 }
