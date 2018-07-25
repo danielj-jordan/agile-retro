@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\retro-db-model\retro-db-model.csproj" />
-    <ProjectReference Include="..\retro-db\retro-db.csproj" />
+    <ProjectReference Include="..\Retrospective.Data\Retrospective.Data.csproj" />
   </ItemGroup>
 
 </Project>
