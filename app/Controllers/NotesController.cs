@@ -4,6 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using app.Model;
+using DBModel=Retrospective.Data.Model;
+using AutoMapper;
+using Retrospective.Data;
+
 
 namespace app.Controllers
 {
@@ -11,24 +16,38 @@ namespace app.Controllers
     public class NotesController : Controller
     {
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
-        public NotesController(ILogger<NotesController> logger)
+        public NotesController(ILogger<NotesController> logger,
+        IMapper mapper)
         {
             _logger=logger;
+            _mapper=mapper;
 
         }
 
         [HttpGet("[action]")]
         public IEnumerable<Comment> Notes()
         {
+            String dbName="test";
+            string retroId="000000000000000000000000";
+            IDatabase database = new Database(dbName);
+            DataComment commentdata = new DataComment(database);
+            
+            var test =commentdata.GetComments(retroId);
+            _logger.LogDebug("db returning {0} comments", test.Count);
 
+            var comments =_mapper.Map<List<DBModel.Comment>,List<app.Model.Comment> >( commentdata.GetComments(retroId));
+
+
+            /*
             var comments = new List<Comment>();
-            comments.Add(new Comment{CommentId=1, CategoryId=2, Text="this sucks", UpdateUser="Snooper"});
-            comments.Add(new Comment{CommentId=2, CategoryId=2, Text="No it does not", UpdateUser="Marcie"});
-
+            comments.Add(new Comment{CommentId="1", CategoryId=2, Text="this sucks", UpdateUser="Snooper"});
+            comments.Add(new Comment{CommentId="2", CategoryId=2, Text="No it does not", UpdateUser="Marcie"});
+            */
 
             _logger.LogDebug("returning {0} comments", comments.Count);
-            return comments;
+            return (IEnumerable<Comment>)comments;
         }
 
         [HttpGet("[action]")]
@@ -51,7 +70,7 @@ namespace app.Controllers
 
 
             var temp =new System.Random();
-            newNote.CommentId= temp.Next(100,10000);
+            newNote.CommentId= (temp.Next(100,10000)).ToString();
 
             _logger.LogDebug("text:{0}", newNote.Text);                               
 
@@ -75,21 +94,6 @@ namespace app.Controllers
         }
 
 
-        public class Comment
-        {
-            public int CommentId {get;set;}
-            public int CategoryId { get; set; }
-            public string Text { get; set; }
-            public string UpdateUser { get; set; }
 
-        }
-
-
-        public class Category
-        {
-            public int CategoryId {get;set;}
-            public string Name {get;set;}
-
-        }
     }
 }

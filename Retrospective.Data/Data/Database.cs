@@ -11,6 +11,7 @@ namespace Retrospective.Data
     public class Database: IDatabase
     {
         private string database;
+        private DataComment comments;
         
 
         public Database(string databaseName)
@@ -40,7 +41,18 @@ namespace Retrospective.Data
         }
 
         public IMongoDatabase MongoDatabase{get; private set;}
-      
+
+
+        public IDataComment Comments { 
+            get{
+                if(this.comments==null){
+                    this.comments= new DataComment(this);
+                }
+                return this.comments;
+            }
+        }
+
+        
 
 
    

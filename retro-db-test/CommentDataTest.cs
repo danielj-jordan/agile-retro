@@ -30,7 +30,7 @@ namespace retro_db_test
             
         
             
-            CommentData commentdata = new CommentData(database);
+            DataComment commentdata = new DataComment(database);
             commentdata.SaveComment(comment);
 
 
@@ -43,7 +43,7 @@ namespace retro_db_test
         [Fact]
         public void RetreiveComment()
         {
-            CommentData commentdata = new CommentData(database);
+            DataComment commentdata = new DataComment(database);
 
             ObjectId retrospectiveId= new ObjectId();
 

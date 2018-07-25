@@ -6,11 +6,11 @@ using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Retrospective.Data
 {
-
-
     public interface IDatabase
     {
          IMongoDatabase MongoDatabase{get;}
+
+         IDataComment Comments{ get;}
 
     }
 }

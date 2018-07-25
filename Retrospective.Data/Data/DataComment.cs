@@ -10,7 +10,7 @@ namespace Retrospective.Data
 {
 
 
-    public class CommentData
+    public class DataComment: IDataComment
     {
 
 
@@ -18,7 +18,7 @@ namespace Retrospective.Data
         private IDatabase database;
 
 
-        public CommentData(IDatabase database)
+        public DataComment(IDatabase database)
         {
             this.database=database;
 
@@ -57,6 +57,10 @@ namespace Retrospective.Data
                 return found;
 
 
+        }
+
+        public List<Comment> GetComments(string retrospectiveId){
+            return this.GetComments(new ObjectId(retrospectiveId));
         }
 
         /// <summary>
