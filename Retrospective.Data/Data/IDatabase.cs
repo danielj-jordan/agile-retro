@@ -12,6 +12,8 @@ namespace Retrospective.Data
 
          IDataComment Comments{ get;}
 
+         IDataUser Users {get;}
+
     }
 }
     

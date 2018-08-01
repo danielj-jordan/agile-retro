@@ -54,8 +54,8 @@ namespace app.Controllers
         public IEnumerable<Category> Categories()
         {
             var categories= new List<Category>();
-            categories.Add(new Category { CategoryId=1, Name ="this is a test"});
-            categories.Add(new Category {CategoryId=2, Name ="waiting for another category"});
+            categories.Add(new Category { CategoryId="1", Name ="this is a test"});
+            categories.Add(new Category {CategoryId="2", Name ="waiting for another category"});
              _logger.LogDebug("returning {0} categories", categories.Count);
             return categories;
 

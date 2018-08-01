@@ -1,0 +1,9 @@
+/Users/daniel/projects/agile-retro/Retrospective.Data.Model/bin/Debug/netstandard2.0/Retrospective.Data.Model.deps.json
+/Users/daniel/projects/agile-retro/Retrospective.Data.Model/bin/Debug/netstandard2.0/Retrospective.Data.Model.dll
+/Users/daniel/projects/agile-retro/Retrospective.Data.Model/bin/Debug/netstandard2.0/Retrospective.Data.Model.pdb
+/Users/daniel/projects/agile-retro/Retrospective.Data.Model/obj/Debug/netstandard2.0/Retrospective.Data.Model.csprojAssemblyReference.cache
+/Users/daniel/projects/agile-retro/Retrospective.Data.Model/obj/Debug/netstandard2.0/Retrospective.Data.Model.csproj.CoreCompileInputs.cache
+/Users/daniel/projects/agile-retro/Retrospective.Data.Model/obj/Debug/netstandard2.0/Retrospective.Data.Model.AssemblyInfoInputs.cache
+/Users/daniel/projects/agile-retro/Retrospective.Data.Model/obj/Debug/netstandard2.0/Retrospective.Data.Model.AssemblyInfo.cs
+/Users/daniel/projects/agile-retro/Retrospective.Data.Model/obj/Debug/netstandard2.0/Retrospective.Data.Model.dll
+/Users/daniel/projects/agile-retro/Retrospective.Data.Model/obj/Debug/netstandard2.0/Retrospective.Data.Model.pdb

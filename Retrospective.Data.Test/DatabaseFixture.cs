@@ -32,8 +32,9 @@ namespace retro_db_test
             owner = new User();
             owner.Email="owner@here.com";
             owner.Name="the Owner";
-            UserData userData= new UserData(database);
-            userData.SaveUser(owner);   
+
+            database.Users.SaveUser(owner);
+  
 
             //create a team to test the subsequent save
             team= new Team();
@@ -44,7 +45,7 @@ namespace retro_db_test
             members.Add(owner.Email);
             team.TeamMembers=members.ToArray();
             
-            TeamData teamData = new TeamData(database);
+            DataTeam teamData = new DataTeam(database);
             var savedTeam= teamData.SaveTeam(team);
 
 
@@ -59,7 +60,8 @@ namespace retro_db_test
             session.Categories=categories.ToArray();
             
 
-            RetrospectiveSessionData retroData = new RetrospectiveSessionData(database);
+            DataSession retroData = new DataSession(database);
+            
             retroData.SaveRetrospectiveSession(session);
             retrospectiveSession=session;
 

@@ -12,6 +12,9 @@ namespace Retrospective.Data
     {
         private string database;
         private DataComment comments;
+        private DataUser users;
+        private DataSession sessions;
+        private DataTeam teams;
         
 
         public Database(string databaseName)
@@ -52,14 +55,33 @@ namespace Retrospective.Data
             }
         }
 
-        
+        public IDataUser Users{
+            get{
+                if(this.users==null){
+                    this.users= new DataUser(this);
+                }
+                return this.users;
+            }
 
+        }
 
-   
+        public DataSession Sessions{
+            get{
+                if(this.sessions==null){
+                    this.sessions=new DataSession(this);
+                }
+                return this.sessions;
+            }
+        }
 
-
-
-
+        public DataTeam Teams{
+            get{
+                if(this.teams==null){
+                    this.teams=new DataTeam(this);
+                }
+                return this.teams;
+            }
+        }
 
     }
 

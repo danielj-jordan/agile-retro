@@ -1,0 +1,8 @@
+/projects/agile-retro/app-db-model/bin/Debug/netstandard2.0/app-db-model.deps.json
+/projects/agile-retro/app-db-model/bin/Debug/netstandard2.0/app-db-model.dll
+/projects/agile-retro/app-db-model/bin/Debug/netstandard2.0/app-db-model.pdb
+/projects/agile-retro/app-db-model/obj/Debug/netstandard2.0/app-db-model.csproj.CoreCompileInputs.cache
+/projects/agile-retro/app-db-model/obj/Debug/netstandard2.0/app-db-model.AssemblyInfoInputs.cache
+/projects/agile-retro/app-db-model/obj/Debug/netstandard2.0/app-db-model.AssemblyInfo.cs
+/projects/agile-retro/app-db-model/obj/Debug/netstandard2.0/app-db-model.dll
+/projects/agile-retro/app-db-model/obj/Debug/netstandard2.0/app-db-model.pdb
