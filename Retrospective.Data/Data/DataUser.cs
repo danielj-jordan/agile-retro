@@ -10,13 +10,13 @@ namespace Retrospective.Data
 {
 
 
-    public class UserData
+    public class DataUser: IDataUser
     {
         private string collection="user";
         private IDatabase database;
 
 
-        public UserData(IDatabase database)
+        public DataUser(IDatabase database)
         {
             this.database=database;
             
@@ -69,7 +69,11 @@ namespace Retrospective.Data
         /// <returns></returns>
         public List<User> GetTeamUsers (ObjectId teamObjectId)
         {
-            return new List<User>();
+
+            var filter=MongoDB.Driver.Builders<User>.Filter.Eq("Teams", teamObjectId);
+            var found=database.MongoDatabase.GetCollection<User>(collection).Find(filter).ToList<User>();
+            return found;
+
 
         }
 

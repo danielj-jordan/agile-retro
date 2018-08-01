@@ -30,9 +30,8 @@ namespace retro_db_test
             user.Name="nobody";
             user.Teams= new ObjectId[0];
         
-            
-            UserData userData = new UserData(fixture.database);
-            userData.SaveUser(user);
+
+            fixture.database.Users.SaveUser(user);
 
 
             Console.WriteLine("created user id:{0}", user.Id);
@@ -46,8 +45,7 @@ namespace retro_db_test
             ObjectId begin= (ObjectId)fixture.owner.Id;
             fixture.owner.Name+=" more";
 
-            UserData userData= new UserData(fixture.database);
-            userData.SaveUser(fixture.owner);
+            fixture.database.Users.SaveUser(fixture.owner);
 
             Assert.True(begin==(ObjectId)fixture.owner.Id);
             Assert.Contains(" more", fixture.owner.Name);
@@ -61,14 +59,40 @@ namespace retro_db_test
             user.Email="nobody@here.com";
             user.Name="nobody";
             user.Teams= new ObjectId[0];
-            UserData userData = new UserData(fixture.database);
-            userData.SaveUser(user);
 
-            List<User> foundbyEmail =userData.FindUserByEmail("nobody@here.com");
+            fixture.database.Users.SaveUser(user);
+
+            List<User> foundbyEmail =fixture.database.Users.FindUserByEmail("nobody@here.com");
             Assert.True(foundbyEmail.Count>0);
 
-            var foundById =userData.GetUser((ObjectId)user.Id);
+            var foundById =fixture.database.Users.GetUser((ObjectId)user.Id);
             Assert.True(foundById.Id==user.Id);
+        }
+
+
+        [Fact]
+        public void FindUsersOnTeam()
+        {
+            Team team = new Team();
+            team.Id=null;
+            team.Name="another test team";
+            
+            DataTeam teamData = new DataTeam(fixture.database);
+            teamData.SaveTeam(team);
+
+            User user = new User();
+            user.Id=null;
+            user.Email="nobody@here.com";
+            user.Name="nobody";
+            user.Teams= new ObjectId[1];
+            user.Teams[0]= (ObjectId)team.Id;
+
+
+            fixture.database.Users.SaveUser(user);
+
+            List<User> found =fixture.database.Users.GetTeamUsers((ObjectId)team.Id);
+            Assert.True(found.Count>0);
+
         }
     }   
 

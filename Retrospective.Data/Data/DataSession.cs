@@ -12,14 +12,14 @@ namespace Retrospective.Data
 {
 
 
-    public class RetrospectiveSessionData
+    public class DataSession
     {
         private string collection="session";
 
         private IDatabase database;
 
 
-        public RetrospectiveSessionData(IDatabase database)
+        public DataSession(IDatabase database)
         {
             this.database=database;
             

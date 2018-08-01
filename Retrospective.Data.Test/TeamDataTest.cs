@@ -29,7 +29,7 @@ namespace retro_db_test
                                       
             team.Name="test team";
             team.Owner = fixture.owner.Email;
-            TeamData teamData = new TeamData(fixture.database);
+            DataTeam teamData = new DataTeam(fixture.database);
             var savedTeam= teamData.SaveTeam(team);
 
             Console.WriteLine("created team id:{0}", savedTeam.Id);
@@ -42,7 +42,7 @@ namespace retro_db_test
             ObjectId begin= (ObjectId)fixture.team.Id;
             fixture.team.Name+=" more";
 
-            TeamData teamData= new TeamData(fixture.database);
+            DataTeam teamData= new DataTeam(fixture.database);
             teamData.SaveTeam(fixture.team);
 
             Assert.True(begin==(ObjectId)fixture.team.Id);
@@ -54,7 +54,7 @@ namespace retro_db_test
         [Fact]
         public void FindUserOwnedTeams()
         { 
-            TeamData teamData = new TeamData(fixture.database);
+            DataTeam teamData = new DataTeam(fixture.database);
             List<Team> ownedByEmail= teamData.GetOwnedTeams(fixture.owner.Email);
             Assert.True(ownedByEmail.Count>0, "user should own at least one team");            
         }
@@ -62,7 +62,7 @@ namespace retro_db_test
         [Fact]
         public void FindTeamsHavingUserAsMember()
         {
-            TeamData teamData = new TeamData(fixture.database);
+            DataTeam teamData = new DataTeam(fixture.database);
             List<Team> foundbyEmail =teamData.GetUserTeams(fixture.owner.Email);
             Assert.True(foundbyEmail.Count>0, "user should be a member on at least one team");
 

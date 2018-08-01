@@ -31,7 +31,7 @@ namespace retro_db_test
             session.Categories=categories.ToArray();
             
 
-            RetrospectiveSessionData retroData = new RetrospectiveSessionData(fixture.database);
+            DataSession retroData = new DataSession(fixture.database);
             var savedRetro= retroData.SaveRetrospectiveSession(session);
             Console.WriteLine("created session id:{0}", session.Id);
             Assert.True(session.Id!=null);
@@ -45,7 +45,7 @@ namespace retro_db_test
             ObjectId begin= (ObjectId)fixture.retrospectiveSession.Id;
             fixture.retrospectiveSession.Name+=" more";
 
-            RetrospectiveSessionData sessionData= new RetrospectiveSessionData(fixture.database);
+            DataSession sessionData= new DataSession(fixture.database);
             sessionData.SaveRetrospectiveSession(fixture.retrospectiveSession);
 
             Assert.True(begin==(ObjectId)fixture.retrospectiveSession.Id);
@@ -56,7 +56,7 @@ namespace retro_db_test
         public void TestGetTeamRetrospectiveSessions()
         {
             ObjectId teamId= (ObjectId)fixture.team.Id;
-            RetrospectiveSessionData sessionData= new RetrospectiveSessionData(fixture.database);
+            DataSession sessionData= new DataSession(fixture.database);
 
             List<RetrospectiveSession> sessions= sessionData.GetTeamRetrospectiveSessions(teamId);
             Assert.True(sessions.Count()>0);
