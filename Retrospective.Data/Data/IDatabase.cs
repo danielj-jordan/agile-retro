@@ -10,7 +10,7 @@ namespace Retrospective.Data
     {
          IMongoDatabase MongoDatabase{get;}
 
-         IDataComment Comments{ get;}
+       //  IDataComment Comments{ get;}
 
          IDataUser Users {get;}
 
