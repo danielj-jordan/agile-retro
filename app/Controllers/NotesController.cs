@@ -2,98 +2,94 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using app.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using app.Model;
-using DBModel=Retrospective.Data.Model;
+using DBModel = Retrospective.Data.Model;
 using AutoMapper;
+using MongoDB.Bson;
 using Retrospective.Data;
 
-
-namespace app.Controllers
-{
-    [Route("api/[controller]")]
-    public class NotesController : Controller
-    {
+namespace app.Controllers {
+    [Route ("api/[controller]")]
+    public class NotesController : Controller {
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public NotesController(ILogger<NotesController> logger,
-        IMapper mapper)
-        {
-            _logger=logger;
-            _mapper=mapper;
+        private readonly Database database;
+
+        public NotesController (ILogger<NotesController> logger,
+            IMapper mapper, Database database) {
+            _logger = logger;
+            _mapper = mapper;
+            this.database = database;
 
         }
 
-        [HttpGet("[action]")]
-        public IEnumerable<Comment> Notes()
-        {
-            String dbName="test";
-            string retroId="000000000000000000000000";
-            IDatabase database = new Database(dbName);
-            DataComment commentdata = new DataComment(database);
-            
-            var test =commentdata.GetComments(retroId);
-            _logger.LogDebug("db returning {0} comments", test.Count);
+        [HttpGet ("[action]")]
+        public IEnumerable<Comment> Notes (string retroId) {
 
-            var comments =_mapper.Map<List<DBModel.Comment>,List<app.Model.Comment> >( commentdata.GetComments(retroId));
+            DataComment commentdata = new DataComment (this.database);
 
+            var test = commentdata.GetComments (retroId);
+            _logger.LogDebug ("db returning {0} comments", test.Count);
 
-            /*
-            var comments = new List<Comment>();
-            comments.Add(new Comment{CommentId="1", CategoryId=2, Text="this sucks", UpdateUser="Snooper"});
-            comments.Add(new Comment{CommentId="2", CategoryId=2, Text="No it does not", UpdateUser="Marcie"});
-            */
+            var comments = _mapper.Map<List<DBModel.Comment>, List<app.Model.Comment>> (commentdata.GetComments (retroId));
 
-            _logger.LogDebug("returning {0} comments", comments.Count);
-            return (IEnumerable<Comment>)comments;
+            _logger.LogDebug ("returning {0} comments", comments.Count);
+            return (IEnumerable<Comment>) comments;
         }
 
-        [HttpGet("[action]")]
-        public IEnumerable<Category> Categories()
-        {
-            var categories= new List<Category>();
-            categories.Add(new Category { CategoryId="1", Name ="this is a test"});
-            categories.Add(new Category {CategoryId="2", Name ="waiting for another category"});
-             _logger.LogDebug("returning {0} categories", categories.Count);
-            return categories;
+        [HttpGet ("[action]")]
+        public IEnumerable<Category> Categories (string retroId) {
+            var session = this.database.Sessions.Get (new ObjectId (retroId));
+             _logger.LogDebug ("returning {0} categories", session.Categories.ToList().Count);
+            return _mapper.Map<List<DBModel.Category>, List<app.Model.Category>> (session.Categories.ToList ());
 
         }
-        [HttpPost("[action]")]
-        public Comment  NewNote(Comment input) 
-        {
+
+        [HttpPost ("[action]")]
+        public Comment NewNote (string retroId, Comment input) {
             //create a new note and assign an id
-            Comment newNote= new Comment();
-            newNote.CategoryId=input.CategoryId;
-            newNote.Text=input.Text;
 
+            DBModel.Comment newNote = new DBModel.Comment();
+            newNote.CategoryNumber = input.CategoryId;
+            newNote.Text = input.Text;
+            newNote.RetrospectiveId= new ObjectId(retroId);
 
-            var temp =new System.Random();
-            newNote.CommentId= (temp.Next(100,10000)).ToString();
+            var comment = this.database.Comments.SaveComment(newNote);
 
-            _logger.LogDebug("text:{0}", newNote.Text);                               
+            _logger.LogDebug ("text:{0}", newNote.Text);
 
-            return newNote;
+            return _mapper.Map<DBModel.Comment, app.Model.Comment>(comment);
         }
 
-        [HttpPut("[action]")]
-        public Comment Note ([FromBody] Comment input)
-        {
+        [HttpPut ("[action]")]
+        public Comment Note (string retroId, [FromBody] Comment input) {
             //update an existing note
-            _logger.LogDebug("saving note id:{0} text:{1}", input.CommentId, input.Text);
-            return input;
+            _logger.LogDebug ("saving note id:{0} text:{1}", input.CommentId, input.Text);
+           
+            DBModel.Comment newNote = new DBModel.Comment();
+            newNote.CategoryNumber = input.CategoryId;
+            newNote.Text = input.Text;
+            newNote.RetrospectiveId= new ObjectId(retroId);
+            newNote.Id= new ObjectId(input.CommentId);
+
+            var comment = this.database.Comments.SaveComment(newNote);
+
+            _logger.LogDebug ("text:{0}", newNote.Text);
+
+            return _mapper.Map<DBModel.Comment, app.Model.Comment>(comment);
+
         }
 
-        [HttpDelete("[action]")]
-        public bool Note (int commentId)
-        {
-            _logger.LogDebug("deleting note id:{0}", commentId);
+        [HttpDelete ("[action]")]
+        public bool DeleteNote (string commentId) {
+            _logger.LogDebug ("deleting note id:{0}", commentId);
+            this.database.Comments.Delete(new ObjectId(commentId));
             return true;
 
         }
-
-
 
     }
 }
