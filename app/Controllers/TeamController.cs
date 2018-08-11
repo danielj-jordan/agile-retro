@@ -18,11 +18,14 @@ namespace app.Controllers
 
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
+        
+        private readonly Database database;
 
-        public TeamController(ILogger logger, IMapper mapper)
+        public TeamController(ILogger logger, IMapper mapper,Database database)
         {
             _logger=logger;
             _mapper=mapper;
+            this.database=database;
         }
 
 
@@ -34,8 +37,7 @@ namespace app.Controllers
         [HttpGet("[action]")]
         public IEnumerable<User> TeamMembers(string teamId)
         {
-            String dbName="test";
-            IDatabase database = new Database(dbName);
+          
             
             var teamMember = database.Users.GetTeamUsers(new ObjectId(teamId));
             

@@ -27,6 +27,9 @@ namespace app
         {
             services.AddMvc();
             services.AddAutoMapper();
+
+            services.AddScoped<Retrospective.Data.Database, Retrospective.Data.Database>();
+            
             //services.UseAngularCliServer();
             services.AddSpaStaticFiles(configuration =>
             {

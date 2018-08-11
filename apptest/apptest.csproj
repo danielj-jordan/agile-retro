@@ -11,4 +11,8 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
     <ProjectReference Include="../app/app.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Retrospective.Data\Retrospective.Data.csproj" />
+    <ProjectReference Include="..\Retrospective.Data.Model\Retrospective.Data.Model.csproj" />
+  </ItemGroup>
 </Project>

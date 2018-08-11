@@ -17,6 +17,11 @@ namespace Retrospective.Data
         private DataTeam teams;
         
 
+        public Database()
+        {
+            this.database="test_controller";
+        }
+
         public Database(string databaseName)
         {
             BsonClassMap.RegisterClassMap<Comment>(cm =>{
@@ -46,7 +51,7 @@ namespace Retrospective.Data
         public IMongoDatabase MongoDatabase{get; private set;}
 
 
-        public IDataComment Comments { 
+        public DataComment Comments { 
             get{
                 if(this.comments==null){
                     this.comments= new DataComment(this);
