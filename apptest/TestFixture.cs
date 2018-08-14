@@ -38,7 +38,7 @@ namespace apptest {
             Retrospective.Data.Model.User newUser = this.Database.Users.SaveUser (
                 new Retrospective.Data.Model.User {
                     Name = "Joe Smoth",
-                        Email = "dnl.jordan@gmail.com"
+                        Email = "nobody@here.com"
                 }
             );
 
@@ -47,7 +47,7 @@ namespace apptest {
                 new Retrospective.Data.Model.Team {
                     Name = "test team",
                         Owner = "dnl.jordan@gmail.com",
-                        TeamMembers = new String[] { "dnl.jordan@gmail.com" }
+                        TeamMembers = new String[] { "nobody@here.com" }
                 });
             this.TeamId = (ObjectId) newTeam.Id;
 
