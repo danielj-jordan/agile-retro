@@ -20,6 +20,7 @@
 /apptest/bin/**
 /apptest/obj/**
 
+
 /Retrospective.Data.Model/bin/**
 /Retrospective.Data.Model/obj/**
 
@@ -35,11 +36,14 @@
 
 /obj/
 
+
 /app/.vscode/*
 
 /client/node_modules/**
+/client/dist/**
 
-      
+/tools/testdata/bin/**
+/tools/testdata/obj/**   
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
