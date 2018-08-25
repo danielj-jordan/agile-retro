@@ -10,6 +10,10 @@ import { AppRoutingModule } from './/app-routing.module';
 import { NotesComponent } from './components/notes/notes.component';
 import { NotesService }  from './services/notes.service';
 import { ComponentEdit } from './components/componentedit/componentedit.component';
+import { LoginComponent } from './components/login/login.component';
+import { RetrospectivelistComponent } from './components/retrospectivelist/retrospectivelist.component';
+import { LocalstorageService } from './services/localstorage.service';
+import { Router } from '@angular/router';
 
 
 @NgModule({
@@ -23,9 +27,11 @@ import { ComponentEdit } from './components/componentedit/componentedit.componen
     AppComponent,
     NotesComponent,
     ComponentEdit,
+    LoginComponent,
+    RetrospectivelistComponent,
 
   ],
-  providers: [NotesService],
+  providers: [NotesService, LocalstorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
