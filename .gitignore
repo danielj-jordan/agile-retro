@@ -4,30 +4,38 @@
 *.cache
 
 #data directories
-/data
-/key
+/data/**
+/key/**
 
 
 # Build results
 
 **/bin/
 
-/app/bin/
-/app/obj/
-/app/dist/
+/app/bin/**
+/app/obj/**
+/app/ClientApp/**
+/app/*.log
 
 /apptest/bin/**
-/apptest/obj/
+/apptest/obj/**
 
 
-/Retrospective.Data.Model/obj/**
 /Retrospective.Data.Model/bin/**
+/Retrospective.Data.Model/obj/**
 
-/Retrospective.Data/obj/**
 /Retrospective.Data/bin/**
+/Retrospective.Data/obj/**
 
-/Retrospective.Data.Test/obj/**
 /Retrospective.Data.Test/bin/**
+/Retrospective.Data.Test/obj/**
+
+/tools/testdata/bin/**
+/tools/testdata/obj/**
+
+
+/obj/
+
 
 /app/.vscode/*
 
