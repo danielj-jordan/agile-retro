@@ -19,20 +19,23 @@
 /apptest/bin/**
 /apptest/obj/
 
-/retro-db-model/bin/*
-/retro-db-model/obj/*
 
-/retro-db/bin/*
-/retro-db/obj/*
+/Retrospective.Data.Model/obj/**
+/Retrospective.Data.Model/bin/**
 
-/retro-db-test/bin/*
-/retro-db-test/obj/*
+/Retrospective.Data/obj/**
+/Retrospective.Data/bin/**
+
+/Retrospective.Data.Test/obj/**
+/Retrospective.Data.Test/bin/**
 
 /app/.vscode/*
 
 /client/node_modules/**
+/client/dist/**
 
-      
+/tools/testdata/bin/**
+/tools/testdata/obj/**   
 
 # Visual Studio cache files
 # files ending in .cache can be ignored
