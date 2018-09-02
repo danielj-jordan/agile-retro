@@ -3,7 +3,9 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs/Rx';
 import {Note} from './notes';
 import {Category} from './category';
-
+import {Team} from '../models/team';
+import { Retrospective } from '../models/retrospective';
+ 
 
 @Injectable()
 export class NotesService {
@@ -13,7 +15,7 @@ export class NotesService {
 
     constructor( http: HttpClient){
       this.http=http;
-      this.baseUrl='api/notes';
+      this.baseUrl='api';
        
       console.log('calling constructor');
     }
@@ -22,7 +24,7 @@ export class NotesService {
     getNotes():Observable<Note[]> {
         
        
-        return this.http.get<Note[]>(this.baseUrl + '/notes');
+        return this.http.get<Note[]>(this.baseUrl + '/notes/notes');
         
         /*.subscribe(result => {
             notes= result.json() as Note[];
@@ -34,9 +36,25 @@ export class NotesService {
 
     }
 
+    getUserTeams(userEmail: string): Observable<Team[]>{
+        console.log('teams' + userEmail);
+        return this.http.get<Team[]>(this.baseUrl + '/team/teams/' + userEmail);
+    }
+
+    getTeamMeetings(teamId: string): Observable<Retrospective[]>{
+        console.log('retrospectives for team: ' + teamId);
+        return this.http.get<Retrospective[]>(this.baseUrl + '/session/meetings/' + teamId);
+    }
+
+    /*
+    getRetrospectives(teamId: string) : Observable<[]>{
+
+        return this.http.get<Category[]>(this.baseUrl + '/notes/categories');
+    }*/
+
     getCategories() : Observable<Category[]>{
 
-        return this.http.get<Category[]>(this.baseUrl + '/categories');
+        return this.http.get<Category[]>(this.baseUrl + '/notes/categories');
         /*
         var categories:Category[]=[];
 
@@ -60,10 +78,10 @@ export class NotesService {
         var options = { headers : headers};
 
         if(note.commentId==0){
-            return this.http.post<Note>(this.baseUrl + '/NewNote', note, options );
+            return this.http.post<Note>(this.baseUrl + '/notes/NewNote', note, options );
         }
        
-            return this.http.put<Note>(this.baseUrl + '/note', note, options );
+            return this.http.put<Note>(this.baseUrl + '/notes/note', note, options );
        
 
     }
