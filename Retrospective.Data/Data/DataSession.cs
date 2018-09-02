@@ -37,6 +37,13 @@ namespace Retrospective.Data {
             return retrospective;
         }
 
+
+        public List<RetrospectiveSession> GetTeamRetrospectiveSessions (string teamObjectId) {
+            return  this.GetTeamRetrospectiveSessions(new ObjectId(teamObjectId));
+        
+        }
+        
+
         /// <summary>
         /// Get all Retrospective objects for a given team
         /// </summary>

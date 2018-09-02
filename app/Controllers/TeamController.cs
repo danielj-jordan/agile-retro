@@ -13,15 +13,16 @@ using MongoDB.Bson;
 namespace app.Controllers
 {
     [Route("api/[controller]")]
-    public class TeamController
+    [ApiController]
+    public class TeamController: Controller
     {
 
-        private readonly ILogger _logger;
+        private readonly ILogger<TeamController>  _logger;
         private readonly IMapper _mapper;
         
         private readonly Database database;
 
-        public TeamController(ILogger logger, IMapper mapper,Database database)
+        public TeamController(ILogger<TeamController> logger, IMapper mapper,Database database)
         {
             _logger=logger;
             _mapper=mapper;
@@ -49,5 +50,28 @@ namespace app.Controllers
             return (IEnumerable<User>)users;
 
         }
+
+        /// <summary>
+        /// returns the teams for a user
+        /// </summary>
+        /// <param name="userEmail"></param>
+        /// <returns></returns>
+        [HttpGet("[action]/{email}")]
+        public ActionResult<IEnumerable<Team>> Teams(string email)
+        {
+            if(string.IsNullOrEmpty(email)){
+                _logger.LogWarning("no user supplied");
+                return new BadRequestResult();
+            }
+
+            _logger.LogDebug("looking for {0}", email);
+            var teams = database.Teams.GetUserTeams(email);
+            
+            _logger.LogDebug("db returning {0} teams for the user", teams.Count);
+
+            return (_mapper.Map<List<DBModel.Team>,List<app.Model.Team> >(teams)).ToList();
+
+        }
+
     }
 }
