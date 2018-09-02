@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using app.Domain;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
@@ -30,7 +31,7 @@ namespace apptest {
 
             string teamId = fixture.TeamId.ToString ();
 
-            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController> ();
+            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
 
             var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database);
 
@@ -39,6 +40,22 @@ namespace apptest {
             Assert.True (teamMembers.ToList ().Count () > 0);
 
         }
+
+        [Fact]
+        public void GetUserTeams () {
+
+
+
+            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
+
+            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database);
+
+            var teams = controller.Teams (fixture.SampleUser);
+
+            Assert.True (teams.Value.ToList ().Count () > 0);
+
+        }
+
 
     }
 }

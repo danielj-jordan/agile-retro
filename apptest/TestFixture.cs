@@ -15,6 +15,8 @@ namespace apptest {
 
         public ObjectId UpdateNote{get; private set;}
 
+        public string SampleUser = "nobody@here.com"; 
+
         public Retrospective.Data.Database Database {get; private set;}
 
         public TestFixture () {
@@ -38,7 +40,7 @@ namespace apptest {
             Retrospective.Data.Model.User newUser = this.Database.Users.SaveUser (
                 new Retrospective.Data.Model.User {
                     Name = "Joe Smoth",
-                        Email = "nobody@here.com"
+                        Email = SampleUser
                 }
             );
 
@@ -47,7 +49,7 @@ namespace apptest {
                 new Retrospective.Data.Model.Team {
                     Name = "test team",
                         Owner = "***REMOVED***",
-                        TeamMembers = new String[] { "nobody@here.com" }
+                        TeamMembers = new String[] { SampleUser}
                 });
             this.TeamId = (ObjectId) newTeam.Id;
 
