@@ -20,10 +20,20 @@ namespace Retrospective.Data
         public Database()
         {
             this.database="test_controller";
+            Map();
+            Open();
         }
 
-        public Database(string databaseName)
+        public Database(string databaseName){
+            this.database=databaseName;
+            Map();
+            Open();
+        }
+
+        private void Map()
         {
+            if(BsonClassMap.IsClassMapRegistered(typeof(Comment)))return;
+
             BsonClassMap.RegisterClassMap<Comment>(cm =>{
                 cm.AutoMap();
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
@@ -41,9 +51,10 @@ namespace Retrospective.Data
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             }); 
 
+        }
 
+        private void Open(){
 
-            this.database=databaseName;
             var client = new MongoClient("mongodb://localhost:27017");
             MongoDatabase= client.GetDatabase(database);
         }

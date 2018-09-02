@@ -7,7 +7,10 @@ import { RetrospectivelistComponent } from './components/retrospectivelist/retro
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch:'full' },
-  { path: 'notes', component: NotesComponent },
+  { path: 'notes', component: NotesComponent, 
+    children:[
+      {path: ':id',component: NotesComponent}
+    ] },
   { path: 'login', component: LoginComponent },
   { path: 'list',  component: RetrospectivelistComponent}
 ];
