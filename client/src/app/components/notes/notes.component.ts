@@ -1,6 +1,6 @@
-import { Component,Inject, ViewChild, AfterViewInit } from '@angular/core';
-import {NgModule} from '@angular/core'
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms'
+import {ParamMap, ActivatedRoute} from '@angular/router';
 import {NotesService} from '../../services/notes.service'
 import {Note} from '../../services/notes';
 import {Category} from '../../services/category';
@@ -15,40 +15,75 @@ declare var jQuery:any;
     styleUrls: ['./notes.component.css'],
     providers : [NotesService]
 })
-export class NotesComponent implements AfterViewInit{
+export class NotesComponent implements  OnInit, AfterViewInit{
+  @ViewChild(ComponentEdit)
+  private editor: ComponentEdit;
 
+  ngAfterViewInit(){
+      console.log('afterviewinit');
+    }
+
+  constructor(
+    private route: ActivatedRoute,
+    private notesService: NotesService,
+  ){}
+    
+    
     public notes: Note[]=[];
     public categories: Category[]=[];
     public count: Number;
     public selectedNote: Note | null=null;
-    private notesService:NotesService;
-    @ViewChild(ComponentEdit)
-    private editor: ComponentEdit;
+    
+    private sessionId: string;
+   
+    
+    
 
-    ngAfterViewInit(){
-
-    }
-  
-
-    constructor(notesService:NotesService){
-      this.notesService=notesService;
-    }
 
     ngOnInit(): void {
      
-      this.notesService.getNotes().subscribe(
-        data => {
-          this.notes=data;
-        }
-      );
-      this.count=this.notes.length;
-      this.notesService.getCategories().subscribe(
-        data=>{
-          this.categories=data;
+      //get the session id
+      this.sessionId= this.route.snapshot.paramMap.get('id');
+      console.log('sessionid: ' + this.sessionId);
+
+      /*
+      this.route.paramMap.switchMap((params: ParamMap) => {
+        return params.get('id');
+      }).subscribe(data=>
+        {
+          this.sessionId= data
+          console.log('sessionid: ' + this.sessionId);
         });
-      console.log('calling constructor');
-      this.selectedNote=null;
+*/
+
+        
+
+        
+
+        //get the notes for this session
+        this.notesService.getNotes(this.sessionId).subscribe(
+          data => {
+            this.notes=data;
+          }
+        );
+        this.count=this.notes.length;
+        this.notesService.getCategories(this.sessionId).subscribe(
+          data=>{
+            this.categories=data;
+            console.log(this.categories);
+          });
+        this.selectedNote=null;
+      
+        
+  
+
+
     }
+
+
+  
+  
+
 
     saveSelectedNote(): void{
    
@@ -87,11 +122,13 @@ export class NotesComponent implements AfterViewInit{
     }
 
     onNewNote(categoryId: number): void {
-      console.log("creating a new note " + categoryId)
+      console.log("creating a new note " + categoryId + '- ' + this.sessionId)
+      this.editor.categories=this.categories;
       //let note =  new NoteEdit(categoryId);
       //this.notes.push(note);
       this.editor.newNote();
-      this.editor.categories=this.categories;
+      //console.log(this.categories);
+     
       this.editor.show();
    
       

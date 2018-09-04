@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import { NotesComponent } from './notes.component';
 import { TestBed, async, inject, ComponentFixture } from '@angular/core/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 import { NotesService } from '../../services/notes.service';
 import { NotesServiceMock } from '../../services/notes.service.mock';
 import {ComponentEdit} from '../componentedit/componentedit.component';
@@ -24,7 +25,7 @@ describe('notes component fixture', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({ 
             declarations: [NotesComponent, ComponentEdit],
-            imports:[FormsModule],
+            imports:[FormsModule, RouterTestingModule],
             providers: [{provide: NotesService, useValue: new NotesServiceMock() }]
         
 
