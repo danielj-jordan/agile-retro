@@ -11,7 +11,9 @@ using MongoDB.Bson;
 using Retrospective.Data;
 
 namespace app.Controllers {
+    
     [Route ("api/[controller]")]
+    [ApiController]
     public class NotesController : Controller {
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
@@ -26,7 +28,7 @@ namespace app.Controllers {
 
         }
 
-        [HttpGet ("[action]")]
+        [HttpGet ("[action]/{retroId}")]
         public IEnumerable<Comment> Notes (string retroId) {
 
             DataComment commentdata = new DataComment (this.database);
@@ -40,7 +42,7 @@ namespace app.Controllers {
             return (IEnumerable<Comment>) comments;
         }
 
-        [HttpGet ("[action]")]
+        [HttpGet ("[action]/{retroId}")]
         public IEnumerable<Category> Categories (string retroId) {
             var session = this.database.Sessions.Get (new ObjectId (retroId));
              _logger.LogDebug ("returning {0} categories", session.Categories.ToList().Count);

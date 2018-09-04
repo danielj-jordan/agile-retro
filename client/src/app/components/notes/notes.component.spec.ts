@@ -7,6 +7,7 @@ import {ComponentEdit} from '../componentedit/componentedit.component';
 import {Note} from '../../services/notes';
 import {Category} from '../../services/category';
 //import { ControlContainer } from '@angular/forms/src/directives/control_container';
+import {RouterTestingModule} from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import {Observable} from 'rxjs/Rx';
 //import { HttpModule } from '@angular/http/src/http_module';
@@ -26,7 +27,7 @@ describe('notes component', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({ 
             declarations: [NotesComponent, ComponentEdit],
-            imports:[FormsModule ],
+            imports:[FormsModule, RouterTestingModule],
             providers:[NotesComponent,
              {provide: NotesService, useClass: NotesServiceMock},
         ]
