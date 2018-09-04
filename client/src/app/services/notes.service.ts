@@ -16,24 +16,11 @@ export class NotesService {
     constructor( http: HttpClient){
       this.http=http;
       this.baseUrl='api';
-       
-      console.log('calling constructor');
     }
 
 
-    getNotes():Observable<Note[]> {
-        
-       
-        return this.http.get<Note[]>(this.baseUrl + '/notes/notes');
-        
-        /*.subscribe(result => {
-            notes= result.json() as Note[];
-            console.log('getting notes' + notes.length);
-            return notes as Note[];
-        }, error=> console.log('notes error'));
-
-        return notes;*/
-
+    getNotes(sessionId: string):Observable<Note[]> {       
+        return this.http.get<Note[]>(this.baseUrl + '/notes/notes/' + sessionId);
     }
 
     getUserTeams(userEmail: string): Observable<Team[]>{
@@ -52,9 +39,9 @@ export class NotesService {
         return this.http.get<Category[]>(this.baseUrl + '/notes/categories');
     }*/
 
-    getCategories() : Observable<Category[]>{
-
-        return this.http.get<Category[]>(this.baseUrl + '/notes/categories');
+    getCategories(sessionId: string) : Observable<Category[]>{
+        console.log('getting categories');
+        return this.http.get<Category[]>(this.baseUrl + '/notes/categories/' + sessionId);
         /*
         var categories:Category[]=[];
 

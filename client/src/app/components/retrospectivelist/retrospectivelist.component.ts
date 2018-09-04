@@ -13,12 +13,13 @@ import {Team} from '../../models/team';
 })
 export class RetrospectivelistComponent implements OnInit {
 
-  constructor(private router: Router,
-    private storage: LocalstorageService, 
-    private noteService: NotesService) { }
+  constructor(
+    private router: Router,
+    private storage: LocalstorageService,
+    private noteService: NotesService) { 
+  }
 
-
-    public teams: Team[];
+  public teams: Team[];
 
   ngOnInit() {
 
@@ -29,20 +30,13 @@ export class RetrospectivelistComponent implements OnInit {
        this.noteService.getUserTeams(this.storage.userEmail).subscribe(
          data=>{
           this.teams=data;
-
           console.log('user teams: ' + this.teams);
           //get the retrospective meeting sessions for each team
           for(let team of this.teams){
-            console.log('this team' + team);
-            console.log(team.teamId);
             this.noteService.getTeamMeetings(team.teamId).subscribe(
-              data=>{
-                team.retrospectives=data;
-              }
-            )
-          };
+              data=>team.retrospectives=data);
+          }
           console.log(this.teams);
-        }
-      
-  }
+       });
+      }
 }
