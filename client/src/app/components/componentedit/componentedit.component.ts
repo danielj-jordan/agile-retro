@@ -28,11 +28,12 @@ export class ComponentEdit implements OnInit {
 
   ngOnInit(): void {
     
-  
+  /*
     this.notesService.getCategories().subscribe(
       data=>{
         this.categories=data;
       });
+  */
   }
   
 
