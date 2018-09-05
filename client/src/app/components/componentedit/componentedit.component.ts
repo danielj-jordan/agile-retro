@@ -16,6 +16,7 @@ export class ComponentEdit implements OnInit {
   
   private note: Note;
   public categories: Category[];
+  public sessionId: string;
   private notesService: NotesService;
 
 
@@ -37,9 +38,9 @@ export class ComponentEdit implements OnInit {
   }
   
 
-  public newNote()
+  public newNote(categoryNum: number)
   {
-    this.note=new NoteEdit(this.categories[0].categoryId);
+    this.note=new NoteEdit(categoryNum);
   }
 
   public setNote(note: Note){
@@ -58,7 +59,7 @@ export class ComponentEdit implements OnInit {
 
   public onSave(): void{
     this.note.text= $('#text').val();
-    this.notesService.saveNote(this.note).subscribe(data=>{this.note=data;});
+    this.notesService.saveNote(this.sessionId, this.note).subscribe(data=>{this.note=data;});
     $('#modalEditNote').hide();
   }
 
@@ -72,7 +73,8 @@ export class ComponentEdit implements OnInit {
 
 
 class NoteEdit implements Note{
-  commentId: number=0;
+  commentId: string="";
+  sessionId: string ="";
   categoryId: number;
   text: string='';
   updateUser: string='';
