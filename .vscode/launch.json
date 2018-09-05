@@ -2,17 +2,35 @@
 
     "version": "0.2.0",
     "configurations": [
-        
         {
-            "name": ".NET Core Launch test (console)",
+            "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceRoot}/bin/Debug/<target-framework>/<project-name.dll>",
+            "preLaunchTask": "",
+            "program": "${workspaceRoot}/app/bin/Debug/netcoreapp2.1/app.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
-            "console": "internalConsole"
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceRoot}/Views"
+            }
         },
         {
             "name": ".NET Core Remote Attach",
@@ -22,29 +40,12 @@
             "pipeTransport": {
                 "pipeCwd": "${workspaceRoot}",
                 "pipeProgram": "ssh",
-                "pipeArgs": ["root@127.0.0.1"],
+                "pipeArgs": ["-p 8022", "-W 127.0.0.1:8022" , "root@localhost"],
                 "debuggerPath": "/vsdbg/vsdbg", 
                 "quoteArgs": true
             },
             "sourceFileMap": {
                 "/projects/agile-retro": "${workspaceRoot}"
-            }
-        },
-        {
-            "name": ".NET Core Launch (console)",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceRoot}/bin/Debug/<target-framework>/<project-name.dll>",
-            "args": [],
-            "cwd": "${workspaceRoot}",
-            "stopAtEntry": false,
-            "console": "internalConsole",
-            "pipeTransport": {
-                "pipeCwd": "${workspaceRoot}",
-                "pipeProgram": "/usr/bin/ssh",
-                "pipeArgs": [],
-                "debuggerPath": "/vsdbg/vsdbg"
             }
         },
         {
