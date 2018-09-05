@@ -90,11 +90,11 @@ export class NotesComponent implements  OnInit, AfterViewInit{
       if(this.selectedNote)
       {
         console.log('saving: ' + this.selectedNote.text);
-        this.notesService.saveNote(this.selectedNote);        
+        this.notesService.saveNote(this.sessionId,this.selectedNote);        
       }
     }
 
-    deleteNote(id:number)
+    deleteNote(id:string)
     {
 
       console.log('deleting note: ' + id);
@@ -121,20 +121,19 @@ export class NotesComponent implements  OnInit, AfterViewInit{
       $('#modalEditNote').modal();
     }
 
-    onNewNote(categoryId: number): void {
-      console.log("creating a new note " + categoryId + '- ' + this.sessionId)
+    onNewNote(categoryNum: number): void {
+      console.log("creating a new note " + categoryNum + '- ' + this.sessionId)
       this.editor.categories=this.categories;
-      //let note =  new NoteEdit(categoryId);
-      //this.notes.push(note);
-      this.editor.newNote();
-      //console.log(this.categories);
-     
+      this.editor.sessionId=this.sessionId;
+
+
+      this.editor.newNote(categoryNum);     
       this.editor.show();
    
       
     }
 
-    onDeleteId(id: number)
+    onDeleteId(id: string)
     {
       this.deleteNote(id); 
     }
@@ -150,6 +149,7 @@ export class NotesComponent implements  OnInit, AfterViewInit{
            // $('#modalEditNote').modal();
             this.editor.setNote(this.notes[i]);
             this.editor.categories=this.categories;
+            this.editor.sessionId=this.sessionId;
             this.editor.show();
             console.log('found');
             break;

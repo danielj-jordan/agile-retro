@@ -1,7 +1,7 @@
 #! /bin/sh
 echo '******'
 echo 'testing the DB components'
-dotnet test $PROJECT/retro-db-test/retro-db-test.csproj
+dotnet test $PROJECT/Retrospective.Data.Test/Retrospective.Data.Test.csproj
 echo '******'
 echo 'testing the app logic in C#'
 dotnet test $PROJECT/apptest/apptest.csproj

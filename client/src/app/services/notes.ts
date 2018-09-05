@@ -1,6 +1,7 @@
 
 export interface Note{
-    commentId: number;
+    sessionId: string;
+    commentId: string;
     categoryId: number;
     text: string;
     updateUser: string;

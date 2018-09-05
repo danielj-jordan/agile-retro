@@ -50,8 +50,8 @@ namespace app.Controllers {
 
         }
 
-        [HttpPost ("[action]")]
-        public Comment NewNote (string retroId, Comment input) {
+        [HttpPost ("[action]/{retroId}")]
+        public Comment NewNote (string retroId,[FromBody] Comment input) {
             //create a new note and assign an id
 
             DBModel.Comment newNote = new DBModel.Comment();
@@ -66,7 +66,7 @@ namespace app.Controllers {
             return _mapper.Map<DBModel.Comment, app.Model.Comment>(comment);
         }
 
-        [HttpPut ("[action]")]
+        [HttpPut ("[action]/{retroId}")]
         public Comment Note (string retroId, [FromBody] Comment input) {
             //update an existing note
             _logger.LogDebug ("saving note id:{0} text:{1}", input.CommentId, input.Text);
@@ -85,7 +85,7 @@ namespace app.Controllers {
 
         }
 
-        [HttpDelete ("[action]")]
+        [HttpDelete ("[action]/{commentId}")]
         public bool DeleteNote (string commentId) {
             _logger.LogDebug ("deleting note id:{0}", commentId);
             this.database.Comments.Delete(new ObjectId(commentId));

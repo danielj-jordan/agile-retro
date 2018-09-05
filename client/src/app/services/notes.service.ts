@@ -58,29 +58,29 @@ export class NotesService {
         return categories;*/
     }
 
-    saveNote(note:Note): Observable<Note>{
+    saveNote(sessionId: string, note:Note): Observable<Note>{
         
         
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         var options = { headers : headers};
 
-        if(note.commentId==0){
-            return this.http.post<Note>(this.baseUrl + '/notes/NewNote', note, options );
+        if(note.commentId.length==0){
+            return this.http.post<Note>(this.baseUrl + '/notes/NewNote/' + sessionId, note, options );
         }
        
-            return this.http.put<Note>(this.baseUrl + '/notes/note', note, options );
+            return this.http.put<Note>(this.baseUrl + '/notes/note/' + sessionId, note, options );
        
 
     }
 
-    deleteNote(commentId: number): void{
+    deleteNote(commentId: string): void{
 
         
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         var options = { headers : headers};
        
 
-        this.http.delete(this.baseUrl + '/note/'+ commentId,
+        this.http.delete(this.baseUrl + '/notes/DeleteNote/'+ commentId,
           options
           ).subscribe();
           
