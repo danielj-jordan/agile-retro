@@ -24,8 +24,8 @@ export class NotesServiceMock {
 
     public getNotes(sessionId: string):Observable<Note[]> {
         let notes: Note[] =[]
-        notes.push({commentId:1, categoryId:1, text:"this is a test", updateUser:"bob"});
-        notes.push({commentId:2, categoryId:1, text:"this is also a test", updateUser:"bob"});
+        notes.push({commentId:"1", sessionId:" + sessionId + ", categoryId:1, text:"this is a test", updateUser:"bob"});
+        notes.push({commentId:"2", sessionId:" + sessionId + ", categoryId:1, text:"this is also a test", updateUser:"bob"});
 
         console.log('notes count: ' + notes.length);
         return Observable.of(notes);
@@ -45,10 +45,11 @@ export class NotesServiceMock {
         return categories$;
     }
 
-    saveNotes(note:Note): Note{
+    saveNote(sessionId: string, note:Note): Note{
  
-          if(note.commentId==0)note.categoryId=100;
-          return note;
+        note.sessionId=sessionId;
+        if(note.commentId.length==0)note.categoryId=100;
+        return note;
 
     }
 
