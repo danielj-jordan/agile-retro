@@ -1,0 +1,7 @@
+#!/bin/bash
+cd $PROJECT/client
+ng serve  >/dev/null & 
+export PID=$!
+echo 'processid:' $PID
+kill -s SIGINT $PID
+
