@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NotesComponent } from './components/notes/notes.component';
+import { CommentComponent } from './components/comment/comment.component';
 import { LoginComponent } from './components/login/login.component';
-import { RetrospectivelistComponent } from './components/retrospectivelist/retrospectivelist.component';
+import { MeetingListComponent } from './components/meetinglist/meetinglist.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch:'full' },
-  { path: 'notes/:id', component: NotesComponent}, 
+  { path: 'notes/:id', component: CommentComponent}, 
   { path: 'login', component: LoginComponent },
-  { path: 'list',  component: RetrospectivelistComponent}
+  { path: 'list',  component: MeetingListComponent}
 ];
 
 @NgModule({
