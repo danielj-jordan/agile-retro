@@ -54,8 +54,8 @@ namespace apptest {
             this.TeamId = (ObjectId) newTeam.Id;
 
             //initialize a session record
-            Retrospective.Data.Model.RetrospectiveSession newSession = this.Database.Sessions.SaveRetrospectiveSession (
-                new RetrospectiveSession {
+            Retrospective.Data.Model.Meeting newSession = this.Database.Meetings.Save (
+                new Meeting {
                     Name = "test session",
                         TeamId = (ObjectId) newTeam.Id,
                         Categories = new Retrospective.Data.Model.Category[] {

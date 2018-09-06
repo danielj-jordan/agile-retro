@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
-import {Note} from './notes';
-import {Category} from './category';
+import {Comment} from '../models/comment';
+import {Category} from '../models/category';
 import {Team} from '../models/team';
-import {Retrospective} from '../models/retrospective';
+import {Meeting} from '../models/meeting';
 
 
 @Injectable()
@@ -15,17 +15,17 @@ export class NotesServiceMock {
         return Observable.of(teams);
     }
 
-    getTeamMeetings(teamId: string): Observable<Retrospective[]>{
-        let retrospectives: Retrospective[] =[]  
+    getTeamMeetings(teamId: string): Observable<Meeting[]>{
+        let retrospectives: Meeting[] =[]  
 
         return Observable.of(retrospectives);
     }
 
 
-    public getNotes(sessionId: string):Observable<Note[]> {
-        let notes: Note[] =[]
-        notes.push({commentId:"1", sessionId:" + sessionId + ", categoryId:1, text:"this is a test", updateUser:"bob"});
-        notes.push({commentId:"2", sessionId:" + sessionId + ", categoryId:1, text:"this is also a test", updateUser:"bob"});
+    public getNotes(sessionId: string):Observable<Comment[]> {
+        let notes: Comment[] =[]
+        notes.push({Id: "1", sessionId:" + sessionId + ", categoryId:1, text:"this is a test", updateUser:"bob"});
+        notes.push({Id: "2", sessionId:" + sessionId + ", categoryId:1, text:"this is also a test", updateUser:"bob"});
 
         console.log('notes count: ' + notes.length);
         return Observable.of(notes);
@@ -45,10 +45,10 @@ export class NotesServiceMock {
         return categories$;
     }
 
-    saveNote(sessionId: string, note:Note): Note{
+    saveNote(sessionId: string, note:Comment): Comment{
  
         note.sessionId=sessionId;
-        if(note.commentId.length==0)note.categoryId=100;
+        if(note.Id.length==0)note.categoryId=100;
         return note;
 
     }

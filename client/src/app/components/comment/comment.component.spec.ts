@@ -1,11 +1,11 @@
 import { assert } from 'chai';
-import { NotesComponent } from './notes.component';
+import { CommentComponent } from './comment.component';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { NotesService } from '../../services/notes.service';
 import { NotesServiceMock } from '../../services/notes.service.mock';
-import {ComponentEdit} from '../componentedit/componentedit.component';
-import {Note} from '../../services/notes';
-import {Category} from '../../services/category';
+import {CommentEditComponent} from '../commentedit/commentedit.component';
+import {Comment} from '../../models/comment';
+import {Category} from '../../models/category';
 //import { ControlContainer } from '@angular/forms/src/directives/control_container';
 import {RouterTestingModule} from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
@@ -19,22 +19,22 @@ import {Observable} from 'rxjs/Rx';
 
 describe('notes component', () => {
 
-    let notesComponet: NotesComponent;
+    let notesComponet: CommentComponent;
     let noteService: NotesService;
 
 
 
     beforeEach(() => {
         TestBed.configureTestingModule({ 
-            declarations: [NotesComponent, ComponentEdit],
+            declarations: [CommentComponent, CommentEditComponent],
             imports:[FormsModule, RouterTestingModule],
-            providers:[NotesComponent,
+            providers:[CommentComponent,
              {provide: NotesService, useClass: NotesServiceMock},
         ]
 
     }).compileComponents();
 
-   notesComponet=TestBed.get(NotesComponent);
+   notesComponet=TestBed.get(CommentComponent);
    noteService=TestBed.get(NotesService); 
 
     
@@ -45,8 +45,8 @@ describe('notes component', () => {
 
     it('notes should be zero or higher', async(() => {
         notesComponet.ngOnInit();
-        console.log('notescompoent:' + notesComponet.notes.length);
-        expect(notesComponet.notes.length).toBeGreaterThanOrEqual(0);
+        console.log('notescompoent:' + notesComponet.comments.length);
+        expect(notesComponet.comments.length).toBeGreaterThanOrEqual(0);
     }));
 
 

@@ -1,0 +1,30 @@
+<h3>Notes</h3>
+<p *ngIf="!notes || !categories"><em>Loading...</em></p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 card border-0"  *ngFor="let category of categories">
+      <div style="background-color:#f0f0f5;padding:3px;" [attr.id]="this.CategoryDomId(category)">
+      <h4 style="text-align:center">{{ category.name }} 
+      <button class="btn btn-secondary  btn-sm" (click)="onNewNote(category.categoryId)">New</button></h4>
+      </div>
+      <div class="card-group">
+      <div class="card-block" *ngFor="let comment of comments">
+        <ng-container *ngIf="comment.categoryId==category.categoryId">
+          <div class="card rounded note-yellow" (mouseenter)="onNoteMouseEnter(comment)" (mouseleave)="onNoteMouseLeave(comment)" [attr.id]="this.domId(comment)" > 
+          <div  style="overflow: scroll;" class="card-body" >{{ comment.text }} </div>
+          <div  class="card-footer" style="display:none">
+              <button (click)="onEditId(comment.Id)" class="btn btn-secondary btn-sm retro-btn-edit" >Edit</button>
+              <button (click)="onDeleteId(comment.Id)" class="btn btn-secondary btn-sm retro-btn-delete">Delete</button>
+          </div>
+        </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<app-commentedit></app-commentedit>
+
+
+

@@ -9,19 +9,19 @@ using MongoDB.Bson;
 namespace retro_db_test
 {
     [Collection("Database collection")]
-    public class RetrospectiveSessionDataTest
+    public class MeetingDataTest
     {
         private DatabaseFixture fixture;
 
-        public RetrospectiveSessionDataTest(DatabaseFixture fixture)
+        public MeetingDataTest(DatabaseFixture fixture)
         {
             this.fixture=fixture;
         }
         
         [Fact]
-        public void SaveRestrospectiveSession()
+        public void SaveMeeting()
         {
-            RetrospectiveSession session = new RetrospectiveSession();
+            Meeting session = new Meeting();
             session.TeamId=(ObjectId)fixture.team.Id;
             session.Name ="test retrospective session";
             List<Category> categories= new List<Category>();
@@ -31,34 +31,34 @@ namespace retro_db_test
             session.Categories=categories.ToArray();
             
 
-            DataSession retroData = new DataSession(fixture.database);
-            var savedRetro= retroData.SaveRetrospectiveSession(session);
+            //DataSession retroData = new DataSession(fixture.database);
+            var savedRetro= fixture.database.Meetings.Save(session);
+            //var savedRetro= retroData.Save(session);
             Console.WriteLine("created session id:{0}", session.Id);
             Assert.True(session.Id!=null);
         }
 
 
         [Fact]
-        public void UpdateRestrospectiveSession()
+        public void UpdateMeeting()
         {
 
             ObjectId begin= (ObjectId)fixture.retrospectiveSession.Id;
             fixture.retrospectiveSession.Name+=" more";
 
-            DataSession sessionData= new DataSession(fixture.database);
-            sessionData.SaveRetrospectiveSession(fixture.retrospectiveSession);
+            fixture.database.Meetings.Save(fixture.retrospectiveSession);
 
             Assert.True(begin==(ObjectId)fixture.retrospectiveSession.Id);
             Assert.Contains(" more", fixture.retrospectiveSession.Name);
         }
 
         [Fact]
-        public void TestGetTeamRetrospectiveSessions()
+        public void TestGetMeetings()
         {
             ObjectId teamId= (ObjectId)fixture.team.Id;
-            DataSession sessionData= new DataSession(fixture.database);
+            DataMeeting sessionData= new DataMeeting(fixture.database);
 
-            List<RetrospectiveSession> sessions= sessionData.GetTeamRetrospectiveSessions(teamId);
+            List<Meeting> sessions= sessionData.GetMeetings(teamId);
             Assert.True(sessions.Count()>0);
             foreach(var session in sessions)
             {

@@ -7,11 +7,11 @@ import {Team} from '../../models/team';
 
 
 @Component({
-  selector: 'app-retrospectivelist',
-  templateUrl: './retrospectivelist.component.html',
-  styleUrls: ['./retrospectivelist.component.css']
+  selector: 'app-meetinglist',
+  templateUrl: './meetinglist.component.html',
+  styleUrls: ['./meetinglist.component.css']
 })
-export class RetrospectivelistComponent implements OnInit {
+export class MeetingListComponent implements OnInit {
 
   constructor(
     private router: Router,
@@ -34,7 +34,7 @@ export class RetrospectivelistComponent implements OnInit {
           //get the retrospective meeting sessions for each team
           for(let team of this.teams){
             this.noteService.getTeamMeetings(team.teamId).subscribe(
-              data=>team.retrospectives=data);
+              data=>team.meetings=data);
           }
           console.log(this.teams);
        });

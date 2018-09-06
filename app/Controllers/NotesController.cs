@@ -44,7 +44,7 @@ namespace app.Controllers {
 
         [HttpGet ("[action]/{retroId}")]
         public IEnumerable<Category> Categories (string retroId) {
-            var session = this.database.Sessions.Get (new ObjectId (retroId));
+            var session = this.database.Meetings.Get (new ObjectId (retroId));
              _logger.LogDebug ("returning {0} categories", session.Categories.ToList().Count);
             return _mapper.Map<List<DBModel.Category>, List<app.Model.Category>> (session.Categories.ToList ());
 
