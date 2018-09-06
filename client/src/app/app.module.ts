@@ -7,11 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 
-import { NotesComponent } from './components/notes/notes.component';
+import { CommentComponent } from './components/comment/comment.component';
 import { NotesService }  from './services/notes.service';
-import { ComponentEdit } from './components/componentedit/componentedit.component';
+import { CommentEditComponent } from './components/commentedit/commentedit.component';
 import { LoginComponent } from './components/login/login.component';
-import { RetrospectivelistComponent } from './components/retrospectivelist/retrospectivelist.component';
+import { MeetingListComponent } from './components/meetinglist/meetinglist.component';
 import { LocalstorageService } from './services/localstorage.service';
 import { Router } from '@angular/router';
 
@@ -25,10 +25,10 @@ import { Router } from '@angular/router';
   ],
   declarations: [
     AppComponent,
-    NotesComponent,
-    ComponentEdit,
+    CommentComponent,
+    CommentEditComponent,
     LoginComponent,
-    RetrospectivelistComponent,
+    MeetingListComponent,
 
   ],
   providers: [NotesService, LocalstorageService],

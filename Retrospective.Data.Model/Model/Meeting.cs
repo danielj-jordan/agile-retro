@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace Retrospective.Data.Model
 {
-    public class RetrospectiveSession
+    public class Meeting
     {
        
         public ObjectId? Id {get;set;}

@@ -1,8 +1,8 @@
 namespace app.Model
 {
-    public class Session
+    public class Meeting
     {
-        public string SessionId {get;set;}
+        public string Id {get;set;}
 
         public string TeamId {get;set;}
         

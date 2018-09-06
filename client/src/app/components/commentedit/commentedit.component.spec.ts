@@ -1,18 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComponentEdit} from './componentedit.component';
+import { CommentEditComponent} from './commentedit.component';
 import { NotesService } from '../../services/notes.service';
 import { NotesServiceMock } from '../../services/notes.service.mock';
 import { Component } from '@angular/core';
 
-describe('ComponenteditComponent', () => {
-  let component: ComponentEdit;
-  let fixture: ComponentFixture<ComponentEdit>;
+describe('CommentEditComponent', () => {
+  let component: CommentEditComponent;
+  let fixture: ComponentFixture<CommentEditComponent>;
   //let noteService: NotesService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ComponentEdit ],
+      declarations: [ CommentEditComponent ],
      // providers: [ ComponentEdit, {provide: NotesService, useClass: NotesServiceMock}],
       providers: [{provide: NotesService, useValue: new NotesServiceMock() }]
   }).compileComponents();
@@ -25,7 +25,7 @@ describe('ComponenteditComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ComponentEdit);
+    fixture = TestBed.createComponent(CommentEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

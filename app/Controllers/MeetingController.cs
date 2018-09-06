@@ -13,16 +13,16 @@ using Retrospective.Data;
 namespace app.Controllers
 {
     [Route("api/[controller]")]
-    public class SessionController: Controller
+    public class MeetingController: Controller
     {
         
 
-        private readonly ILogger<SessionController>  _logger;
+        private readonly ILogger<MeetingController>  _logger;
         private readonly IMapper _mapper;
         
         private readonly Database database;
 
-        public SessionController(ILogger<SessionController> logger, IMapper mapper,Database database)
+        public MeetingController(ILogger<MeetingController> logger, IMapper mapper,Database database)
         {
             _logger=logger;
             _mapper=mapper;
@@ -31,12 +31,12 @@ namespace app.Controllers
         
         
         /// <summary>
-        /// returns the retrospective sessions for a team
+        /// returns the retrospective meetings for a team
         /// </summary>
         /// <param name="teamId"></param>
         /// <returns></returns>
         [HttpGet("[action]/{id}")]
-        public ActionResult<IEnumerable<Session>> Meetings(string id)
+        public ActionResult<IEnumerable<Meeting>> Meetings(string id)
         {
             if(string.IsNullOrEmpty(id)){
                 _logger.LogWarning("no team id supplied");
@@ -44,11 +44,11 @@ namespace app.Controllers
             }
 
             _logger.LogDebug("looking for {0}", id);
-            var meetings = database.Sessions.GetTeamRetrospectiveSessions(id);
+            var meetings = database.Meetings.GetMeetings(id);
             
             _logger.LogDebug("db returning {0} teams for the user", meetings.Count);
 
-            return (_mapper.Map<List<DBModel.RetrospectiveSession>,List<app.Model.Session> >(meetings)).ToList();
+            return (_mapper.Map<List<DBModel.Meeting>,List<app.Model.Meeting> >(meetings)).ToList();
 
         }
     }

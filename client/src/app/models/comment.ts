@@ -1,7 +1,7 @@
 
-export interface Note{
+export interface Comment{
     sessionId: string;
-    commentId: string;
+    Id: string;
     categoryId: number;
     text: string;
     updateUser: string;
