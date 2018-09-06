@@ -1,12 +1,12 @@
 import { assert } from 'chai';
-import { NotesComponent } from './notes.component';
+import { CommentComponent } from './comment.component';
 import { TestBed, async, inject, ComponentFixture } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import { NotesService } from '../../services/notes.service';
 import { NotesServiceMock } from '../../services/notes.service.mock';
-import {ComponentEdit} from '../componentedit/componentedit.component';
-import {Note} from '../../services/notes';
-import {Category} from '../../services/category';
+import {CommentEditComponent} from '../commentedit/commentedit.component';
+import {Comment} from '../../models/comment';
+import {Category} from '../../models/category';
 import { FormsModule } from '@angular/forms';
 import {Observable} from 'rxjs/Rx';
 import { DebugElement } from '@angular/core';
@@ -16,15 +16,16 @@ import { By } from '@angular/platform-browser';
 
 
 
+
 describe('notes component fixture', () => {
-    let notesComponent: NotesComponent;
+    let notesComponent: CommentComponent;
     let noteService: NotesService;
-    let fixture: ComponentFixture<NotesComponent>;
-    let component: NotesComponent;
+    let fixture: ComponentFixture<CommentComponent>;
+    let component: CommentComponent;
     
     beforeEach(() => {
         TestBed.configureTestingModule({ 
-            declarations: [NotesComponent, ComponentEdit],
+            declarations: [CommentComponent, CommentEditComponent],
             imports:[FormsModule, RouterTestingModule],
             providers: [{provide: NotesService, useValue: new NotesServiceMock() }]
         
@@ -32,7 +33,7 @@ describe('notes component fixture', () => {
     }).compileComponents();
 
     TestBed.overrideProvider(NotesService, {useValue: new NotesServiceMock() });
-    fixture = TestBed.createComponent(NotesComponent);
+    fixture = TestBed.createComponent(CommentComponent);
     fixture.debugElement.injector.get(NotesService);
     notesComponent = fixture.componentInstance;
  

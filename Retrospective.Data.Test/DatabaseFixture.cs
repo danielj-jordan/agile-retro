@@ -10,10 +10,10 @@ namespace retro_db_test
 {
     public class DatabaseFixture : IDisposable
     {
-        public IDatabase database= new Database("test");
+        public Database database= new Database("test");
         public User owner {get; private set;}
         public Team team {get; private set;}
-        public RetrospectiveSession retrospectiveSession {get; private set;}
+        public Meeting retrospectiveSession {get; private set;}
 
         public void Dispose()
         {
@@ -50,7 +50,7 @@ namespace retro_db_test
 
 
             //create a test retrospective session
-            RetrospectiveSession session = new RetrospectiveSession();
+            Meeting session = new Meeting();
             session.TeamId=(ObjectId)team.Id;
             session.Name ="fixture retrospective session";
             List<Category> categories= new List<Category>();
@@ -60,9 +60,9 @@ namespace retro_db_test
             session.Categories=categories.ToArray();
             
 
-            DataSession retroData = new DataSession(database);
+            DataMeeting retroData = new DataMeeting(database);
             
-            retroData.SaveRetrospectiveSession(session);
+            retroData.Save(session);
             retrospectiveSession=session;
 
         }

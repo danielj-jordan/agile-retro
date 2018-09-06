@@ -9,7 +9,7 @@
       <div class="container">
         <div class="col">
           <div class ="row" *ngFor="let meeting of team.retrospectives">
-              <div>{{meeting.name}} - <a [routerLink]="['/notes', meeting.sessionId]" >{{meeting.sessionId}}</a></div>
+              <div>{{meeting.name}} - <a [routerLink]="['/notes', meeting.Id]" >{{meeting.Id}}</a></div>
           </div>
         </div>
       </div>

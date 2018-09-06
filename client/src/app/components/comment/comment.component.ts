@@ -2,22 +2,22 @@ import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import {FormsModule} from '@angular/forms'
 import {ParamMap, ActivatedRoute} from '@angular/router';
 import {NotesService} from '../../services/notes.service'
-import {Note} from '../../services/notes';
-import {Category} from '../../services/category';
-import {ComponentEdit} from "../componentedit/componentedit.component"
+import {Comment} from '../../models/comment';
+import {Category} from '../../models/category';
+import {CommentEditComponent} from "../commentedit/commentedit.component"
 declare var $:any;
 declare var jQuery:any;
 
 
 @Component({
-    selector: 'notes',
-    templateUrl: './notes.component.html',
-    styleUrls: ['./notes.component.css'],
+    selector: 'comment',
+    templateUrl: './comment.component.html',
+    styleUrls: ['./comment.component.css'],
     providers : [NotesService]
 })
-export class NotesComponent implements  OnInit, AfterViewInit{
-  @ViewChild(ComponentEdit)
-  private editor: ComponentEdit;
+export class CommentComponent implements  OnInit, AfterViewInit{
+  @ViewChild(CommentEditComponent)
+  private editor: CommentEditComponent;
 
   ngAfterViewInit(){
       console.log('afterviewinit');
@@ -29,10 +29,10 @@ export class NotesComponent implements  OnInit, AfterViewInit{
   ){}
     
     
-    public notes: Note[]=[];
+    public comments: Comment[]=[];
     public categories: Category[]=[];
     public count: Number;
-    public selectedNote: Note | null=null;
+    public selectedNote: Comment | null=null;
     
     private sessionId: string;
    
@@ -63,10 +63,10 @@ export class NotesComponent implements  OnInit, AfterViewInit{
         //get the notes for this session
         this.notesService.getNotes(this.sessionId).subscribe(
           data => {
-            this.notes=data;
+            this.comments=data;
           }
         );
-        this.count=this.notes.length;
+        this.count=this.comments.length;
         this.notesService.getCategories(this.sessionId).subscribe(
           data=>{
             this.categories=data;
@@ -90,7 +90,7 @@ export class NotesComponent implements  OnInit, AfterViewInit{
       if(this.selectedNote)
       {
         console.log('saving: ' + this.selectedNote.text);
-        this.notesService.saveNote(this.sessionId,this.selectedNote);        
+        this.notesService.saveComment(this.sessionId,this.selectedNote);        
       }
     }
 
@@ -99,11 +99,11 @@ export class NotesComponent implements  OnInit, AfterViewInit{
 
       console.log('deleting note: ' + id);
 
-        var newNotes: Note[]=[];
-        for(var i: number=0; i< this.notes.length; i++) {
-          console.log(this.notes[i].commentId);
-          if(this.notes[i].commentId!=id){
-              newNotes.push(this.notes[i]);
+        var newNotes: Comment[]=[];
+        for(var i: number=0; i< this.comments.length; i++) {
+          console.log(this.comments[i].Id);
+          if(this.comments[i].Id!=id){
+              newNotes.push(this.comments[i]);
             }
             else {
               console.log('deleted');
@@ -111,12 +111,12 @@ export class NotesComponent implements  OnInit, AfterViewInit{
             }
 
         }
-        this.notes=newNotes;
+        this.comments=newNotes;
     }
 
 
-    onSelect(note: Note): void{
-      console.log('selected note: ' + note.text + note.commentId);
+    onSelect(note: Comment): void{
+      console.log('selected note: ' + note.text + note.Id);
       this.selectedNote=note;
       $('#modalEditNote').modal();
     }
@@ -143,11 +143,11 @@ export class NotesComponent implements  OnInit, AfterViewInit{
       console.log('editing note: ' + id);
 
    
-      for(var i: number=0; i< this.notes.length; i++) {
-        if(this.notes[i].commentId==id){
-            this.selectedNote=this.notes[i];
+      for(var i: number=0; i< this.comments.length; i++) {
+        if(this.comments[i].Id==id){
+            this.selectedNote=this.comments[i];
            // $('#modalEditNote').modal();
-            this.editor.setNote(this.notes[i]);
+            this.editor.setNote(this.comments[i]);
             this.editor.categories=this.categories;
             this.editor.sessionId=this.sessionId;
             this.editor.show();
@@ -166,7 +166,7 @@ export class NotesComponent implements  OnInit, AfterViewInit{
     onDeleteSelected(): void{
       if(this.selectedNote)
       {
-        this.deleteNote(this.selectedNote.commentId);
+        this.deleteNote(this.selectedNote.Id);
       }
       else{
         console.log('no selected note to delete');
@@ -183,26 +183,26 @@ export class NotesComponent implements  OnInit, AfterViewInit{
 
     }
 
-    onNoteMouseEnter(note):void{
+    onNoteMouseEnter(note: Comment):void{
       console.log('mouse enter');
-      var id:string = "#note" + note.commentId;
+      var id:string = "#note" + note.Id;
       console.log(id);
       jQuery(id).children(".card-footer").show();
       
      // console.log(jQuery(note));
     }
 
-    onNoteMouseLeave(note):void{
+    onNoteMouseLeave(note: Comment):void{
       console.log('mouse leave');
-      var id:string = "#note" + note.commentId;
+      var id:string = "#note" + note.Id;
       console.log(id);
       jQuery(id).children(".card-footer").hide();
       
      // console.log(jQuery(note));
     }
 
-    domId(note: Note):string{
-      return 'note' + note.commentId;
+    domId(note: Comment):string{
+      return 'note' + note.Id;
     }
 
     CategoryDomId(category: Category):string{

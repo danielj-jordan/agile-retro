@@ -13,7 +13,7 @@ namespace Retrospective.Data
         private string database;
         private DataComment comments;
         private DataUser users;
-        private DataSession sessions;
+        private DataMeeting sessions;
         private DataTeam teams;
         
 
@@ -46,7 +46,7 @@ namespace Retrospective.Data
                 cm.AutoMap();
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             }); 
-            BsonClassMap.RegisterClassMap<RetrospectiveSession>(cm =>{
+            BsonClassMap.RegisterClassMap<Meeting>(cm =>{
                 cm.AutoMap();
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             }); 
@@ -81,10 +81,10 @@ namespace Retrospective.Data
 
         }
 
-        public DataSession Sessions{
+        public DataMeeting Meetings{
             get{
                 if(this.sessions==null){
-                    this.sessions=new DataSession(this);
+                    this.sessions=new DataMeeting(this);
                 }
                 return this.sessions;
             }

@@ -1,20 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import {Note} from '../../services/notes';
-import {Category} from '../../services/category';
+import {Comment} from '../../models/comment';
+import {Category} from '../../models/category';
 import {NotesService} from '../../services/notes.service'
 declare var $:any;
 declare var jQuery:any;
 
 
 @Component({
-  selector: 'app-componentedit',
-  templateUrl: './componentedit.component.html',
-  styleUrls: ['./componentedit.component.css'],
+  selector: 'app-commentedit',
+  templateUrl: './commentedit.component.html',
+  styleUrls: ['./commentedit.component.css'],
   providers:[NotesService],
 })
-export class ComponentEdit implements OnInit {
+export class CommentEditComponent implements OnInit {
   
-  private note: Note;
+  private note: Comment;
   public categories: Category[];
   public sessionId: string;
   private notesService: NotesService;
@@ -29,12 +29,6 @@ export class ComponentEdit implements OnInit {
 
   ngOnInit(): void {
     
-  /*
-    this.notesService.getCategories().subscribe(
-      data=>{
-        this.categories=data;
-      });
-  */
   }
   
 
@@ -43,11 +37,11 @@ export class ComponentEdit implements OnInit {
     this.note=new NoteEdit(categoryNum);
   }
 
-  public setNote(note: Note){
+  public setNote(note: Comment){
     this.note=note;
   }
 
-  public getNote (): Note{
+  public getNote (): Comment{
     return this.note;
   }
 
@@ -59,7 +53,7 @@ export class ComponentEdit implements OnInit {
 
   public onSave(): void{
     this.note.text= $('#text').val();
-    this.notesService.saveNote(this.sessionId, this.note).subscribe(data=>{this.note=data;});
+    this.notesService.saveComment(this.sessionId, this.note).subscribe(data=>{this.note=data;});
     $('#modalEditNote').hide();
   }
 
@@ -72,8 +66,8 @@ export class ComponentEdit implements OnInit {
 }
 
 
-class NoteEdit implements Note{
-  commentId: string="";
+class NoteEdit implements Comment{
+  Id: string="";
   sessionId: string ="";
   categoryId: number;
   text: string='';

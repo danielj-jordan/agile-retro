@@ -42,8 +42,8 @@ namespace app.Domain
                 .ReverseMap();          
 
             //mapping for Session
-            CreateMap<DBModel.RetrospectiveSession, ViewModel.Session>()
-                .ForMember(dest=>dest.SessionId, opt=>opt.MapFrom(src=>src.Id))
+            CreateMap<DBModel.Meeting, ViewModel.Meeting>()
+                .ForMember(dest=>dest.Id, opt=>opt.MapFrom(src=>src.Id))
                 .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>src.Name))
                 .ReverseMap();    
 
