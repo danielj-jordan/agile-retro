@@ -1,5 +1,5 @@
 export class Meeting{
-  Id: string;
+  id: string;
   teamId: string;
   name: string;
 

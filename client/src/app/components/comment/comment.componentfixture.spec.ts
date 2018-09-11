@@ -17,8 +17,8 @@ import { By } from '@angular/platform-browser';
 
 
 
-describe('notes component fixture', () => {
-    let notesComponent: CommentComponent;
+describe('comment component fixture', () => {
+    let commentComponent: CommentComponent;
     let noteService: NotesService;
     let fixture: ComponentFixture<CommentComponent>;
     let component: CommentComponent;
@@ -32,25 +32,32 @@ describe('notes component fixture', () => {
 
     }).compileComponents();
 
+    jasmine.clock().install();
+   // jasmine.DEFAULT_TIMEOUT_INTERVAL=20000;
     TestBed.overrideProvider(NotesService, {useValue: new NotesServiceMock() });
     fixture = TestBed.createComponent(CommentComponent);
     fixture.debugElement.injector.get(NotesService);
-    notesComponent = fixture.componentInstance;
+    commentComponent = fixture.componentInstance;
+   // commentComponent.cancelTimer();
  
     
     
           
     });
 
-    it('header says notes', async(() =>{
+    afterEach(()=>{
+        jasmine.clock().uninstall();
+    })
+
+    it('meeting name is displayed says test', () =>{
         fixture.detectChanges();
 
         const banner: HTMLElement=fixture.nativeElement.querySelector("h3");
-        expect(banner.textContent).toEqual("Notes");
+        expect(banner.textContent).toEqual("test");
 
-    }));
+    });
 
-    it('because the service is mocked, there are two categories', async (() =>{
+    it('because the service is mocked, there are two categories', () =>{
         fixture.detectChanges();
 
         const category1 = fixture.nativeElement.querySelector("#category1");
@@ -60,29 +67,29 @@ describe('notes component fixture', () => {
         expect(category1).toBeDefined();
         expect(category2).toBeDefined();
         expect(category3).toBeNull();
-    }));
+    });
 
-    it('because the service is mocked, there are two comment in category 1', async (() =>{
+    it('because the service is mocked, there are two comment in category 1', () =>{
         fixture.detectChanges();
 
         //todo: still need to check for category
 
-        const note1 = fixture.nativeElement.querySelector("#note1");
-        const note2 = fixture.nativeElement.querySelector("#note2");
-        const note3 = fixture.nativeElement.querySelector("#note3");
+        const note1 = fixture.nativeElement.querySelector("#comment1");
+        const note2 = fixture.nativeElement.querySelector("#comment2");
+        const note3 = fixture.nativeElement.querySelector("#comment3");
 
         expect(note1).toBeDefined();
         expect(note2).toBeDefined();
         expect(note3).toBeNull();
     
-    }));
+    });
 
 
-    it('move mouse over note to show footer with edit and delete buttons', async (() =>{
+    it('move mouse over note to show footer with edit and delete buttons', () =>{
 
       fixture.detectChanges();
-      const nativeElement: HTMLElement= fixture.nativeElement.querySelector('#note1');
-      var note= fixture.nativeElement.querySelector('#note1');
+      const nativeElement: HTMLElement= fixture.nativeElement.querySelector('#comment1');
+      var note= fixture.nativeElement.querySelector('#comment1');
 
       expect(note.querySelector(".card-footer").style.display).toBe('none');
        
@@ -94,36 +101,36 @@ describe('notes component fixture', () => {
 
       fixture.detectChanges();
       expect(note.querySelector(".card-footer").style.display).toBe('');        
-    }));
+    });
 
   
 
-    it('clicking the delete button removes it from the collection', async(() => {
+    it('clicking the delete button removes it from the collection', () => {
         
-        spyOn(notesComponent,"onDeleteId");
+        spyOn(commentComponent,"onDeleteId");
         fixture.detectChanges();
-        const note1 = fixture.nativeElement.querySelector("#note1");
+        const note1 = fixture.nativeElement.querySelector("#comment1");
         const note1DeleteButton= note1.querySelector(".retro-btn-delete");
         fixture.detectChanges();
         note1DeleteButton.dispatchEvent(new Event('click'));
         fixture.detectChanges();
     
-        expect(notesComponent.onDeleteId).toHaveBeenCalled();
-    }));
+        expect(commentComponent.onDeleteId).toHaveBeenCalled();
+    });
     
-    it('clicking the edit button displays the edit note component', async(() => {
-        spyOn(notesComponent,"onEditId");
+    it('clicking the edit button displays the edit note component', () => {
+        spyOn(commentComponent,"onEditId");
         fixture.detectChanges();
-        const note1 = fixture.nativeElement.querySelector("#note1");
+        const note1 = fixture.nativeElement.querySelector("#comment1");
         const note1EditButton= note1.querySelector(".retro-btn-edit");
         fixture.detectChanges();
         note1EditButton.dispatchEvent(new Event('click'));
         fixture.detectChanges();
     
-        expect(notesComponent.onEditId).toHaveBeenCalled();
+        expect(commentComponent.onEditId).toHaveBeenCalled();
 
 
-    }));
+    });
 
 
 });

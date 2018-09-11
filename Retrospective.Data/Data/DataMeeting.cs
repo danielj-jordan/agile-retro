@@ -60,6 +60,11 @@ namespace Retrospective.Data {
         }
 
 
+       public Meeting Get (string meetingId) {
+            return  this.Get(new ObjectId(meetingId));
+        
+        }
+
                 /// <summary>
         /// Get all Retrospective objects for a given team
         /// </summary>

@@ -7,7 +7,7 @@ import { MeetingListComponent } from './components/meetinglist/meetinglist.compo
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch:'full' },
-  { path: 'notes/:id', component: CommentComponent}, 
+  { path: 'comment/:id', component: CommentComponent}, 
   { path: 'login', component: LoginComponent },
   { path: 'list',  component: MeetingListComponent}
 ];

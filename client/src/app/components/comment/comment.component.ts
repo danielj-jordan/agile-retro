@@ -1,16 +1,18 @@
 import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { Observable} from 'rxjs/Rx';
 import {FormsModule} from '@angular/forms'
 import {ParamMap, ActivatedRoute} from '@angular/router';
 import {NotesService} from '../../services/notes.service'
 import {Comment} from '../../models/comment';
 import {Category} from '../../models/category';
+import {Meeting} from '../../models/meeting';
 import {CommentEditComponent} from "../commentedit/commentedit.component"
 declare var $:any;
 declare var jQuery:any;
 
 
 @Component({
-    selector: 'comment',
+    selector: 'app-commentlist',
     templateUrl: './comment.component.html',
     styleUrls: ['./comment.component.css'],
     providers : [NotesService]
@@ -31,13 +33,10 @@ export class CommentComponent implements  OnInit, AfterViewInit{
     
     public comments: Comment[]=[];
     public categories: Category[]=[];
-    public count: Number;
     public selectedNote: Comment | null=null;
     
     private sessionId: string;
-   
-    
-    
+    public meeting: Meeting = null;
 
 
     ngOnInit(): void {
@@ -46,39 +45,44 @@ export class CommentComponent implements  OnInit, AfterViewInit{
       this.sessionId= this.route.snapshot.paramMap.get('id');
       console.log('sessionid: ' + this.sessionId);
 
-      /*
-      this.route.paramMap.switchMap((params: ParamMap) => {
-        return params.get('id');
-      }).subscribe(data=>
-        {
-          this.sessionId= data
-          console.log('sessionid: ' + this.sessionId);
-        });
-*/
+      //get the categories for this meeting  
+      this.notesService.getCategories(this.sessionId).subscribe(
+        data=>{
+          this.categories=data;
+          console.log(this.categories);
+        }
+      );
+      this.selectedNote=null;
 
-        
+      //get the meeting name
+      this.notesService.getMeeting(this.sessionId).subscribe(
+        data=>{
+          this.meeting=data;
+          console.log('meeting');
+          console.log(this.meeting);
+        }
+      );
 
-        
+      //this one always runs
+      this.getComments();
 
-        //get the notes for this session
-        this.notesService.getNotes(this.sessionId).subscribe(
-          data => {
-            this.comments=data;
-          }
-        );
-        this.count=this.comments.length;
-        this.notesService.getCategories(this.sessionId).subscribe(
-          data=>{
-            this.categories=data;
-            console.log(this.categories);
-          });
-        this.selectedNote=null;
-      
-        
-  
-
-
+      //this one doesn't run if timer is stopped as in the jasmine test
+      Observable.timer(3000,3000).subscribe(
+        t=>{
+          this.getComments();
+        }
+      );
     }
+
+    getComments():void{
+      //get the notes for this session
+      this.notesService.getNotes(this.sessionId).subscribe(
+        data => {
+          this.comments=data;
+        }
+      );
+    }
+
 
 
   
@@ -101,8 +105,8 @@ export class CommentComponent implements  OnInit, AfterViewInit{
 
         var newNotes: Comment[]=[];
         for(var i: number=0; i< this.comments.length; i++) {
-          console.log(this.comments[i].Id);
-          if(this.comments[i].Id!=id){
+          console.log(this.comments[i].commentId);
+          if(this.comments[i].commentId!=id){
               newNotes.push(this.comments[i]);
             }
             else {
@@ -116,7 +120,7 @@ export class CommentComponent implements  OnInit, AfterViewInit{
 
 
     onSelect(note: Comment): void{
-      console.log('selected note: ' + note.text + note.Id);
+      console.log('selected note: ' + note.text + note.commentId);
       this.selectedNote=note;
       $('#modalEditNote').modal();
     }
@@ -126,11 +130,8 @@ export class CommentComponent implements  OnInit, AfterViewInit{
       this.editor.categories=this.categories;
       this.editor.sessionId=this.sessionId;
 
-
       this.editor.newNote(categoryNum);     
       this.editor.show();
-   
-      
     }
 
     onDeleteId(id: string)
@@ -144,7 +145,7 @@ export class CommentComponent implements  OnInit, AfterViewInit{
 
    
       for(var i: number=0; i< this.comments.length; i++) {
-        if(this.comments[i].Id==id){
+        if(this.comments[i].commentId==id){
             this.selectedNote=this.comments[i];
            // $('#modalEditNote').modal();
             this.editor.setNote(this.comments[i]);
@@ -166,7 +167,7 @@ export class CommentComponent implements  OnInit, AfterViewInit{
     onDeleteSelected(): void{
       if(this.selectedNote)
       {
-        this.deleteNote(this.selectedNote.Id);
+        this.deleteNote(this.selectedNote.commentId);
       }
       else{
         console.log('no selected note to delete');
@@ -183,26 +184,18 @@ export class CommentComponent implements  OnInit, AfterViewInit{
 
     }
 
-    onNoteMouseEnter(note: Comment):void{
-      console.log('mouse enter');
-      var id:string = "#note" + note.Id;
-      console.log(id);
+    onNoteMouseEnter(note:Comment):void{
+      var id:string = "#"+ this.domId(note);
       jQuery(id).children(".card-footer").show();
-      
-     // console.log(jQuery(note));
     }
 
-    onNoteMouseLeave(note: Comment):void{
-      console.log('mouse leave');
-      var id:string = "#note" + note.Id;
-      console.log(id);
+    onNoteMouseLeave(note:Comment):void{
+      var id:string = "#"+ this.domId(note);
       jQuery(id).children(".card-footer").hide();
-      
-     // console.log(jQuery(note));
     }
 
-    domId(note: Comment):string{
-      return 'note' + note.Id;
+    domId(comment: Comment):string{
+      return 'comment' + comment.commentId;
     }
 
     CategoryDomId(category: Category):string{
