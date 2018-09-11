@@ -33,6 +33,11 @@ export class NotesService {
         return this.http.get<Meeting[]>(this.baseUrl + '/meeting/meetings/' + teamId);
     }
 
+    getMeeting(meetingId: string): Observable<Meeting>{
+        console.log('getting single meeting');
+        return this.http.get<Meeting>(this.baseUrl + '/meeting/meeting/' + meetingId);   
+    }
+
     /*
     getRetrospectives(teamId: string) : Observable<[]>{
 
@@ -64,7 +69,7 @@ export class NotesService {
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         var options = { headers : headers};
 
-        if(note.Id.length==0){
+        if(note.commentId.length==0){
             return this.http.post<Comment>(this.baseUrl + '/notes/NewNote/' + sessionId, note, options );
         }
        
