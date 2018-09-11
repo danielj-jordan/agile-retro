@@ -1,7 +1,7 @@
 
 export interface Comment{
     sessionId: string;
-    Id: string;
+    commentId: string;
     categoryId: number;
     text: string;
     updateUser: string;
