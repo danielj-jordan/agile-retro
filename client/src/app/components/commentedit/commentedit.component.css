@@ -4,8 +4,12 @@ div.note-yellow{
     height:200px;
     width:200px;
     box-shadow: 5px 5px 2px lightgray;
-    text-align: center;
+    text-align: left;
     font-size:12px;
     margin:4px;
+}
 
+.editcomponent-dialog{
+    height:360px;
+    width:240px;
 }
