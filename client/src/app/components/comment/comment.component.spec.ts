@@ -6,18 +6,16 @@ import { NotesServiceMock } from '../../services/notes.service.mock';
 import {CommentEditComponent} from '../commentedit/commentedit.component';
 import {Comment} from '../../models/comment';
 import {Category} from '../../models/category';
-//import { ControlContainer } from '@angular/forms/src/directives/control_container';
 import {RouterTestingModule} from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import {Observable} from 'rxjs/Rx';
-//import { HttpModule } from '@angular/http/src/http_module';
-//import {Http} from '@angular/http';
-//import {MockBackend} from '@angular/http/testing'
+import { doesNotThrow } from 'assert';
 
 
 
 
-describe('notes component', () => {
+
+describe('comment component', () => {
 
     let notesComponet: CommentComponent;
     let noteService: NotesService;
@@ -34,20 +32,31 @@ describe('notes component', () => {
 
     }).compileComponents();
 
+    jasmine.clock().install();
+    //jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
    notesComponet=TestBed.get(CommentComponent);
    noteService=TestBed.get(NotesService); 
+   //notesComponet.cancelTimer();
 
-    
+   
 
        
     });
+
+    afterEach(()=>{
+        jasmine.clock().uninstall();
+    });
   
 
-    it('notes should be zero or higher', async(() => {
+    it('comments should be zero or higher',() => {
+     //   jasmine.clock().tick(100);
         notesComponet.ngOnInit();
+        
         console.log('notescompoent:' + notesComponet.comments.length);
         expect(notesComponet.comments.length).toBeGreaterThanOrEqual(0);
-    }));
+
+    });
 
 
 

@@ -51,5 +51,26 @@ namespace app.Controllers
             return (_mapper.Map<List<DBModel.Meeting>,List<app.Model.Meeting> >(meetings)).ToList();
 
         }
+
+        /// <summary>
+        /// returns the retrospective meetings for this id
+        /// </summary>
+        /// <param name="meetingId"></param>
+        /// <returns></returns>
+        [HttpGet("[action]/{id}")]
+        public ActionResult<Meeting> Meeting(string id)
+        {
+            if(string.IsNullOrEmpty(id)){
+                _logger.LogWarning("no meeting id supplied");
+                return new BadRequestResult();
+            }
+
+            _logger.LogDebug("looking for {0}", id);
+            var meetings = database.Meetings.Get(id);
+            
+            return (_mapper.Map<DBModel.Meeting,app.Model.Meeting> (meetings));
+
+        }
+
     }
 }
