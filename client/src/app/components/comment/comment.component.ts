@@ -130,7 +130,7 @@ export class CommentComponent implements  OnInit, AfterViewInit{
       this.editor.categories=this.categories;
       this.editor.sessionId=this.sessionId;
 
-      this.editor.newNote(categoryNum);     
+      this.editor.newComment(categoryNum);     
       this.editor.show();
     }
 
@@ -147,12 +147,10 @@ export class CommentComponent implements  OnInit, AfterViewInit{
       for(var i: number=0; i< this.comments.length; i++) {
         if(this.comments[i].commentId==id){
             this.selectedNote=this.comments[i];
-           // $('#modalEditNote').modal();
-            this.editor.setNote(this.comments[i]);
+            this.editor.setComment(this.comments[i]);
             this.editor.categories=this.categories;
             this.editor.sessionId=this.sessionId;
             this.editor.show();
-            console.log('found');
             break;
           }
    
@@ -205,19 +203,5 @@ export class CommentComponent implements  OnInit, AfterViewInit{
 
 }
 
-/*
-class NoteEdit implements Note{
-  commentId: number=0;
-  categoryId: number;
-  text: string='';
-  updateUser: string='';
-
-  constructor(categoryId: number){
-    this.categoryId=categoryId;
-
-  }
-
-}
-*/
 
 

@@ -1,8 +1,8 @@
 
-export interface Comment{
+export class Comment{
     sessionId: string;
     commentId: string;
-    categoryId: number;
+    categoryNum: number;
     text: string;
     updateUser: string;
 }

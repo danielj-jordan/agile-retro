@@ -32,27 +32,29 @@ export class CommentEditComponent implements OnInit {
   }
   
 
-  public newNote(categoryNum: number)
+  public newComment(categoryNum: number)
   {
     this.note=new NoteEdit(categoryNum);
   }
 
-  public setNote(note: Comment){
+  public setComment(note: Comment){
     this.note=note;
   }
 
-  public getNote (): Comment{
-    return this.note;
-  }
+
 
   public show(): void{
     console.log('showing' + this.note.text);
     $('#text').val(this.note.text);
+    $('#category').val(this.note.categoryNum);
+    $('#text').focus();
     $('#modalEditNote').modal();
+  
   }
 
   public onSave(): void{
     this.note.text= $('#text').val();
+    this.note.categoryNum=$('#category').val();
     this.notesService.saveComment(this.sessionId, this.note).subscribe(data=>{this.note=data;});
     $('#modalEditNote').hide();
   }
@@ -69,12 +71,12 @@ export class CommentEditComponent implements OnInit {
 class NoteEdit implements Comment{
   commentId: string="";
   sessionId: string ="";
-  categoryId: number;
+  categoryNum: number;
   text: string='';
   updateUser: string='';
 
   constructor(categoryId: number){
-    this.categoryId=categoryId;
+    this.categoryNum=categoryId;
 
   }
 
