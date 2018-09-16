@@ -55,7 +55,7 @@ namespace app.Controllers {
             //create a new note and assign an id
 
             DBModel.Comment newNote = new DBModel.Comment();
-            newNote.CategoryNumber = input.CategoryId;
+            newNote.CategoryNumber = input.CategoryNum;
             newNote.Text = input.Text;
             newNote.RetrospectiveId= new ObjectId(retroId);
 
@@ -72,7 +72,7 @@ namespace app.Controllers {
             _logger.LogDebug ("saving note id:{0} text:{1}", input.CommentId, input.Text);
            
             DBModel.Comment newNote = new DBModel.Comment();
-            newNote.CategoryNumber = input.CategoryId;
+            newNote.CategoryNumber = input.CategoryNum;
             newNote.Text = input.Text;
             newNote.RetrospectiveId= new ObjectId(retroId);
             newNote.Id= new ObjectId(input.CommentId);

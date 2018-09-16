@@ -100,7 +100,7 @@ namespace apptest
 
             app.Model.Comment comment = new app.Model.Comment();
             comment.Text="this is a new comment";
-            comment.CategoryId=2;
+            comment.CategoryNum=2;
             
 
             var categories = controller.NewNote(fixture.SessionId.ToString(), comment);
@@ -127,7 +127,7 @@ namespace apptest
 
             app.Model.Comment comment = new app.Model.Comment();
             comment.Text="this is a new comment for existing note";
-            comment.CategoryId=2;
+            comment.CategoryNum=2;
             comment.CommentId= this.fixture.UpdateNote.ToString();
 
             var categories = controller.Note(fixture.SessionId.ToString(), comment);

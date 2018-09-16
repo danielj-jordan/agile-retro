@@ -4,11 +4,11 @@
       <div class="modal-body" >
         <div>
         <select class="form-control" id="category">
-            <option  *ngFor="let category of categories" [value]="category.categoryId" >{{ category.name }}</option>
+            <option  *ngFor="let category of categories" [value]="category.categoryNum" >{{ category.name }}</option>
           </select>
         </div>
           <div class="card rounded note-yellow">
-            <textarea style="height:100%; background-color:#ffff99;" id="text"></textarea>
+            <textarea style="height:100%; background-color:#ffff99; resize:none" id="text"></textarea>
           </div>
         </div>  
     <div class="modal-footer">

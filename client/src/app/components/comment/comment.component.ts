@@ -79,6 +79,7 @@ export class CommentComponent implements  OnInit, AfterViewInit{
       this.notesService.getNotes(this.sessionId).subscribe(
         data => {
           this.comments=data;
+          console.log(this.comments);
         }
       );
     }
@@ -197,7 +198,7 @@ export class CommentComponent implements  OnInit, AfterViewInit{
     }
 
     CategoryDomId(category: Category):string{
-      return "category" + category.categoryId;
+      return "category" + category.categoryNum;
     }
 
 

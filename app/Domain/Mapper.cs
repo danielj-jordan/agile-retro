@@ -31,13 +31,13 @@ namespace app.Domain
             CreateMap<DBModel.Comment, ViewModel.Comment>()
                 .ForMember(dest=>dest.CommentId, opt=>opt.MapFrom(src=>src.Id))
                 .ForMember(dest=>dest.SessionId, opt=>opt.MapFrom(src=>src.RetrospectiveId))
-                .ForMember(dest=>dest.CategoryId, opt=>opt.MapFrom(src=>src.CategoryNumber))
+                .ForMember(dest=>dest.CategoryNum, opt=>opt.MapFrom(src=>src.CategoryNumber))
                 .ForMember(dest=>dest.UpdateUser, opt=>opt.MapFrom(src=>src.LastUpdateUser))
                 .ReverseMap();
                
             //mapping for Category
             CreateMap<DBModel.Category, ViewModel.Category>()
-                .ForMember(dest=>dest.CategoryId, opt=>opt.MapFrom(src=>src.CategoryNumber))
+                .ForMember(dest=>dest.CategoryNum, opt=>opt.MapFrom(src=>src.CategoryNumber))
                 .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>src.Name))
                 .ReverseMap();          
 
