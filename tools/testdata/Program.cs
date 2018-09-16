@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using MongoDB.Driver.Core;
 using Retrospective.Data;
 using Retrospective.Data.Model;
+using System.Collections.Generic;
 
 namespace testdata {
 
@@ -24,13 +25,71 @@ namespace testdata {
             InitializeTestRecords (database);
         }
 
+
+        private static void CreateSession(Retrospective.Data.Database database,
+         ObjectId teamId, int categoryCount){
+            
+            var categories=new List<Retrospective.Data.Model.Category>();
+
+            for (int i=1 ; i<=categoryCount; i++){
+                categories.Add(new Retrospective.Data.Model.Category(i , $"category {i}"));
+            }
+            
+          //  categories.
+
+            /* 
+
+             {
+                            new Category (1, "category 1"),
+                                new Category (2, "category 2"),
+                                new Category (3, "category 3")
+                        }
+*/
+
+            string meetingName=$"some meeting with {categoryCount} categories";
+          
+
+             //initialize a session record
+            Retrospective.Data.Model.Meeting newSession = database.Meetings.Save (
+                new Meeting {
+                    Name =  $"{meetingName} category meeting",
+                        TeamId = teamId,
+                        Categories= categories.ToArray()
+                }
+            );
+
+            //initialize some comment records
+            database.Comments.SaveComment (
+                new Retrospective.Data.Model.Comment {
+                    RetrospectiveId = (ObjectId) newSession.Id,
+                        Text = "comment 1 category " + categoryCount,
+                        CategoryNumber = categoryCount
+                }
+            );
+
+            database.Comments.SaveComment (
+                new Retrospective.Data.Model.Comment {
+                    RetrospectiveId = (ObjectId) newSession.Id,
+                        Text = "comment to delete in category" + categoryCount,
+                        CategoryNumber = categoryCount
+                });
+
+            database.Comments.SaveComment (
+                new Retrospective.Data.Model.Comment {
+                    RetrospectiveId = (ObjectId) newSession.Id,
+                        Text = "comment to update in category "+ categoryCount,
+                        CategoryNumber = categoryCount
+                });
+        }
+
+
         private static void InitializeTestRecords (Retrospective.Data.Database database) {
 
             //initialize a user record
             Retrospective.Data.Model.User newUser = database.Users.SaveUser (
                 new Retrospective.Data.Model.User {
                     Name = "Joe Smith",
-                        Email = "nobody@127.0.0.1"
+                     Email = "nobody@127.0.0.1"
                 }
             );
 
@@ -42,46 +101,23 @@ namespace testdata {
                         TeamMembers = new String[] { "nobody@127.0.0.1" }
                 });
 
-            //initialize a session record
-            Retrospective.Data.Model.RetrospectiveSession newSession = database.Sessions.SaveRetrospectiveSession (
-                new RetrospectiveSession {
-                    Name = "test session",
-                        TeamId = (ObjectId) newTeam.Id,
-                        Categories = new Retrospective.Data.Model.Category[] {
-                            new Category (1, "category 1"),
-                                new Category (2, "category 2"),
-                                new Category (3, "category 3")
-                        }
-                }
-            );
-
-            //initialize some comment records
-            database.Comments.SaveComment (
-                new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
-                        Text = "comment 1 category 2",
-                        CategoryNumber = 2
-                }
-            );
-
-            database.Comments.SaveComment (
-                new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
-                        Text = "comment to delete in category 2",
-                        CategoryNumber = 2
-                });
-
-            database.Comments.SaveComment (
-                new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
-                        Text = "comment to update in category 2",
-                        CategoryNumber = 2
-                });
+           
 
             // update the saved user with the team
-            newUser.Teams = new ObjectId[] {
-                (ObjectId) newTeam.Id };
+            newUser.Teams = new ObjectId[] { (ObjectId) newTeam.Id };
             database.Users.SaveUser (newUser);
+
+            CreateSession(database, (ObjectId)newTeam.Id, 1);
+
+            CreateSession(database,  (ObjectId)newTeam.Id, 2);
+
+            CreateSession(database,  (ObjectId)newTeam.Id, 3);
+
+            CreateSession(database,  (ObjectId)newTeam.Id, 4);
+
+            CreateSession(database,  (ObjectId)newTeam.Id, 5);
+
+            CreateSession(database,  (ObjectId)newTeam.Id, 6);
 
         }
     }

@@ -9,46 +9,48 @@ h4{
     font-size: 16px;
 }
 
-div.note-pink{
-    background-color:#ff99cc;
-    height:240px;
-    width:240px;
-    box-shadow: 5px 5px 2px lightgray;
-    text-align:center;
+
+
+div.note-small{
+    height:150px;
+    width:150px;
+    box-shadow: 3px 3px 1px lightgray;
+    text-align: left;
+    font-size:12px;
+    margin:2px;
 
 }
 
-div.note-blue{
-    background-color:#b3d9ff;  
-    height:240px;
-    width:240px;
-    box-shadow: 5px 5px 2px lightgray;
-    text-align:center;
-}
-
-div.note-yellow{
-    background-color: #ffff99;
+div.note-large{
     height:200px;
     width:200px;
     box-shadow: 5px 5px 2px lightgray;
-    text-align: center;
+    text-align: left;
     font-size:12px;
     margin:4px;
-
 }
 
 div.note-green{
-    background-color:#99ffdd;
-    height:240px;
-    width:240px;
-    box-shadow: 5px 5px 2px lightgray;
-    text-align:center;
+    background-color: #99ffdd;
 }
 
 div.note-purple{
     background-color: #ff80ff;
-    height:240px;
-    width:240px;
-    box-shadow: 5px 5px 2px lightgray;
-    text-align:center;
+}
+
+div.note-pink{
+    background-color: #ff99cc;
+}
+
+div.note-blue{
+    background-color: #b3d9ff;  
+}
+
+div.note-yellow{
+    background-color: #ffff99;
+}
+
+div.note-body{
+    overflow: scroll; 
+    padding:5px
 }
