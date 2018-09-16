@@ -19,7 +19,7 @@ namespace Retrospective.Data
 
         public Database()
         {
-            this.database="test_controller";
+            this.database="e2e_test";
             Map();
             Open();
         }

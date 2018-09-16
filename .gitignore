@@ -45,6 +45,8 @@
 /tools/testdata/bin/**
 /tools/testdata/obj/**   
 
+/logs/**
+
 # Visual Studio cache files
 # files ending in .cache can be ignored
 *.[Cc]ache

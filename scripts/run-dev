@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ $OSTYPE != 'linux-gnu' ]
+then
+   echo -e "\x1B[1mMust run from linux container \x1B[0m"
+   exit 1
+fi
+export ASPNETCORE_ENVIRONMENT=Development
+dotnet run --project $PROJECT/tools/testdata/testdata.csproj
+dotnet run --project $PROJECT/app/app.csproj >$PROJECT/logs/app.log &
+export PID=$!
+echo 'processid:' $PID
