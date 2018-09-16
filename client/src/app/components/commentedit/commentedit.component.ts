@@ -55,6 +55,7 @@ export class CommentEditComponent implements OnInit {
   public onSave(): void{
     this.note.text= $('#text').val();
     this.note.categoryNum=$('#category').val();
+    console.log(this.note);
     this.notesService.saveComment(this.sessionId, this.note).subscribe(data=>{this.note=data;});
     $('#modalEditNote').hide();
   }
