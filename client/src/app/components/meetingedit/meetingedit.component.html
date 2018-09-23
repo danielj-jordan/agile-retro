@@ -1,0 +1,25 @@
+
+<div class="container">
+  <h3>{{team.name}}</h3>
+    <form (ngSubmit)="save()"  >
+        <div class="form-group">
+          <label for="meetingName">Meeting Name</label>
+          <input type="text" class="form-control" id="meetingName" name="meetingName" 
+          required [(ngModel)]="meeting.name"/>
+        </div>
+        <div >
+        <div *ngFor="let category of meeting.categories">
+          <div>{{category.name}}</div>
+          
+        </div>
+        </div>
+        <div class="form-group">
+          <label for="newCategory">New Category</label>
+          <input type="text" clalss="form-control" id="newCategory"  name="newCategory"/>
+          <button class="btn btn-secondary">add</button>
+        </div>
+        <button type="submit" class="btn btn-success" (click)="save();">Save</button>
+        <button  class="btn btn-secondary">Cancel</button>
+  </form>
+
+</div>

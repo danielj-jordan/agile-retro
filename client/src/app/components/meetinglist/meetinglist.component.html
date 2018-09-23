@@ -5,11 +5,17 @@
   <div>List of Teams</div>
   <div class="row" *ngFor="let team of teams">
     <div class="col"  >
-      <h3>{{team.name}} - {{team.teamId}}</h3>
+      <h3>{{team.name}}</h3>
+      <div><a [routerLink]="['/meetingedit', team.teamId]" >new meeting</a></div>
       <div class="container">
         <div class="col">
           <div class ="row" *ngFor="let meeting of team.meetings">
-              <div>{{meeting.name}} - <a [routerLink]="['/comment', meeting.id]" >{{meeting.id}}</a></div>
+              <div>{{meeting.name}}</div>
+                <div>
+                  <a [routerLink]="['/meetingedit', team.teamId, meeting.id]" >edit meeting details</a>
+                  <a [routerLink]="['/comment', meeting.id]" >edit meeting comments</a>
+                </div>
+         
           </div>
         </div>
       </div>
