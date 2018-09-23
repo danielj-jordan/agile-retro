@@ -2,6 +2,7 @@
 
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
@@ -40,7 +41,7 @@
             "pipeTransport": {
                 "pipeCwd": "${workspaceRoot}",
                 "pipeProgram": "ssh",
-                "pipeArgs": ["-p 8022", "-W 127.0.0.1:8022" , "root@localhost"],
+                "pipeArgs": ["-p 8022", "root@localhost"],
                 "debuggerPath": "/vsdbg/vsdbg", 
                 "quoteArgs": true
             },

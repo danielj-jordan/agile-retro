@@ -73,5 +73,25 @@ namespace app.Controllers
 
         }
 
+         /// <summary>
+        /// returns the retrospective meetings for this id
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <returns></returns>
+        [HttpGet("[action]/{id}")]
+        public ActionResult<Team> Team(string id)
+        {
+            if(string.IsNullOrEmpty(id)){
+                _logger.LogWarning("no team id supplied");
+                return new BadRequestResult();
+            }
+
+            _logger.LogDebug("looking for {0}", id);
+            var team = database.Teams.Get(id);
+            
+            return (_mapper.Map<DBModel.Team,app.Model.Team> (team));
+
+        }
+
     }
 }

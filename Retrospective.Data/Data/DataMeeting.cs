@@ -25,16 +25,21 @@ namespace Retrospective.Data {
         /// </summary>
         /// <param name="retrospective"></param>
         /// <returns></returns>
-        public Meeting Save (Meeting retrospective) {
+        public Meeting Save (Meeting meeting) {
 
-            if (retrospective.Id is null) {
-                database.MongoDatabase.GetCollection<Meeting> (collection).InsertOne (retrospective);
+            Console.WriteLine("saving");
+
+            if (meeting.Id is null) {
+                database.MongoDatabase.GetCollection<Meeting> (collection).InsertOne (meeting);
+                
             } else {
-                var filter = MongoDB.Driver.Builders<Meeting>.Filter.Eq ("Id", retrospective.Id);
-                var saved = database.MongoDatabase.GetCollection<Meeting> (collection).ReplaceOne (filter, retrospective);
-            }
+                var filter = MongoDB.Driver.Builders<Meeting>.Filter.Eq ("Id", meeting.Id);
+                var saved = database.MongoDatabase.GetCollection<Meeting> (collection).ReplaceOne (filter, meeting);
 
-            return retrospective;
+    
+             }
+
+            return meeting;
         }
 
 
