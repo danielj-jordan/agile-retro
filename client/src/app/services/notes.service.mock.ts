@@ -36,8 +36,8 @@ export class NotesServiceMock {
         let categories: Category[]=[];
 
 
-        categories.push({categoryNum:1, name:"test"});
-        categories.push({categoryNum:2, name:"another test"});
+        categories.push({categoryNum:1, name:"test", sortOrder:1});
+        categories.push({categoryNum:2, name:"another test", sortOrder: 2});
         categories$= Observable.create( (observer:any) => 
         {
             observer.next(categories);
@@ -62,8 +62,31 @@ export class NotesServiceMock {
         meeting.id='1';
         meeting.name='test';
         meeting.teamId='2';
+        /*
+        meeting.categories= new Array();
+        meeting.categories[0]= new Category();
+        meeting.categories[0].name='test';
+        meeting.categories[0].categoryNum=1;*/
         return Observable.of(meeting);
     }
+
+    getTeam(teamId: string): Observable<Team>{
+        let team = new Team();
+        team.teamId='test1team';
+        team.name="test team";
+       // team.meetings= new Meeting[0];
+
+        console.log('getting one team');
+        return Observable.of(team); 
+    }
+
+    saveMeeting(meeting: Meeting): Observable<Meeting>{
+        if(meeting.id==null)meeting.id='1';
+
+        return Observable.of(meeting);
+
+    }
+
 
 
 

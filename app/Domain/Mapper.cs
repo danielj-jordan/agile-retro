@@ -2,6 +2,7 @@ using AutoMapper;
 using ViewModel =app.Model;
 using DBModel=Retrospective.Data.Model;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 
 
 namespace app.Domain
@@ -41,11 +42,16 @@ namespace app.Domain
                 .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>src.Name))
                 .ReverseMap();          
 
-            //mapping for Session
+            //mapping for Meeting
             CreateMap<DBModel.Meeting, ViewModel.Meeting>()
                 .ForMember(dest=>dest.Id, opt=>opt.MapFrom(src=>src.Id))
                 .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>src.Name))
-                .ReverseMap();    
+                .ForMember (dest=>dest.TeamId, opt=>opt.MapFrom(src=>src.TeamId)); 
+
+            CreateMap< ViewModel.Meeting, DBModel.Meeting>()
+                .ForMember(dest=>dest.Id, opt=>opt.MapFrom(src=>ObjectId.Parse(src.Id)))
+                .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>src.Name))
+                .ForMember (dest=>dest.TeamId, opt=>opt.MapFrom(src=>ObjectId.Parse(src.TeamId))); 
 
             //mapping for Team
             CreateMap<DBModel.Team, ViewModel.Team>()

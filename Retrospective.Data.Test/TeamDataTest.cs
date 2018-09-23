@@ -21,6 +21,12 @@ namespace retro_db_test
             this.fixture=fixture;
         }
 
+        [Fact]
+        public void GetTeam()
+        {
+            Team team=fixture.database.Teams.Get(fixture.team.Id.ToString());
+            Assert.True(team.Id==fixture.team.Id);
+        }
 
         [Fact]
         public void SaveTeam()
