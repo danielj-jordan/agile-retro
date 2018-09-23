@@ -46,6 +46,23 @@ namespace Retrospective.Data
 
         }
 
+
+        /// <summary>
+        /// Get the teams that have a given user as member
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <returns></returns>
+        public Team Get (string teamId)
+        {
+            var teams = database.MongoDatabase.GetCollection<Team>(collection);
+
+            var query = from team in teams.AsQueryable<Team>()
+            where team.Id==new ObjectId(teamId)
+                select team;
+
+            return query.FirstOrDefault();
+
+        }
         /// <summary>
         /// Get the teams that have a given user as member
         /// </summary>

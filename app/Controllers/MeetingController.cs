@@ -72,5 +72,28 @@ namespace app.Controllers
 
         }
 
+
+
+        /// <summary>
+        /// saves the retrospective meeting
+        /// </summary>
+        /// <param name="meeting"></param>
+        /// <returns></returns>
+        [HttpPost("[action]")]
+        public ActionResult<Meeting> Meeting([FromBody] Meeting meeting)
+        {
+            if(string.IsNullOrEmpty(meeting.TeamId)){
+                _logger.LogWarning("no team id supplied for meeting");
+                return new BadRequestResult();
+            }
+
+            _logger.LogDebug($"saving meeting id: {meeting.Id}");
+            var saved = database.Meetings.Save(_mapper.Map<app.Model.Meeting, DBModel.Meeting>(meeting));
+            
+            
+            return (_mapper.Map<DBModel.Meeting,app.Model.Meeting> (saved));
+
+        }
+
     }
 }

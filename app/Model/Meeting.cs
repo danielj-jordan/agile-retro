@@ -7,5 +7,7 @@ namespace app.Model
         public string TeamId {get;set;}
         
         public string Name {get;set;}
+
+        public  Category[]  Categories {get;set;}
     }
 }

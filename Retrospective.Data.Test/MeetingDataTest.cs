@@ -21,21 +21,28 @@ namespace retro_db_test
         [Fact]
         public void SaveMeeting()
         {
-            Meeting session = new Meeting();
-            session.TeamId=(ObjectId)fixture.team.Id;
-            session.Name ="test retrospective session";
+            Meeting meeting = new Meeting();
+            meeting.TeamId=(ObjectId)fixture.team.Id;
+            meeting.Name ="test retrospective session";
             List<Category> categories= new List<Category>();
             categories.Add(new Category(1, "test category 1"));
             categories.Add(new Category(2, "test category 2"));
             categories.Add(new Category(3, "test category 3"));
-            session.Categories=categories.ToArray();
+            meeting.Categories=categories.ToArray();
             
 
             //DataSession retroData = new DataSession(fixture.database);
-            var savedRetro= fixture.database.Meetings.Save(session);
+            var savedRetro= fixture.database.Meetings.Save(meeting);
             //var savedRetro= retroData.Save(session);
-            Console.WriteLine("created session id:{0}", session.Id);
-            Assert.True(session.Id!=null);
+            Console.WriteLine("created session id:{0}", meeting.Id);
+            Assert.True(meeting.Id!=null);
+
+
+
+
+
+
+
         }
 
 
@@ -50,6 +57,11 @@ namespace retro_db_test
 
             Assert.True(begin==(ObjectId)fixture.retrospectiveSession.Id);
             Assert.Contains(" more", fixture.retrospectiveSession.Name);
+
+
+            var saved = fixture.database.Meetings.Get(fixture.retrospectiveSession.Id.ToString());
+            Assert.Contains(" more", saved.Name);
+
         }
 
         [Fact]
