@@ -1,25 +1,38 @@
 
 <div class="container">
   <h3>{{team.name}}</h3>
-    <form (ngSubmit)="save()"  >
+    <form >
         <div class="form-group">
           <label for="meetingName">Meeting Name</label>
           <input type="text" class="form-control" id="meetingName" name="meetingName" 
           required [(ngModel)]="meeting.name"/>
-        </div>
-        <div >
-        <div *ngFor="let category of meeting.categories">
-          <div>{{category.name}}</div>
-          
-        </div>
-        </div>
-        <div class="form-group">
-          <label for="newCategory">New Category</label>
-          <input type="text" clalss="form-control" id="newCategory"  name="newCategory"/>
-          <button class="btn btn-secondary">add</button>
-        </div>
+       </div>
+       <div class="form-group" >
+          <label for="meetingCategories">Categories</label>
+          <div class="card border-0" *ngFor="let category of meeting.categories; let i=index; let even=even; trackBy: categoryTracking" >
+             <div class="category-item-row list-group-item"  
+              [attr.id]="this.categoryDomId(category.categoryNum)" [ngClass]="{'fill-grey' : even==true }">
+                <div class="container border-0" >
+                  <div class="row border-0 "  >
+                    <div class="col">            
+                      <input type="text" class="form-control" name="inputCategory{{category.categoryNum}}"
+                        [(ngModel)]="category.name"/>
+                    </div>
+                    <div class="col">
+                        <button class="btn" (click)="categoryMoveUp(category.categoryNum);" >move up</button>
+                        <button class="btn" (click)="categoryMoveDown(category.categoryNum);"  >move down</button>
+                        <button class="btn" (click)="categoryDelete(category.categoryNum);">delete</button>
+                    </div>
+                  </div>
+                </div>
+             </div>
+          </div> 
+      </div>
+      <div> 
+        <button class="btn btn-secondary" (click)="addCategory();">Add Category</button>
+        <button  class="btn btn-secondary"  (click)="navigateToList();">Cancel</button>
         <button type="submit" class="btn btn-success" (click)="save();">Save</button>
-        <button  class="btn btn-secondary">Cancel</button>
-  </form>
+      </div>
+    </form>
 
 </div>
