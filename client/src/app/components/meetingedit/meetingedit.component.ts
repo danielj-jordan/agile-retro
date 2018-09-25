@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute} from '@angular/router';
 import {NotesService} from '../../services/notes.service'
 import {Team} from '../../models/team';
 import {Meeting} from '../../models/meeting';
@@ -14,6 +14,7 @@ export class MeetingEditComponent implements OnInit {
 
   constructor(    
     private route: ActivatedRoute,
+    private router: Router,
     private notesService: NotesService) { 
     }
 
@@ -64,11 +65,17 @@ export class MeetingEditComponent implements OnInit {
         
       }
     );
+    this.navigateToList();
   }
 
-  add(): void{
+  addCategory(): void{
     //add the category to the list
+    let category=new Category();
+    category.categoryNum=this.nextCategoryNumber();
+    category.name="category";
+    category.sortOrder=this.nextSortNumber();
 
+    this.meeting.categories.push(category);
 
   }
 
@@ -80,6 +87,96 @@ export class MeetingEditComponent implements OnInit {
       if(cat.categoryNum>=next)next=cat.categoryNum+1;
     }
     return next;
+  }
+
+  nextSortNumber(): number{
+    let next=1;
+    for (let cat of this.meeting.categories)
+    {
+      if(cat.sortOrder>=next)next=cat.sortOrder+1;
+    }
+    return next;
+  }
+
+  navigateToList():void{
+    this.router.navigateByUrl('/list');
+  }
+
+  categoryDomId(categoryNum: number):string{
+    return 'category' + categoryNum;
+
+  }
+
+  categoryTracking(index: number, category: Category): number{
+    return category.categoryNum;
+  }
+
+
+  categorySort(): void{
+    this.meeting.categories.sort( (a,b)=>
+    {
+      if(a.sortOrder<b.sortOrder)return  -1; 
+      if(a.sortOrder>b.sortOrder)return 1;
+      else return 0;
+    });
+  }
+
+  categoryMoveUp(categoryNum: number){
+    for( let i=0; i<this.meeting.categories.length; i++){
+      if(this.meeting.categories[i].categoryNum==categoryNum){
+        if(i<=0)return;
+        let tempSortOrder=this.meeting.categories[i].sortOrder;
+        this.meeting.categories[i].sortOrder=this.meeting.categories[i-1].sortOrder;
+        this.meeting.categories[i-1].sortOrder=tempSortOrder;
+        break;
+      }
+    }
+    this.categorySort();
+  }
+  categoryMoveDown(categoryNum: number){
+    for( let i=0; i<this.meeting.categories.length; i++){
+      if(this.meeting.categories[i].categoryNum==categoryNum){
+        if(i>this.meeting.categories.length-1)return;
+        let tempSortOrder=this.meeting.categories[i].sortOrder;
+        this.meeting.categories[i].sortOrder=this.meeting.categories[i+1].sortOrder;
+        this.meeting.categories[i+1].sortOrder=tempSortOrder;
+        break;
+      }
+    }
+    this.categorySort();
+  }
+
+  categoryDelete(categoryNum: number):void{
+    console.log('delete');
+    for( let i=0; i<this.meeting.categories.length; i++){
+      if(this.meeting.categories[i].categoryNum==categoryNum){
+        console.log('delete' + categoryNum);
+        this.meeting.categories.splice(i,1);
+      }
+    }
+  }
+
+  categoryAllowDrop(ev):void {
+    ev.preventDefault();
+  }
+
+  categoryDrag(ev) : void {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+  cateogryDrop(ev):void {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+}
+
+  categoryDragStart(ev): void{
+    let categoryNum=this
+
+  }
+  
+  categoryDragEnd(ev): void{
+
   }
 
 }
