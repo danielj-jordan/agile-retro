@@ -8,7 +8,7 @@ import {MeetingEditComponent } from './components/meetingedit/meetingedit.compon
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch:'full' },
   { path: 'comment/:id', component: CommentComponent}, 
-  { path: 'meetingedit/:teamId/:meetingId', component: MeetingEditComponent},
+  { path: 'meetingedit/:teamid/:meetingid', component: MeetingEditComponent},
   { path: 'meetingedit/:teamId', component: MeetingEditComponent},
   { path: 'login', component: LoginComponent },
   { path: 'list',  component: MeetingListComponent}
