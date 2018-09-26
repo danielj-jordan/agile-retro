@@ -3,16 +3,12 @@ import { CommentComponent } from './comment.component';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { NotesService } from '../../services/notes.service';
 import { NotesServiceMock } from '../../services/notes.service.mock';
-import {CommentEditComponent} from '../commentedit/commentedit.component';
-import {Comment} from '../../models/comment';
-import {Category} from '../../models/category';
-import {RouterTestingModule} from '@angular/router/testing';
+import { CommentEditComponent } from '../commentedit/commentedit.component';
+import { Comment } from '../../models/comment';
+import { Category } from '../../models/category';
+import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-import {Observable} from 'rxjs/Rx';
 import { doesNotThrow } from 'assert';
-
-
-
 
 
 describe('comment component', () => {
@@ -23,36 +19,29 @@ describe('comment component', () => {
 
 
     beforeEach(() => {
-        TestBed.configureTestingModule({ 
+        TestBed.configureTestingModule({
             declarations: [CommentComponent, CommentEditComponent],
-            imports:[FormsModule, RouterTestingModule],
-            providers:[CommentComponent,
-             {provide: NotesService, useClass: NotesServiceMock},
-        ]
+            imports: [FormsModule, RouterTestingModule],
+            providers: [CommentComponent,
+                { provide: NotesService, useClass: NotesServiceMock },
+            ]
 
-    }).compileComponents();
+        }).compileComponents();
 
-    jasmine.clock().install();
-    //jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+        jasmine.clock().install();
 
-   notesComponet=TestBed.get(CommentComponent);
-   noteService=TestBed.get(NotesService); 
-   //notesComponet.cancelTimer();
-
-   
-
-       
+        notesComponet = TestBed.get(CommentComponent);
+        noteService = TestBed.get(NotesService);
     });
 
-    afterEach(()=>{
+    afterEach(() => {
         jasmine.clock().uninstall();
     });
-  
 
-    it('comments should be zero or higher',() => {
-     //   jasmine.clock().tick(100);
+
+    it('comments should be zero or higher', () => {
         notesComponet.ngOnInit();
-        
+
         console.log('notescompoent:' + notesComponet.comments.length);
         expect(notesComponet.comments.length).toBeGreaterThanOrEqual(0);
 
