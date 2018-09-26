@@ -62,11 +62,11 @@ export class NotesServiceMock {
         meeting.id='1';
         meeting.name='test';
         meeting.teamId='2';
-        /*
-        meeting.categories= new Array();
-        meeting.categories[0]= new Category();
-        meeting.categories[0].name='test';
-        meeting.categories[0].categoryNum=1;*/
+        meeting.categories=[];
+        
+        meeting.categories.push({categoryNum:1, name:"test category 1", sortOrder: 1});
+        meeting.categories.push({categoryNum:2, name:"test category 2", sortOrder: 2});
+        meeting.categories.push({categoryNum:3, name:"test category 3", sortOrder: 3});
         return Observable.of(meeting);
     }
 
