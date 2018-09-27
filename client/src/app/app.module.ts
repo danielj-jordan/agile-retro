@@ -15,6 +15,7 @@ import { MeetingListComponent } from './components/meetinglist/meetinglist.compo
 import { LocalstorageService } from './services/localstorage.service';
 import { Router } from '@angular/router';
 import { MeetingEditComponent } from './components/meetingedit/meetingedit.component';
+import { TeamEditComponent } from './components/teamedit/teamedit.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { MeetingEditComponent } from './components/meetingedit/meetingedit.compo
     LoginComponent,
     MeetingListComponent,
     MeetingEditComponent,
+    TeamEditComponent,
 
   ],
   providers: [NotesService, LocalstorageService],

@@ -1,0 +1,18 @@
+
+<div class="container">
+    <h3>Team Owned By:</h3>
+      <form >
+          <div class="form-group">
+            <label for="meetingName">Meeting Name</label>
+            <input type="text" class="form-control" id="teamName" name="teamName" 
+            required [(ngModel)]="team.name"/>
+         </div>
+
+    
+        <div> 
+           <button  class="btn btn-secondary" id="btnCancel"  (click)="navigateToList();">Cancel</button>
+          <button type="submit" class="btn btn-success" id="btnSave" (click)="save();">Save</button>
+        </div>
+      </form>
+  
+  </div>

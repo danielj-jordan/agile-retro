@@ -56,6 +56,46 @@ namespace apptest {
 
         }
 
+        [Fact]
+        public void SaveTeam () {
+
+            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
+
+            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database);
+
+            app.Model.Team team = new app.Model.Team();
+            team.TeamId=this.fixture.TeamId.ToString();
+            team.Name="test team";
+ 
+
+            var result = controller.Team (team);
+
+            Assert.True (!String.IsNullOrEmpty(result.Value.TeamId));
+
+        }
+
+        [Fact]
+        public void UpdateTeam () {
+
+            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
+
+            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database);
+
+
+
+            var teamStart = controller.Team(fixture.TeamId.ToString());
+
+            teamStart.Value.Name+= "more";
+
+            var teamEnd=controller.Team(teamStart.Value);
+
+            
+            Assert.Equal( teamStart.Value.TeamId, teamEnd.Value.TeamId);
+
+            Assert.Contains("more", teamEnd.Value.Name);
+
+        }
+
 
     }
 }

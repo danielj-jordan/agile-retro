@@ -79,6 +79,16 @@ export class NotesService {
 
     }
 
+    saveTeam(team: Team): Observable<Team>{
+        var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        var options = { headers : headers};
+    
+        console.log('saving meeting');
+        console.log (team);
+
+         return this.http.post<Team>(this.baseUrl + '/team/team', team, options );
+    }
+
     deleteNote(commentId: string): void{
 
         
