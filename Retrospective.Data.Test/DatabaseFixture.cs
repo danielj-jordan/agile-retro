@@ -46,7 +46,7 @@ namespace retro_db_test
             team.TeamMembers=members.ToArray();
             
             DataTeam teamData = new DataTeam(database);
-            var savedTeam= teamData.SaveTeam(team);
+            var savedTeam= teamData.Save(team);
 
 
             //create a test retrospective session

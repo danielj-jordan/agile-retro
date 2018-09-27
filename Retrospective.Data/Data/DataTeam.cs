@@ -31,7 +31,7 @@ namespace Retrospective.Data
         /// </summary>
         /// <param name="team"></param>
         /// <returns></returns>
-        public Team SaveTeam (Team team)
+        public Team Save (Team team)
         {
             if(team.Id is null) {
                 database.MongoDatabase.GetCollection<Team>(collection).InsertOne(team);
