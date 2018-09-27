@@ -93,5 +93,28 @@ namespace app.Controllers
 
         }
 
+
+        /// <summary>
+        /// saves the team
+        /// </summary>
+        /// <param name="team"></param>
+        /// <returns></returns>
+        [HttpPost("[action]")]
+        public ActionResult<Team> Team([FromBody] Team team)
+        {
+            /* 
+            if(string.IsNullOrEmpty(team.TeamId)){
+                _logger.LogWarning("no team id supplied for meeting");
+                return new BadRequestResult();
+            }
+            */
+
+            var saved = database.Teams.Save(_mapper.Map<app.Model.Team, DBModel.Team>(team));
+            return (_mapper.Map<DBModel.Team,app.Model.Team> (saved));
+
+        }
+
+
+
     }
 }

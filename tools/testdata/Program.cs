@@ -94,7 +94,7 @@ namespace testdata {
             );
 
             //initialize a team record
-            Retrospective.Data.Model.Team newTeam = database.Teams.SaveTeam (
+            Retrospective.Data.Model.Team newTeam = database.Teams.Save (
                 new Retrospective.Data.Model.Team {
                     Name = "test team",
                         Owner = "nobody@127.0.0.1",
