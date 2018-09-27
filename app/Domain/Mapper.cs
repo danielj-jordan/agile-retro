@@ -57,7 +57,15 @@ namespace app.Domain
             CreateMap<DBModel.Team, ViewModel.Team>()
                 .ForMember(dest=>dest.TeamId, opt=>opt.MapFrom(src=>src.Id))
                 .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>src.Name))
-                .ReverseMap();
+                .ForMember(dest=>dest.Owner, opt=>opt.MapFrom(src=>src.Owner))
+                .ForMember(dest=>dest.TeamMembers, opt=>opt.MapFrom(src=>src.TeamMembers));
+
+            CreateMap<ViewModel.Team, DBModel.Team>()
+                .ForMember(dest=>dest.Id, opt=> opt.MapFrom(src=>ObjectId.Parse(src.TeamId)))
+                .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>src.Name))
+                .ForMember(dest=>dest.Owner, opt=>opt.MapFrom(src=>src.Owner))
+                .ForMember(dest=>dest.TeamMembers, opt=>opt.MapFrom(src=>src.TeamMembers));
+
 
             CreateMap<DBModel.User, ViewModel.User>()
                 .ForMember(dest=>dest.UserId, opt=>opt.MapFrom(src=>src.Id))

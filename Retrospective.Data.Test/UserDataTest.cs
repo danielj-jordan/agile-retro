@@ -78,7 +78,7 @@ namespace retro_db_test
             team.Name="another test team";
             
             DataTeam teamData = new DataTeam(fixture.database);
-            teamData.SaveTeam(team);
+            teamData.Save(team);
 
             User user = new User();
             user.Id=null;

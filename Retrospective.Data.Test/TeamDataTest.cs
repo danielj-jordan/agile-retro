@@ -36,7 +36,7 @@ namespace retro_db_test
             team.Name="test team";
             team.Owner = fixture.owner.Email;
             DataTeam teamData = new DataTeam(fixture.database);
-            var savedTeam= teamData.SaveTeam(team);
+            var savedTeam= teamData.Save(team);
 
             Console.WriteLine("created team id:{0}", savedTeam.Id);
             Assert.True(savedTeam.Id!=null);
@@ -49,7 +49,7 @@ namespace retro_db_test
             fixture.team.Name+=" more";
 
             DataTeam teamData= new DataTeam(fixture.database);
-            teamData.SaveTeam(fixture.team);
+            teamData.Save(fixture.team);
 
             Assert.True(begin==(ObjectId)fixture.team.Id);
             Assert.Contains(" more", fixture.team.Name);

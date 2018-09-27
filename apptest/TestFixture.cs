@@ -45,7 +45,7 @@ namespace apptest {
             );
 
             //initialize a team record
-            Retrospective.Data.Model.Team newTeam = this.Database.Teams.SaveTeam (
+            Retrospective.Data.Model.Team newTeam = this.Database.Teams.Save (
                 new Retrospective.Data.Model.Team {
                     Name = "test team",
                         Owner = "***REMOVED***",
