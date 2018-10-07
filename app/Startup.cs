@@ -10,6 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.SpaServices;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+
+
 
 namespace app
 {
@@ -25,10 +30,32 @@ namespace app
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddAuthentication(options =>
+            {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(config =>
+            {
+                config.TokenValidationParameters = new TokenValidationParameters()
+                {
+                ValidateIssuer = false,
+                ValidIssuer = Configuration["JWTTokenConfiguration:Issuer"],
+                ValidateAudience = false,
+                ValidAudience = Configuration["JWTTokenConfiguration:Audience"],
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTTokenConfiguration:Key"])),
+            
+                };
+            });
+
             services.AddMvc();
             services.AddAutoMapper();
 
             services.AddScoped<Retrospective.Data.Database, Retrospective.Data.Database>();
+
+            services.Configure<JWTTokenConfiguration>(Configuration.GetSection("JWTTokenConfiguration"));
             
             //services.UseAngularCliServer();
             services.AddSpaStaticFiles(configuration =>
@@ -59,6 +86,8 @@ namespace app
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
     
+            //for JWT
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
