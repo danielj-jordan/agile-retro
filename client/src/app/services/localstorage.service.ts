@@ -14,4 +14,11 @@ export class LocalstorageService {
     return sessionStorage.getItem("user");
   }
 
+  set userToken(token: string){
+    sessionStorage.setItem("token", token);
+  }
+
+  get userToken():string {
+    return sessionStorage.getItem("token");
+  }
 }

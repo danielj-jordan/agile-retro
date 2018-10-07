@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using app.Model;
 using DBModel=Retrospective.Data.Model;
 using AutoMapper;
@@ -28,6 +29,8 @@ namespace app.Controllers
             _mapper=mapper;
             this.database=database;
         }
+
+
 
 
         /// <summary>
@@ -56,6 +59,7 @@ namespace app.Controllers
         /// </summary>
         /// <param name="userEmail"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("[action]/{email}")]
         public ActionResult<IEnumerable<Team>> Teams(string email)
         {
@@ -63,6 +67,8 @@ namespace app.Controllers
                 _logger.LogWarning("no user supplied");
                 return new BadRequestResult();
             }
+
+            _logger.LogDebug("authenticated user:" + HttpContext.User);
 
             _logger.LogDebug("looking for {0}", email);
             var teams = database.Teams.GetUserTeams(email);

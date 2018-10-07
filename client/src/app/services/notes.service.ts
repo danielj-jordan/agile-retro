@@ -5,17 +5,37 @@ import {Comment} from '../models/comment';
 import {Category} from '../models/category';
 import {Team} from '../models/team';
 import { Meeting } from '../models/meeting';
- 
+import {UserLogin} from '../models/userlogin';
+import {LocalstorageService} from './localstorage.service';
+import { Options } from 'selenium-webdriver/edge';
+import { UserToken } from '../models/usertoken';
 
 @Injectable()
 export class NotesService {
 
-    private http:HttpClient;
+   
     private baseUrl:string;
 
-    constructor( http: HttpClient){
-      this.http=http;
+    constructor( 
+        private http: HttpClient,
+        private storage: LocalstorageService){
       this.baseUrl='api';
+    }
+
+
+    addAuthHeader(headers: HttpHeaders):HttpHeaders {
+        return headers.append('Authorization: ', 'Bearer ' + this.storage.userToken);
+    }
+
+
+    login( user: UserLogin): Observable<UserToken>{
+        var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        var options = { headers : headers};
+        
+    
+        console.log('logging in: ' + user.LoginName);
+
+        return this.http.post<UserToken>(this.baseUrl + '/auth/generatetoken', user, options );
     }
 
 
@@ -45,7 +65,12 @@ export class NotesService {
 
     getUserTeams(userEmail: string): Observable<Team[]>{
         console.log('teams' + userEmail);
-        return this.http.get<Team[]>(this.baseUrl + '/team/teams/' + userEmail);
+        var headers= new HttpHeaders();
+        headers= headers.append('Authorization', 'Bearer ' + this.storage.userToken);
+        var options = { headers : headers};
+
+        console.log(options);
+        return this.http.get<Team[]>(this.baseUrl + '/team/teams/' + userEmail, options);
     }
 
 
