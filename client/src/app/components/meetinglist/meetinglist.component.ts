@@ -30,6 +30,8 @@ export class MeetingListComponent implements OnInit {
        //get the teams for this user
        this.noteService.getUserTeams(this.storage.userEmail).subscribe(
          data=>{
+
+          console.log(data);
           this.teams=data;
           console.log('user teams: ' + this.teams);
           //get the retrospective meeting sessions for each team

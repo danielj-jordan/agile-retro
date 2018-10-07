@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LoginComponent } from './login.component';
 import { FormsModule } from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
+import {NotesServiceMock} from '../../services/notes.service.mock';
+import {NotesService} from '../../services/notes.service';
+import { LoginComponent } from './login.component';
 import { LocalstorageService } from '../../services/localstorage.service';
 
 
@@ -14,7 +15,7 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
       imports: [FormsModule, RouterTestingModule.withRoutes([])],
-      providers: [LocalstorageService]
+      providers: [LocalstorageService, { provide: NotesService, useValue: new NotesServiceMock()} ]
     })
     .compileComponents();
   }));
