@@ -5,11 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-using app.Model;
-using DBModel=Retrospective.Data.Model;
 using AutoMapper;
-using Retrospective.Data;
 using MongoDB.Bson;
+
+using app.Model;
+
+using DomainModel=Retrospective.Domain.Model;
+using Retrospective.Domain;
+
+using Retrospective.Data;
+using DBModel=Retrospective.Data.Model;
 
 namespace app.Controllers
 {
@@ -23,11 +28,14 @@ namespace app.Controllers
         
         private readonly Database database;
 
-        public TeamController(ILogger<TeamController> logger, IMapper mapper,Database database)
+        private readonly TeamManager teamManager;
+
+        public TeamController(ILogger<TeamController> logger, IMapper mapper,Database database, TeamManager teamManager)
         {
             _logger=logger;
             _mapper=mapper;
             this.database=database;
+            this.teamManager=teamManager;
         }
 
 
@@ -70,12 +78,10 @@ namespace app.Controllers
 
             _logger.LogDebug("authenticated user:" + HttpContext.User);
 
-            _logger.LogDebug("looking for {0}", email);
-            var teams = database.Teams.GetUserTeams(email);
-            
-            _logger.LogDebug("db returning {0} teams for the user", teams.Count);
+           var teams = teamManager.GetUserTeams(email);
 
-            return (_mapper.Map<List<DBModel.Team>,List<app.Model.Team> >(teams)).ToList();
+
+            return (_mapper.Map<List<DomainModel.Team>,List<app.Model.Team> >(teams)).ToList();
 
         }
 
