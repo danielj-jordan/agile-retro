@@ -1,0 +1,17 @@
+/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/bin/Debug/netstandard2.0/Retrospective.Domain.Model.deps.json
+/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/bin/Debug/netstandard2.0/Retrospective.Domain.Model.dll
+/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/bin/Debug/netstandard2.0/Retrospective.Domain.Model.pdb
+/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.csproj.CoreCompileInputs.cache
+/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.AssemblyInfoInputs.cache
+/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.AssemblyInfo.cs
+/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.dll
+/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.pdb
+/projects/agile-retro/Retrospective.Domain.Model/bin/Debug/netstandard2.0/Retrospective.Domain.Model.deps.json
+/projects/agile-retro/Retrospective.Domain.Model/bin/Debug/netstandard2.0/Retrospective.Domain.Model.dll
+/projects/agile-retro/Retrospective.Domain.Model/bin/Debug/netstandard2.0/Retrospective.Domain.Model.pdb
+/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.csprojAssemblyReference.cache
+/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.csproj.CoreCompileInputs.cache
+/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.AssemblyInfoInputs.cache
+/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.AssemblyInfo.cs
+/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.dll
+/projects/agile-retro/Retrospective.Domain.Model/obj/Debug/netstandard2.0/Retrospective.Domain.Model.pdb

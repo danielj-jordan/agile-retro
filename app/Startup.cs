@@ -55,6 +55,8 @@ namespace app
 
             services.AddScoped<Retrospective.Data.Database, Retrospective.Data.Database>();
 
+            services.AddTransient<Retrospective.Domain.TeamManager, Retrospective.Domain.TeamManager>();
+
             services.Configure<JWTTokenConfiguration>(Configuration.GetSection("JWTTokenConfiguration"));
             
             //services.UseAngularCliServer();
