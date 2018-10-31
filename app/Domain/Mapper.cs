@@ -32,11 +32,7 @@ namespace app.Domain
             //mapping from Domain.Models
              CreateMap<ViewModel.Team, DomainModel.Team>().ReverseMap();
 
-
-
-
-
-
+             CreateMap<ViewModel.User, DomainModel.User>().ReverseMap();
 
 
 
@@ -65,6 +61,9 @@ namespace app.Domain
                 .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>src.Name))
                 .ForMember (dest=>dest.TeamId, opt=>opt.MapFrom(src=>ObjectId.Parse(src.TeamId))); 
 
+
+            /*
+
             //mapping for Team
             CreateMap<DBModel.Team, ViewModel.Team>()
                 .ForMember(dest=>dest.TeamId, opt=>opt.MapFrom(src=>src.Id))
@@ -77,7 +76,7 @@ namespace app.Domain
                 .ForMember(dest=>dest.Name, opt=>opt.MapFrom(src=>src.Name))
                 .ForMember(dest=>dest.Owner, opt=>opt.MapFrom(src=>src.Owner))
                 .ForMember(dest=>dest.TeamMembers, opt=>opt.MapFrom(src=>src.TeamMembers));
-
+*/
 
             CreateMap<DBModel.User, ViewModel.User>()
                 .ForMember(dest=>dest.UserId, opt=>opt.MapFrom(src=>src.Id))
