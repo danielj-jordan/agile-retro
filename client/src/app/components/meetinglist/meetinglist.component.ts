@@ -28,7 +28,7 @@ export class MeetingListComponent implements OnInit {
        console.log('getting teams');
        
        //get the teams for this user
-       this.noteService.getUserTeams(this.storage.userEmail).subscribe(
+       this.noteService.getUserTeams().subscribe(
          data=>{
 
           console.log(data);

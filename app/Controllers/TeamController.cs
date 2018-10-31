@@ -30,6 +30,8 @@ namespace app.Controllers
 
         private readonly TeamManager teamManager;
 
+       // private readonly IContext context;
+
         public TeamController(ILogger<TeamController> logger, IMapper mapper,Database database, TeamManager teamManager)
         {
             _logger=logger;
@@ -38,7 +40,9 @@ namespace app.Controllers
             this.teamManager=teamManager;
         }
 
-
+        private string GetActiveUser(){
+            return HttpContext.User.Identity.Name;
+        }
 
 
         /// <summary>
@@ -46,17 +50,19 @@ namespace app.Controllers
         /// </summary>
         /// <param name="teamId"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("[action]")]
         public IEnumerable<User> TeamMembers(string teamId)
         {
-          
-            
-            var teamMember = database.Users.GetTeamUsers(new ObjectId(teamId));
-            
 
-            _logger.LogDebug("db returning {0} team members", teamMember.Count);
+            _logger.LogDebug("active user " + HttpContext.User.ToString());
 
-            var users =_mapper.Map<List<DBModel.User>,List<app.Model.User> >(teamMember);
+            
+            var teamMembers = teamManager.GetTeamMembers(GetActiveUser(),teamId);
+           
+           // _logger.LogDebug("db returning {0} team members", team.TeamMembers.);
+
+            var users =_mapper.Map<List<DomainModel.User>,List<app.Model.User> >(teamMembers);
 
             return (IEnumerable<User>)users;
 
@@ -65,22 +71,12 @@ namespace app.Controllers
         /// <summary>
         /// returns the teams for a user
         /// </summary>
-        /// <param name="userEmail"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpGet("[action]/{email}")]
-        public ActionResult<IEnumerable<Team>> Teams(string email)
+        [HttpGet("[action]")]
+        public ActionResult<IEnumerable<Team>> Teams()
         {
-            if(string.IsNullOrEmpty(email)){
-                _logger.LogWarning("no user supplied");
-                return new BadRequestResult();
-            }
-
-            _logger.LogDebug("authenticated user:" + HttpContext.User);
-
-           var teams = teamManager.GetUserTeams(email);
-
-
+            var teams = teamManager.GetUserTeams(GetActiveUser(), GetActiveUser());
             return (_mapper.Map<List<DomainModel.Team>,List<app.Model.Team> >(teams)).ToList();
 
         }
@@ -90,6 +86,7 @@ namespace app.Controllers
         /// </summary>
         /// <param name="teamId"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("[action]/{id}")]
         public ActionResult<Team> Team(string id)
         {
@@ -98,10 +95,9 @@ namespace app.Controllers
                 return new BadRequestResult();
             }
 
-            _logger.LogDebug("looking for {0}", id);
-            var team = database.Teams.Get(id);
+            var team = teamManager.GetTeam(GetActiveUser(), id);
             
-            return (_mapper.Map<DBModel.Team,app.Model.Team> (team));
+            return (_mapper.Map<DomainModel.Team,app.Model.Team> (team));
 
         }
 
@@ -111,18 +107,16 @@ namespace app.Controllers
         /// </summary>
         /// <param name="team"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost("[action]")]
         public ActionResult<Team> Team([FromBody] Team team)
         {
-            /* 
-            if(string.IsNullOrEmpty(team.TeamId)){
-                _logger.LogWarning("no team id supplied for meeting");
-                return new BadRequestResult();
-            }
-            */
+            
+            var user = HttpContext.User.ToString();
 
-            var saved = database.Teams.Save(_mapper.Map<app.Model.Team, DBModel.Team>(team));
-            return (_mapper.Map<DBModel.Team,app.Model.Team> (saved));
+            var saved= teamManager.SaveTeam(GetActiveUser(),_mapper.Map<app.Model.Team,DomainModel.Team>(team));
+
+            return (_mapper.Map<DomainModel.Team,app.Model.Team> (saved));
 
         }
 

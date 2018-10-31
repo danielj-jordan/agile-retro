@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 
 
-namespace app.Domain
+namespace Retrospective.Domain
 {
     public class DomainProfile: Profile
     {
