@@ -29,11 +29,11 @@ export class NotesService {
 
 
     login( user: UserLogin): Observable<UserToken>{
+        
+        console.log('logging in: ' + user.LoginName);
+        
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         var options = { headers : headers};
-        
-    
-        console.log('logging in: ' + user.LoginName);
 
         return this.http.post<UserToken>(this.baseUrl + '/auth/generatetoken', user, options );
     }
@@ -41,36 +41,50 @@ export class NotesService {
 
     getCategories(sessionId: string) : Observable<Category[]>{
         console.log('getting categories');
-        return this.http.get<Category[]>(this.baseUrl + '/notes/categories/' + sessionId);
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};
+        return this.http.get<Category[]>(this.baseUrl + '/notes/categories/' + sessionId, options);
     }
 
     getMeeting(meetingId: string): Observable<Meeting>{
         console.log('getting single meeting');
-        return this.http.get<Meeting>(this.baseUrl + '/meeting/meeting/' + meetingId);   
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};
+        return this.http.get<Meeting>(this.baseUrl + '/meeting/meeting/' + meetingId, options);   
     }
 
-    getNotes(sessionId: string):Observable<Comment[]> {       
-        return this.http.get<Comment[]>(this.baseUrl + '/notes/notes/' + sessionId);
+    getNotes(sessionId: string):Observable<Comment[]> {    
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};   
+        return this.http.get<Comment[]>(this.baseUrl + '/notes/notes/' + sessionId, options);
     }
 
     getTeam(teamId: string): Observable<Team>{
         console.log('getting single team');
-        return this.http.get<Team>(this.baseUrl + '/team/team/' + teamId);   
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};
+        return this.http.get<Team>(this.baseUrl + '/team/team/' + teamId, options);   
     }
 
     getTeamMeetings(teamId: string): Observable<Meeting[]>{
         console.log('retrospectives for team: ' + teamId);
-        return this.http.get<Meeting[]>(this.baseUrl + '/meeting/meetings/' + teamId);
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};
+        return this.http.get<Meeting[]>(this.baseUrl + '/meeting/meetings/' + teamId, options);
     }
 
-    getUserTeams(userEmail: string): Observable<Team[]>{
-        console.log('teams' + userEmail);
+    getUserTeams(): Observable<Team[]>{
         var headers= new HttpHeaders();
-        headers= headers.append('Authorization', 'Bearer ' + this.storage.userToken);
+        headers= this.addAuthHeader(headers);
         var options = { headers : headers};
 
         console.log(options);
-        return this.http.get<Team[]>(this.baseUrl + '/team/teams/' + userEmail, options);
+        return this.http.get<Team[]>(this.baseUrl + '/team/teams/' , options);
     }
 
 

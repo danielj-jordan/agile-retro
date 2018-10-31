@@ -14,5 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Retrospective.Data\Retrospective.Data.csproj" />
     <ProjectReference Include="..\Retrospective.Data.Model\Retrospective.Data.Model.csproj" />
+    <ProjectReference Include="..\Retrospective.Domain\Retrospective.Domain.csproj" />
   </ItemGroup>
 </Project>

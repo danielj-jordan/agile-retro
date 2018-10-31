@@ -1,11 +1,15 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using app.Domain;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Retrospective.Data.Model;
+using Retrospective.Domain;
 using Xunit;
 
 namespace apptest {
@@ -16,13 +20,28 @@ namespace apptest {
         AutoMapper.Mapper mapper = null;
         TestFixture fixture;
 
+        TeamManager teamManager;
+
         public TeamControllerTest (TestFixture fixture) {
             this.fixture = fixture;
             var config = new MapperConfiguration (c => {
                 c.AddProfile<app.Domain.DomainProfile> ();
+                c.AddProfile<Retrospective.Domain.DomainProfile> ();
             });
 
             mapper = new Mapper (config);
+
+            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<TeamManager> ();
+
+            teamManager = new TeamManager (logger, mapper, fixture.Database);
+        }
+
+        private void MockHttpContextValid (app.Controllers.TeamController controller) {
+            controller.ControllerContext = new ControllerContext ();
+            controller.ControllerContext.HttpContext = new DefaultHttpContext ();
+            controller.ControllerContext.HttpContext.User = new ClaimsPrincipal (new ClaimsIdentity (new Claim[] {
+                new Claim (ClaimTypes.Name, fixture.Owner)
+            }, "someAuthTypeName"));
 
         }
 
@@ -33,7 +52,9 @@ namespace apptest {
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
 
-            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database);
+            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database, teamManager);
+
+            MockHttpContextValid (controller);
 
             var teamMembers = controller.TeamMembers (teamId);
 
@@ -43,14 +64,12 @@ namespace apptest {
 
         [Fact]
         public void GetUserTeams () {
-
-
-
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
 
-            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database);
+            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database, teamManager);
 
-            var teams = controller.Teams (fixture.SampleUser);
+            MockHttpContextValid (controller);
+            var teams = controller.Teams ();
 
             Assert.True (teams.Value.ToList ().Count () > 0);
 
@@ -61,16 +80,16 @@ namespace apptest {
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
 
-            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database);
+            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database, teamManager);
 
-            app.Model.Team team = new app.Model.Team();
-            team.TeamId=this.fixture.TeamId.ToString();
-            team.Name="test team";
- 
+            app.Model.Team team = new app.Model.Team ();
+            team.TeamId = this.fixture.TeamId.ToString ();
+            team.Name = "test team";
 
+            MockHttpContextValid (controller);
             var result = controller.Team (team);
 
-            Assert.True (!String.IsNullOrEmpty(result.Value.TeamId));
+            Assert.True (!String.IsNullOrEmpty (result.Value.TeamId));
 
         }
 
@@ -79,23 +98,21 @@ namespace apptest {
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
 
-            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database);
+            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database, teamManager);
 
+            MockHttpContextValid (controller);
 
+            var teamStart = controller.Team (fixture.TeamId.ToString ());
 
-            var teamStart = controller.Team(fixture.TeamId.ToString());
+            teamStart.Value.Name += "more";
 
-            teamStart.Value.Name+= "more";
+            var teamEnd = controller.Team (teamStart.Value);
 
-            var teamEnd=controller.Team(teamStart.Value);
+            Assert.Equal (teamStart.Value.TeamId, teamEnd.Value.TeamId);
 
-            
-            Assert.Equal( teamStart.Value.TeamId, teamEnd.Value.TeamId);
-
-            Assert.Contains("more", teamEnd.Value.Name);
+            Assert.Contains ("more", teamEnd.Value.Name);
 
         }
-
 
     }
 }

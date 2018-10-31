@@ -71,7 +71,7 @@ namespace Retrospective.Data
             }
         }
 
-        public IDataUser Users{
+        public DataUser Users{
             get{
                 if(this.users==null){
                     this.users= new DataUser(this);

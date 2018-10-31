@@ -6,7 +6,7 @@ using Retrospective.Data;
 using Retrospective.Data.Model;
 using Xunit;
 
-namespace apptest {
+namespace Retrospective.Domain.Test {
     public class TestFixture : IDisposable {
         public ObjectId TeamId { get; private set; }
         public ObjectId SessionId { get; private set; }
@@ -19,11 +19,12 @@ namespace apptest {
 
         public string Owner = "owner@here.com";
 
+
         public Retrospective.Data.Database Database {get; private set;}
 
         public TestFixture () {
             string connectionString = "mongodb://localhost:27017";
-            string databaseName = "test_controller";
+            string databaseName = "test_domainlayer";
 
             //start with an empty database
             var client = new MongoClient (connectionString);
@@ -51,7 +52,7 @@ namespace apptest {
                 new Retrospective.Data.Model.Team {
                     Name = "test team",
                         Owner = this.Owner,
-                        TeamMembers = new String[] { SampleUser, this.Owner}
+                        TeamMembers = new String[] { SampleUser}
                 });
             this.TeamId = (ObjectId) newTeam.Id;
 
@@ -106,7 +107,7 @@ namespace apptest {
 
     }
 
-    [CollectionDefinition ("Controller Test collection")]
+    [CollectionDefinition ("Domain Test collection")]
     public class TextCollection : ICollectionFixture<TestFixture> {
 
     }

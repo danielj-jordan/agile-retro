@@ -10,7 +10,7 @@ namespace retro_db_test
 {
     public class DatabaseFixture : IDisposable
     {
-        public Database database= new Database("test");
+        public Database database= new Database("test_datalayer");
         public User owner {get; private set;}
         public Team team {get; private set;}
         public Meeting retrospectiveSession {get; private set;}

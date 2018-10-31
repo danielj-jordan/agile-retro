@@ -77,5 +77,14 @@ namespace Retrospective.Data
 
         }
 
+        /// <summary>
+        /// returns all users on a team
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <returns></returns>
+        public List<User> GetTeamUsers (string teamId) {
+            return this.GetTeamUsers( new ObjectId(teamId));
+        }
+
     }
 }
