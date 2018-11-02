@@ -5,30 +5,33 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using app.Model;
-using DBModel=Retrospective.Data.Model;
+
 using AutoMapper;
-using Retrospective.Data;
+
+using app.Model;
+using Retrospective.Domain;
+using DomainModel=Retrospective.Domain.Model;
 
 namespace app.Controllers
 {
     [Route("api/[controller]")]
     public class MeetingController: Controller
     {
-        
-
         private readonly ILogger<MeetingController>  _logger;
         private readonly IMapper _mapper;
-        
-        private readonly Database database;
+        private readonly MeetingManager manager;
 
-        public MeetingController(ILogger<MeetingController> logger, IMapper mapper,Database database)
+        public MeetingController(ILogger<MeetingController> logger, IMapper mapper,
+             MeetingManager manager)
         {
             _logger=logger;
             _mapper=mapper;
-            this.database=database;
+            this.manager=manager;
         }
         
+        private string GetActiveUser(){
+            return HttpContext.User.Identity.Name;
+        }
         
         /// <summary>
         /// returns the retrospective meetings for a team
@@ -43,12 +46,8 @@ namespace app.Controllers
                 return new BadRequestResult();
             }
 
-            _logger.LogDebug("looking for {0}", id);
-            var meetings = database.Meetings.GetMeetings(id);
-            
-            _logger.LogDebug("db returning {0} teams for the user", meetings.Count);
-
-            return (_mapper.Map<List<DBModel.Meeting>,List<app.Model.Meeting> >(meetings)).ToList();
+            var meetings= manager.GetMeetingsForTeam(GetActiveUser(), id);  
+            return (_mapper.Map<List<DomainModel.Meeting>,List<app.Model.Meeting> >(meetings)).ToList();
 
         }
 
@@ -65,10 +64,8 @@ namespace app.Controllers
                 return new BadRequestResult();
             }
 
-            _logger.LogDebug("looking for {0}", id);
-            var meetings = database.Meetings.Get(id);
-            
-            return (_mapper.Map<DBModel.Meeting,app.Model.Meeting> (meetings));
+            var meeting = manager.GetMeeting(GetActiveUser(), id);
+            return (_mapper.Map<DomainModel.Meeting,app.Model.Meeting> (meeting));
 
         }
 
@@ -88,10 +85,10 @@ namespace app.Controllers
             }
 
             _logger.LogDebug($"saving meeting id: {meeting.Id}");
-            var saved = database.Meetings.Save(_mapper.Map<app.Model.Meeting, DBModel.Meeting>(meeting));
+            var saved = manager.SaveMeeting(GetActiveUser(),_mapper.Map<app.Model.Meeting, DomainModel.Meeting>(meeting));
             
             
-            return (_mapper.Map<DBModel.Meeting,app.Model.Meeting> (saved));
+            return (_mapper.Map<DomainModel.Meeting,app.Model.Meeting> (saved));
 
         }
 
