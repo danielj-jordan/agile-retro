@@ -20,6 +20,15 @@
 /apptest/bin/**
 /apptest/obj/**
 
+/Retrospective.Domain.Model/bin/**
+/Retrospective.Domain.Model/obj/**
+
+/Retrospective.Domain/bin/**
+/Retrospective.Domain/obj/**
+
+/Retrospective.Domain.Test/bin/**
+/Retrospective.Domain.Test/obj/**
+
 
 /Retrospective.Data.Model/bin/**
 /Retrospective.Data.Model/obj/**
