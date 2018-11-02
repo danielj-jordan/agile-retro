@@ -1,9 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Xunit;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Xunit;
 using AutoMapper;
 using MongoDB.Bson;
 using app.Domain;
@@ -20,6 +23,8 @@ namespace apptest
         
         AutoMapper.Mapper mapper= null;
         TestFixture fixture;
+
+        Retrospective.Domain.MeetingManager manager;
         
         public MeetingControllerTest(TestFixture fixture)
         {
@@ -28,28 +33,25 @@ namespace apptest
             var config = new MapperConfiguration(c =>
             {
                 c.AddProfile<app.Domain.DomainProfile>();
+                c.AddProfile<Retrospective.Domain.DomainProfile> ();
             });
 
             mapper= new Mapper(config);
+
+            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
+            manager= new Retrospective.Domain.MeetingManager(logger, mapper,fixture.Database);
             
         }
 
 
-        /* 
-        [Fact]
-        public void MeetingMapper(){
-            app.Model.Meeting meeting = new app.Model.Meeting();
-            meeting.Id="123";
-            meeting.Name="test";
-            meeting.TeamId="456";
-
-
-            Retrospective.Data.Model.Meeting dbMeeting=  mapper.Map<app.Model.Meeting, Retrospective.Data.Model.Meeting>(meeting);
-
-            Assert.Equal(dbMeeting.Id.ToString(),meeting.Id);
+        private void MockHttpContextValid (app.Controllers.MeetingController controller) {
+            controller.ControllerContext = new ControllerContext ();
+            controller.ControllerContext.HttpContext = new DefaultHttpContext ();
+            controller.ControllerContext.HttpContext.User = new ClaimsPrincipal (new ClaimsIdentity (new Claim[] {
+                new Claim (ClaimTypes.Name, fixture.Owner)
+            }, "someAuthTypeName"));
 
         }
-        */
 
 
         [Fact]
@@ -59,7 +61,10 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
-            var controller = new app.Controllers.MeetingController (logger, mapper, fixture.Database);
+            var controller = new app.Controllers.MeetingController (logger, mapper, 
+                manager);
+
+            MockHttpContextValid(controller);
 
             var meetings = controller.Meetings (fixture.TeamId.ToString());
 
@@ -74,7 +79,10 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
-            var controller = new app.Controllers.MeetingController (logger, mapper, fixture.Database);
+            var controller = new app.Controllers.MeetingController (logger, mapper, 
+                            manager);
+
+            MockHttpContextValid(controller);
 
             var meeting = controller.Meeting (fixture.SessionId.ToString());
 
@@ -88,7 +96,8 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
-            var controller = new app.Controllers.MeetingController (logger, mapper, fixture.Database);
+            var controller = new app.Controllers.MeetingController (logger, mapper, manager);
+            MockHttpContextValid(controller);
 
             app.Model.Meeting meeting = new app.Model.Meeting();
             meeting.TeamId=this.fixture.TeamId.ToString();
@@ -109,19 +118,16 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
-            var controller = new app.Controllers.MeetingController (logger, mapper, fixture.Database);
-
-
+            var controller = new app.Controllers.MeetingController (logger, mapper,  manager);
+             MockHttpContextValid(controller);
 
             var meetingStart = controller.Meeting(fixture.SessionId.ToString());
 
             meetingStart.Value.Name+= "more";
 
             var meetingEnd=controller.Meeting(meetingStart.Value);
-
             
             Assert.Equal( meetingStart.Value.Id, meetingEnd.Value.Id);
-
             Assert.Contains("more", meetingEnd.Value.Name);
 
         }

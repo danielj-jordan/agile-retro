@@ -52,7 +52,7 @@ namespace apptest {
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
 
-            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database, teamManager);
+            var controller = new app.Controllers.TeamController (logger, mapper, teamManager);
 
             MockHttpContextValid (controller);
 
@@ -66,7 +66,7 @@ namespace apptest {
         public void GetUserTeams () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
 
-            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database, teamManager);
+            var controller = new app.Controllers.TeamController (logger, mapper, teamManager);
 
             MockHttpContextValid (controller);
             var teams = controller.Teams ();
@@ -80,7 +80,7 @@ namespace apptest {
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
 
-            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database, teamManager);
+            var controller = new app.Controllers.TeamController (logger, mapper,  teamManager);
 
             app.Model.Team team = new app.Model.Team ();
             team.TeamId = this.fixture.TeamId.ToString ();
@@ -98,7 +98,7 @@ namespace apptest {
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController> ();
 
-            var controller = new app.Controllers.TeamController (logger, mapper, fixture.Database, teamManager);
+            var controller = new app.Controllers.TeamController (logger, mapper,  teamManager);
 
             MockHttpContextValid (controller);
 

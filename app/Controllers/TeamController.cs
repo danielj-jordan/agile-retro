@@ -7,14 +7,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using MongoDB.Bson;
-
 using app.Model;
-
 using DomainModel=Retrospective.Domain.Model;
 using Retrospective.Domain;
-
-using Retrospective.Data;
-using DBModel=Retrospective.Data.Model;
 
 namespace app.Controllers
 {
@@ -25,18 +20,13 @@ namespace app.Controllers
 
         private readonly ILogger<TeamController>  _logger;
         private readonly IMapper _mapper;
-        
-        private readonly Database database;
-
         private readonly TeamManager teamManager;
 
-       // private readonly IContext context;
 
-        public TeamController(ILogger<TeamController> logger, IMapper mapper,Database database, TeamManager teamManager)
+        public TeamController(ILogger<TeamController> logger, IMapper mapper,TeamManager teamManager)
         {
             _logger=logger;
             _mapper=mapper;
-            this.database=database;
             this.teamManager=teamManager;
         }
 

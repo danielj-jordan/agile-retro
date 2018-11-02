@@ -24,7 +24,7 @@ export class NotesService {
 
 
     addAuthHeader(headers: HttpHeaders):HttpHeaders {
-        return headers.append('Authorization: ', 'Bearer ' + this.storage.userToken);
+        return headers.append('Authorization', 'Bearer ' + this.storage.userToken);
     }
 
 
