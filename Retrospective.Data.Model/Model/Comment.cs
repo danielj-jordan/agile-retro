@@ -14,6 +14,7 @@ namespace Retrospective.Data.Model
 
         //email address for the last user to update the record
         public string LastUpdateUser {get;set;}
+
         public DateTime?  LastUpdateDate {get;set;}
 
         //email address for the users who voted up the item
