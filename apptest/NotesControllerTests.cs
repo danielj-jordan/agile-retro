@@ -1,6 +1,11 @@
 using System;
-using Xunit;
+using System.Linq;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Xunit;
 using Moq;
 using AutoMapper;
 using app.Domain;
@@ -15,18 +20,29 @@ namespace apptest
     {
         AutoMapper.Mapper mapper= null;
         TestFixture fixture;
+
+        Retrospective.Domain.CommentManager manager;
         
         public NotesControllerTest(TestFixture fixture)
         {
             this.fixture=fixture;
-
             var config = new MapperConfiguration(c =>
             {
                 c.AddProfile<app.Domain.DomainProfile>();
+                c.AddProfile<Retrospective.Domain.DomainProfile> ();
             });
-
             mapper= new Mapper(config);
-            
+            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.CommentManager> ();
+            manager= new Retrospective.Domain.CommentManager(logger, mapper,fixture.Database);
+        }
+
+        private void MockHttpContextValid (app.Controllers.NotesController controller) {
+            controller.ControllerContext = new ControllerContext ();
+            controller.ControllerContext.HttpContext = new DefaultHttpContext ();
+            controller.ControllerContext.HttpContext.User = new ClaimsPrincipal (new ClaimsIdentity (new Claim[] {
+                new Claim (ClaimTypes.Name, fixture.Owner)
+            }, "someAuthTypeName"));
+
         }
 
         [Fact]
@@ -35,7 +51,8 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, fixture.Database);
+            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            MockHttpContextValid(controller);
 
             var notes = controller.Notes(fixture.SessionId.ToString());
             var count=0;
@@ -54,7 +71,8 @@ namespace apptest
             var mock = new Mock<ILogger<app.Controllers.NotesController>>();
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, fixture.Database);
+            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            MockHttpContextValid(controller);
 
             var categories = controller.Categories(fixture.SessionId.ToString());
             var count=0;
@@ -74,7 +92,8 @@ namespace apptest
             var mock = new Mock<ILogger<app.Controllers.NotesController>>();
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, fixture.Database);
+            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            MockHttpContextValid(controller);
 
             var beginCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
 
@@ -94,13 +113,16 @@ namespace apptest
             var mock = new Mock<ILogger<app.Controllers.NotesController>>();
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, fixture.Database);
+            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            MockHttpContextValid(controller);
 
             var beginCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
 
             app.Model.Comment comment = new app.Model.Comment();
             comment.Text="this is a new comment";
             comment.CategoryNum=2;
+            comment.SessionId=fixture.SessionId.ToString();
+            comment.UpdateUser=fixture.SampleUser;
             
 
             var categories = controller.NewNote(fixture.SessionId.ToString(), comment);
@@ -120,7 +142,8 @@ namespace apptest
             var mock = new Mock<ILogger<app.Controllers.NotesController>>();
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, fixture.Database);
+            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            MockHttpContextValid(controller);
 
             var beginCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
 
@@ -132,7 +155,7 @@ namespace apptest
 
             var categories = controller.Note(fixture.SessionId.ToString(), comment);
 
-             var endCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
+            var endCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
 
             Assert.True(endCount==beginCount, "comment was updated");
             

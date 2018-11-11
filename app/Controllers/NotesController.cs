@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using app.Model;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using DBModel = Retrospective.Data.Model;
+using Microsoft.AspNetCore.Authorization;
+
 using AutoMapper;
-using MongoDB.Bson;
-using Retrospective.Data;
+using DomainModel = Retrospective.Domain.Model;
+using app.Model;
+using Retrospective.Domain;
 
 namespace app.Controllers {
     
@@ -18,25 +20,24 @@ namespace app.Controllers {
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        private readonly Database database;
+       private readonly CommentManager manager;
 
         public NotesController (ILogger<NotesController> logger,
-            IMapper mapper, Database database) {
+            IMapper mapper, CommentManager manager) {
             _logger = logger;
             _mapper = mapper;
-            this.database = database;
+            this.manager = manager;
 
+        }
+
+         private string GetActiveUser(){
+            return HttpContext.User.Identity.Name;
         }
 
         [HttpGet ("[action]/{retroId}")]
         public IEnumerable<Comment> Notes (string retroId) {
 
-            DataComment commentdata = new DataComment (this.database);
-
-            var test = commentdata.GetComments (retroId);
-            _logger.LogDebug ("db returning {0} comments", test.Count);
-
-            var comments = _mapper.Map<List<DBModel.Comment>, List<app.Model.Comment>> (commentdata.GetComments (retroId));
+            var comments = _mapper.Map<List<DomainModel.Comment>, List<app.Model.Comment>> (manager.GetComments (this.GetActiveUser(),retroId));
 
             _logger.LogDebug ("returning {0} comments", comments.Count);
             return (IEnumerable<Comment>) comments;
@@ -44,9 +45,9 @@ namespace app.Controllers {
 
         [HttpGet ("[action]/{retroId}")]
         public IEnumerable<Category> Categories (string retroId) {
-            var session = this.database.Meetings.Get (new ObjectId (retroId));
-             _logger.LogDebug ("returning {0} categories", session.Categories.ToList().Count);
-            return _mapper.Map<List<DBModel.Category>, List<app.Model.Category>> (session.Categories.ToList ());
+            var categories = manager.GetCategories (this.GetActiveUser(), retroId);
+             _logger.LogDebug ("returning {0} categories", categories.Count);
+            return _mapper.Map<List<DomainModel.Category>, List<app.Model.Category>> (categories);
 
         }
 
@@ -54,16 +55,16 @@ namespace app.Controllers {
         public Comment NewNote (string retroId,[FromBody] Comment input) {
             //create a new note and assign an id
 
-            DBModel.Comment newNote = new DBModel.Comment();
+            DomainModel.Comment newNote = new DomainModel.Comment();
             newNote.CategoryNumber = input.CategoryNum;
             newNote.Text = input.Text;
-            newNote.RetrospectiveId= new ObjectId(retroId);
+            newNote.MeetingId= retroId;
 
-            var comment = this.database.Comments.SaveComment(newNote);
+            var comment = manager.SaveComment(this.GetActiveUser(),newNote);
 
             _logger.LogDebug ("text:{0}", newNote.Text);
 
-            return _mapper.Map<DBModel.Comment, app.Model.Comment>(comment);
+            return _mapper.Map<DomainModel.Comment, app.Model.Comment>(comment);
         }
 
         [HttpPut ("[action]/{retroId}")]
@@ -71,24 +72,24 @@ namespace app.Controllers {
             //update an existing note
             _logger.LogDebug ("saving note id:{0} text:{1}", input.CommentId, input.Text);
            
-            DBModel.Comment newNote = new DBModel.Comment();
+            DomainModel.Comment newNote = new DomainModel.Comment();
             newNote.CategoryNumber = input.CategoryNum;
             newNote.Text = input.Text;
-            newNote.RetrospectiveId= new ObjectId(retroId);
-            newNote.Id= new ObjectId(input.CommentId);
+            newNote.MeetingId= retroId;
+            newNote.CommentId= input.CommentId;
 
-            var comment = this.database.Comments.SaveComment(newNote);
+            var comment = manager.SaveComment(this.GetActiveUser(),newNote);
 
             _logger.LogDebug ("text:{0}", newNote.Text);
 
-            return _mapper.Map<DBModel.Comment, app.Model.Comment>(comment);
+            return _mapper.Map<DomainModel.Comment, app.Model.Comment>(comment);
 
         }
 
         [HttpDelete ("[action]/{commentId}")]
         public bool DeleteNote (string commentId) {
             _logger.LogDebug ("deleting note id:{0}", commentId);
-            this.database.Comments.Delete(new ObjectId(commentId));
+            manager.DeleteComment(this.GetActiveUser(),commentId);
             return true;
 
         }
