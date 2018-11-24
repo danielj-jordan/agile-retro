@@ -66,7 +66,7 @@ namespace Retrospective.Domain.Test {
             var manager = new Retrospective.Domain.TeamManager (logger, mapper, fixture.Database);
 
             Retrospective.Domain.Model.Team team = new Retrospective.Domain.Model.Team ();
-            team.TeamId = this.fixture.TeamId.ToString ();
+            team.TeamId = null;
             team.Name = "test team";
             team.Owner = fixture.Owner;
 

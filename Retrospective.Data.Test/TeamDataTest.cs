@@ -6,17 +6,17 @@ using Retrospective.Data;
 using MongoDB.Bson;
 using System.Collections.Generic;
 
-namespace retro_db_test
+namespace Retrospective.Data.Test
 {
     [Collection("Database collection")]
     public class TeamDataTest
     {
    
-        private DatabaseFixture fixture;
+        private TestFixture fixture;
         
         
         
-        public TeamDataTest(DatabaseFixture fixture)
+        public TeamDataTest(TestFixture fixture)
         {
             this.fixture=fixture;
         }

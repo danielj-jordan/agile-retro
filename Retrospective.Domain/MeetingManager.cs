@@ -11,7 +11,7 @@ using Retrospective.Data;
 
 namespace Retrospective.Domain
 {
-    public class MeetingManager
+    public class MeetingManager:BaseManager
     {
          private readonly ILogger<MeetingManager>  _logger;
         private readonly IMapper _mapper;
@@ -19,23 +19,17 @@ namespace Retrospective.Domain
         private readonly Database database;
 
         public MeetingManager(ILogger<MeetingManager> logger, IMapper mapper,Database database)
-        {
+        :base(logger, mapper, database){
             _logger=logger;
             _mapper=mapper;
             this.database=database;
         }
 
-        private DomainModel.Team GetTeam(string teamId)
-        {
-            var dbteam = database.Teams.Get(teamId);
-            var team=_mapper.Map<DBModel.Team,DomainModel.Team> (dbteam);
-            return team;
-        }
 
          public List<DomainModel.Meeting> GetMeetingsForTeam(string activeUser, string teamId)
         {
             var team =this.GetTeam(teamId);
-            if (AccessRules.IsTeamMember(activeUser, team)==false)
+            if (!IsTeamMember(activeUser, team))
             {
                 throw new Exception.AccessDenied();
             }
@@ -52,7 +46,7 @@ namespace Retrospective.Domain
             var meeting = database.Meetings.Get(meetingId);
 
             var team =this.GetTeam(meeting.TeamId.ToString());
-            if (AccessRules.IsTeamMember(activeUser, team)==false)
+            if (!IsTeamMember(activeUser, team))
             {
                 throw new Exception.AccessDenied();
             }
@@ -68,7 +62,7 @@ namespace Retrospective.Domain
                 var currentMeeting = database.Meetings.Get(meeting.Id);
 
                 var team =this.GetTeam(currentMeeting.TeamId.ToString());
-                if (AccessRules.IsTeamOwner(activeUser, team)==false)
+                if (!IsTeamOwner(activeUser, team))
                 {
                     throw new Exception.AccessDenied();
                 }
@@ -82,7 +76,7 @@ namespace Retrospective.Domain
             else{
                 //active user must be owner of the team
                 var team =this.GetTeam(meeting.TeamId);
-                if (AccessRules.IsTeamOwner(activeUser, team)==false)
+                if (!IsTeamOwner(activeUser, team))
                 {
                     throw new Exception.AccessDenied();
                 }

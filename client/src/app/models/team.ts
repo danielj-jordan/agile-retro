@@ -1,10 +1,11 @@
 import { Meeting } from "./meeting";
+import {TeamMember} from "./teammember";
 
 export class Team{
   teamId: string;
   name: string;
   owner: string
-  teamMembers: string[];
+  members: TeamMember[];
   meetings: Meeting[];
 
 

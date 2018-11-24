@@ -58,19 +58,23 @@ namespace Retrospective.Domain {
                 .ForMember (dest => dest.TeamId, opt => opt.MapFrom (src => src.Id))
                 .ForMember (dest => dest.Name, opt => opt.MapFrom (src => src.Name))
                 .ForMember (dest => dest.Owner, opt => opt.MapFrom (src => src.Owner))
-                .ForMember (dest => dest.TeamMembers, opt => opt.MapFrom (src => src.TeamMembers));
+                .ForMember (dest => dest.Members, opt => opt.MapFrom (src => src.Members));
 
             CreateMap<DomainModel.Team, DBModel.Team> ()
                 .ForMember (dest => dest.Id, opt => opt.MapFrom (src => ObjectId.Parse (src.TeamId)))
                 .ForMember (dest => dest.Name, opt => opt.MapFrom (src => src.Name))
                 .ForMember (dest => dest.Owner, opt => opt.MapFrom (src => src.Owner))
-                .ForMember (dest => dest.TeamMembers, opt => opt.MapFrom (src => src.TeamMembers));
+                .ForMember (dest => dest.Members, opt => opt.MapFrom (src => src.Members));
 
             CreateMap<DBModel.User, DomainModel.User> ()
                 .ForMember (dest => dest.UserId, opt => opt.MapFrom (src => src.Id))
                 .ForMember (dest => dest.Name, opt => opt.MapFrom (src => src.Name))
                 .ForMember (dest => dest.Email, opt => opt.MapFrom (src => src.Email))
                 .ReverseMap ();
+
+
+            CreateMap<DBModel.TeamMember, DomainModel.TeamMember> ()
+                .ReverseMap();
 
         }
 
