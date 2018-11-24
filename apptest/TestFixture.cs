@@ -8,7 +8,11 @@ using Xunit;
 
 namespace apptest {
     public class TestFixture : IDisposable {
+
         public ObjectId TeamId { get; private set; }
+
+        public Retrospective.Data.Model.Team TestTeam {get;set;}
+
         public ObjectId SessionId { get; private set; }
 
         public ObjectId DeleteNote{get; private set;}
@@ -22,6 +26,8 @@ namespace apptest {
         public Retrospective.Data.Database Database {get; private set;}
 
         public TestFixture () {
+
+
             string connectionString = "mongodb://localhost:27017";
             string databaseName = "test_controller";
 
@@ -51,9 +57,20 @@ namespace apptest {
                 new Retrospective.Data.Model.Team {
                     Name = "test team",
                         Owner = this.Owner,
-                        TeamMembers = new String[] { SampleUser, this.Owner}
+                        Members = new TeamMember[] { 
+                            new TeamMember(){
+                                UserName=SampleUser,
+                                InviteDate=DateTime.Now
+                            },
+                            new TeamMember(){
+                                UserName=this.Owner,
+                                InviteDate=DateTime.Now
+                            }
+                        }
                 });
             this.TeamId = (ObjectId) newTeam.Id;
+            this.TestTeam=newTeam;
+
 
             //initialize a session record
             Retrospective.Data.Model.Meeting newSession = this.Database.Meetings.Save (

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Core;
@@ -32,6 +33,7 @@ namespace Retrospective.Domain.Test {
 
         private void InitializeTestRecords () {
 
+            System.Console.WriteLine("setup TestFixture") ;
             //initialize a user record
             Retrospective.Data.Model.User newUser = this.Database.Users.SaveUser (
                 new Retrospective.Data.Model.User {
@@ -41,12 +43,28 @@ namespace Retrospective.Domain.Test {
             );
 
             //initialize a team record
-            Retrospective.Data.Model.Team newTeam = this.Database.Teams.Save (
+            Retrospective.Data.Model.Team newTeam =
                 new Retrospective.Data.Model.Team {
-                    Name = "test team",
-                        Owner = this.Owner,
-                        TeamMembers = new String[] { SampleUser }
-                });
+                    Name = "test team A",
+                        Owner = this.Owner
+                };
+
+            List<TeamMember> members = new List<TeamMember>();
+            members.Add(new TeamMember(){
+                UserName=this.Owner,
+                InviteDate=DateTime.Now
+            });
+
+            members.Add(new TeamMember(){
+                UserName=this.SampleUser,
+                InviteDate=DateTime.Now
+            });
+
+            newTeam.Members=members.ToArray();
+            var savedTeam = this.Database.Teams.Save(newTeam);
+            System.Console.WriteLine("saved: " + savedTeam.Id);
+            
+
             this.TeamId = (ObjectId) newTeam.Id;
 
             //initialize a session record

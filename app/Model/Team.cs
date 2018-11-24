@@ -8,6 +8,6 @@ namespace app.Model
 
         public string Owner {get;set;}
 
-        public string[] TeamMembers {get;set;}
+        public TeamMember[] Members {get;set;}
     }
 }

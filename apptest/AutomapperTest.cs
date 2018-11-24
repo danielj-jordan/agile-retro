@@ -5,7 +5,6 @@ namespace apptest
 {
     public class AutomapperTest
     {
-        private IMapper mapper; 
         private MapperConfiguration config;
 
         public AutomapperTest()
