@@ -36,6 +36,8 @@ namespace app.Domain
 
              CreateMap<ViewModel.Meeting, DomainModel.Meeting>().ReverseMap();
 
+            CreateMap<ViewModel.TeamMember, DomainModel.TeamMember>().ReverseMap();
+
             //mapping for Comment
             CreateMap<ViewModel.Comment, DomainModel.Comment>()
                 .ForMember(dest=>dest.CommentId, opt=>opt.MapFrom(src=>src.CommentId))

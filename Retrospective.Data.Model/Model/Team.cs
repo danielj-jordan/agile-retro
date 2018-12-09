@@ -12,7 +12,7 @@ namespace Retrospective.Data.Model
         public string Owner{get;set;}
 
         //list of email addresses from the user collection
-        public string[] TeamMembers{get;set;}
+        public TeamMember[] Members {get;set;}
         
 
     }

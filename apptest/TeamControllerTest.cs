@@ -83,7 +83,6 @@ namespace apptest {
             var controller = new app.Controllers.TeamController (logger, mapper,  teamManager);
 
             app.Model.Team team = new app.Model.Team ();
-            team.TeamId = this.fixture.TeamId.ToString ();
             team.Name = "test team";
 
             MockHttpContextValid (controller);
@@ -102,13 +101,14 @@ namespace apptest {
 
             MockHttpContextValid (controller);
 
-            var teamStart = controller.Team (fixture.TeamId.ToString ());
+            var teamStart = mapper.DefaultContext.Mapper.Map<Retrospective.Domain.Model.Team,app.Model.Team>(
+                mapper.DefaultContext.Mapper.Map<Retrospective.Data.Model.Team,Retrospective.Domain.Model.Team>(fixture.TestTeam));
 
-            teamStart.Value.Name += "more";
+            teamStart.Name += " more";
 
-            var teamEnd = controller.Team (teamStart.Value);
+            var teamEnd = controller.Team(teamStart);
 
-            Assert.Equal (teamStart.Value.TeamId, teamEnd.Value.TeamId);
+            Assert.Equal (teamStart.TeamId.ToString(), teamEnd.Value.TeamId);
 
             Assert.Contains ("more", teamEnd.Value.Name);
 
