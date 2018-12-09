@@ -18,7 +18,7 @@
                       {{teamMember.userName}}
                     </div>
                     <div class="col">  
-                      {{teamMember.role}}
+                      {{getDisplayStringForRole(teamMember.role)}}
                     </div>
                     <div class="col">
                         <button class="btn"  >remove</button>
@@ -33,18 +33,18 @@
           <div class="row form-group" >
             <div class="col">
               <label for="newEmail">Google Account Name (Email)</label>
-              <input type="text" class="form-control" name="newEmail"/>
+              <input type="text" class="form-control" name="newEmail" [(ngModel)]="newUser" />
             </div>
             <div class="col">
                 <label for="newRole">Role on Team</label>
-                <select class="form-control" name="newRole">
-                    <option>Team Stakeholder</option>
-                    <option>Team Member</option>
-                    <option>Team Owner/Manager/Scrum Master</option>
+                <select class="form-control" name="newRole" [(ngModel)]="newRole"> 
+                    <option value="stakeholder">Team Stakeholder</option>
+                    <option value="member">Team Member</option>
+                    <option value="manager">Team Owner/Manager/Scrum Master</option>
                 </select>
               </div>
               <div class="col">
-                <button class="btn btn-secondary" id="btnAddMember" >Add Person to Team</button>
+                <button class="btn btn-secondary" id="btnAddMember" (click)="addPerson();" >Add Person to Team</button>
               </div>
           </div>
 
