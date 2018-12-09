@@ -120,8 +120,9 @@ export class NotesService {
 
     saveTeam(team: Team): Observable<Team>{
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        headers= this.addAuthHeader(headers);
         var options = { headers : headers};
-    
+        
         console.log('saving meeting');
         console.log (team);
 
