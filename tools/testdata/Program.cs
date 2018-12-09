@@ -98,7 +98,12 @@ namespace testdata {
                 new Retrospective.Data.Model.Team {
                     Name = "test team",
                         Owner = "nobody@127.0.0.1",
-                        TeamMembers = new String[] { "nobody@127.0.0.1" }
+                        Members = new TeamMember[]{
+                            new TeamMember{
+                                UserName= "nobody@127.0.0.1",
+                                InviteDate=DateTime.Now
+                            }
+                        }
                 });
 
            

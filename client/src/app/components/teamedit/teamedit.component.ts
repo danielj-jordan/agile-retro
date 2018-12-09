@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotesService } from '../../services/notes.service';
 import { Team } from '../../models/team';
+import { TeamMember } from '../../models/teammember';
 
 @Component({
   selector: 'app-teamedit',
@@ -10,6 +11,8 @@ import { Team } from '../../models/team';
 })
 export class TeamEditComponent implements OnInit {
   team: Team;
+  newUser: string;
+  newRole: string;
 
   constructor(    
     private route: ActivatedRoute,
@@ -19,6 +22,8 @@ export class TeamEditComponent implements OnInit {
   ngOnInit() {
     this.team = new Team();
     this.team.name = '';
+    this.newRole="member";
+    this.newUser="";
 
 
     // get the teamid id
@@ -35,6 +40,21 @@ export class TeamEditComponent implements OnInit {
     );
   }
 
+  addPerson(): void{
+    
+    console.log('addPerson' + this.newRole);
+
+    var newTeamMember= new TeamMember();
+    newTeamMember.role=this.newRole;
+    newTeamMember.userName=this.newUser;
+
+    this.team.members.push(newTeamMember);
+
+    this.newRole="member";
+    this.newUser="";
+
+  }
+
   navigateToList(): void {
     this.router.navigateByUrl('/list');
   }
@@ -44,6 +64,20 @@ export class TeamEditComponent implements OnInit {
     this.notesService.saveTeam(this.team).subscribe();
     console.log(this.team);
     this.navigateToList();
+  }
+
+  getDisplayStringForRole(role: string):string{
+
+    if(role=="manager"){
+      return "Team Owner/Manager/Scrum Master";
+    }
+
+    if(role=="stakeholder"){
+      return "Team Stakeholder";
+    }
+
+    return "Team Member";
+
   }
 
 }

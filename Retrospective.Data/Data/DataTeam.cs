@@ -72,11 +72,18 @@ namespace Retrospective.Data
         {
             var teams = database.MongoDatabase.GetCollection<Team>(collection);
 
+
+            var filter= Builders<Team>.Filter.Eq("Members.UserName", email);
+            return teams.Find(filter).ToList();
+            
+           /* *
             var query = from team in teams.AsQueryable<Team>()
-            where team.TeamMembers.Contains(email)
+            where team.Members.Where(item=>
+                item.UserName==email
+                )
                 select team;
 
-            return query.ToList<Team>();
+            return query.ToList<Team>();*/
 
         }
 

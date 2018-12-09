@@ -5,7 +5,7 @@ using Retrospective.Data.Model;
 using Retrospective.Data;
 using MongoDB.Bson;
 
-namespace retro_db_test
+namespace Retrospective.Data.Test
 {
 
   
@@ -14,7 +14,7 @@ namespace retro_db_test
     {
         private IDatabase database;
 
-        public CommentDataTest(DatabaseFixture fixture)
+        public CommentDataTest(TestFixture fixture)
         {
             database=fixture.database;
         }

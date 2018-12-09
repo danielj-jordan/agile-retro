@@ -4,29 +4,43 @@ using Xunit;
 using Retrospective.Data.Model;
 using Retrospective.Data;
 using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Core;
 
 
-namespace retro_db_test
+namespace Retrospective.Data.Test
 {
-    public class DatabaseFixture : IDisposable
+    public class TestFixture : IDisposable
     {
-        public Database database= new Database("test_datalayer");
         public User owner {get; private set;}
         public Team team {get; private set;}
         public Meeting retrospectiveSession {get; private set;}
+
+        public Retrospective.Data.Database database { get; private set; }
 
         public void Dispose()
         {
         
         }
 
-        public DatabaseFixture()
+        public TestFixture()
         {
-            Setup();
+            string connectionString = "mongodb://localhost:27017";
+            string databaseName = "test_datalayer";
+
+            //start with an empty database
+            var client = new MongoClient (connectionString);
+            client.DropDatabase (databaseName);
+
+            //connect to the database
+            Retrospective.Data.Database database = new Database (databaseName);
+            this.database = database;
+            IntitialTestRecords();
 
         }
 
-        private void Setup()
+
+        private void IntitialTestRecords()
         {
             //create a user to test with
             owner = new User();
@@ -41,9 +55,12 @@ namespace retro_db_test
             team.Name="test team";
             team.Owner = owner.Email;
             
-            var members =  new List<string>();
-            members.Add(owner.Email);
-            team.TeamMembers=members.ToArray();
+            var members =  new List<TeamMember>();
+            members.Add(new TeamMember(){
+                UserName=owner.Email, 
+                InviteDate=DateTime.Now
+            });
+            team.Members=members.ToArray();
             
             DataTeam teamData = new DataTeam(database);
             var savedTeam= teamData.Save(team);
@@ -70,7 +87,7 @@ namespace retro_db_test
     }
 
     [CollectionDefinition("Database collection")]
-    public class DatabaseCollection: ICollectionFixture<DatabaseFixture>
+    public class DatabaseCollection: ICollectionFixture<TestFixture>
     {
 
 
