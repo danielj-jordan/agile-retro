@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch:'full' },
   { path: 'comment/:id', component: CommentComponent}, 
   { path: 'meetingedit/:teamid/:meetingid', component: MeetingEditComponent},
-  { path: 'meetingedit/:teamId', component: MeetingEditComponent},
+  { path: 'meetingedit/:teamid', component: MeetingEditComponent},
   { path: 'teamedit/:teamid', component: TeamEditComponent},
   { path: 'teamedit', component: TeamEditComponent},
   { path: 'login', component: LoginComponent },

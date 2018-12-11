@@ -66,6 +66,7 @@ namespace app.Controllers
         [HttpGet("[action]")]
         public ActionResult<IEnumerable<Team>> Teams()
         {
+            _logger.LogInformation(GetActiveUser());
             var teams = teamManager.GetUserTeams(GetActiveUser(), GetActiveUser());
             return (_mapper.Map<List<DomainModel.Team>,List<app.Model.Team> >(teams)).ToList();
 
