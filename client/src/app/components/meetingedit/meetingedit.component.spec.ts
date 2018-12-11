@@ -135,5 +135,13 @@ describe('MeetingEditComponent', () => {
     expect(fixture.componentInstance.navigateToList).toHaveBeenCalled();
   });
 
+  it('can add category to empty meeting', ()=>{
+    component.initialEmptyMeeting('123');
+    component.addCategory();
+
+    expect(component.meeting.categories.length).toEqual(1);
+    
+  });
+
 
 });

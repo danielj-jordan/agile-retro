@@ -33,6 +33,8 @@ namespace Retrospective.Domain {
             logger.LogDebug ("looking for {0}", user);
             var teams = database.Teams.GetUserTeams (user);
 
+            logger.LogDebug("{0} possible teams for {1}", teams.Count, user);
+
             var domainTeams = mapper.Map<List<DBModel.Team>, List<DomainModel.Team>> (teams);
 
             foreach (var team in domainTeams) {

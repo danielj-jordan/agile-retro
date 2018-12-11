@@ -5,6 +5,7 @@ import {User} from '../../models/user';
 import { LocalstorageService } from '../../services/localstorage.service';
 import {NotesService} from '../../services/notes.service';
 import { UserLogin } from '../../models/userlogin';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -21,20 +22,42 @@ export class LoginComponent implements OnInit {
               }
   public  model = new User();
 
+  public isDemo: boolean;
+
 
   ngOnInit() {
+    this.isDemo=environment.demoEnabled;
 
+
+  }
+
+  
+
+  public LoginDemo():void{
+
+    this.notesService.loginDemo().subscribe(
+      data=>{
+        console.log('test');
+        console.log(data);
+        this.storage.userToken=data.token;
+
+        // save to local storage
+        this.storage.user=this.model;
+
+        // redirect to teams retrospectivelist page
+        this.router.navigateByUrl('/list');
+      });
 
   }
 
 
   public Login():void{
-    console.log('logging in user: ' + this.model.LoginName);  
+    console.log('logging in user: ' + this.model.loginName);  
     
     
     //verify login -- assume valid for now
     let login = new UserLogin();
-    login.LoginName=this.model.LoginName;
+    login.LoginName=this.model.loginName;
 
 
     this.notesService.login(login).subscribe(
@@ -43,8 +66,10 @@ export class LoginComponent implements OnInit {
         console.log(data);
         this.storage.userToken=data.token;
 
+        
+
         // save to local storage
-        this.storage.userEmail=this.model.LoginName;
+        this.storage.user=this.model;
 
         // redirect to teams retrospectivelist page
         this.router.navigateByUrl('/list');

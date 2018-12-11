@@ -74,6 +74,31 @@ namespace app.Controllers
 
         }
 
-        
+        [HttpPost("[action]")]
+        public ActionResult<UserLoginToken> Demo (){
+            
+
+             // authentication successful so generate jwt token
+            var tokenHandler = new  System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(tokenConfig.Value.Key);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[] 
+                {
+                    new Claim(ClaimTypes.Name, "demo@localhost")
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            UserLoginToken userToken = new UserLoginToken();
+            userToken.Token= tokenHandler.WriteToken(token);
+
+            return userToken;
+
+
+
+        }    
     }
 }
