@@ -8,5 +8,7 @@ namespace Retrospective.Domain.Model
 
         public string Email {get;set;}
 
+        public bool IsDemoUser {get;set;}
+
     }
 }

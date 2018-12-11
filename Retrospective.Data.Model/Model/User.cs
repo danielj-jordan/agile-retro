@@ -11,9 +11,9 @@ namespace Retrospective.Data.Model
 
         //list of the teams that this operson is on
         public ObjectId[] Teams {get;set;}
-        
 
-        
+        public bool IsDemoUser {get;set;}
+        public DateTime? SubscriptionEnd {get; set;}
 
     }
 }
