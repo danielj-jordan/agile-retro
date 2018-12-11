@@ -42,6 +42,8 @@ export class MeetingEditComponent implements OnInit {
       }
     );
 
+    console.log('meetingId: ' + meetingId);
+    console.log('teamid: ' + teamId);
 
     if (meetingId != null) {
       // editing existing meeting
@@ -51,11 +53,16 @@ export class MeetingEditComponent implements OnInit {
           console.log(this.meeting);
         });
     } else {
-      this.meeting = new Meeting();
-      this.meeting.teamId = teamId;
+      this.initialEmptyMeeting(teamId);
     }
 
 
+  }
+
+  initialEmptyMeeting(teamId: string): void{
+    this.meeting = new Meeting();
+    this.meeting.teamId = teamId;
+    this.meeting.categories=[];
   }
 
   save(): void {
@@ -81,21 +88,25 @@ export class MeetingEditComponent implements OnInit {
   nextCategoryNumber(): number {
     // find the maximum category number and return a higher value
     let next = 1;
+    
     for (let cat of this.meeting.categories) {
       if (cat.categoryNum >= next) {
         next = cat.categoryNum + 1;
       }
     }
+    
     return next;
   }
 
   nextSortNumber(): number {
     let next = 1;
+
     for (let cat of this.meeting.categories) {
       if (cat.sortOrder >= next) {
         next = cat.sortOrder + 1;
       }
     }
+    
     return next;
   }
 

@@ -38,6 +38,15 @@ export class NotesService {
         return this.http.post<UserToken>(this.baseUrl + '/auth/generatetoken', user, options );
     }
 
+    loginDemo(): Observable<UserToken>{
+        
+        console.log('logging in demo user');
+        
+        var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        var options = { headers : headers};
+
+        return this.http.post<UserToken>(this.baseUrl + '/auth/demo', options );
+    }
 
     getCategories(sessionId: string) : Observable<Category[]>{
         console.log('getting categories');
@@ -87,14 +96,9 @@ export class NotesService {
         return this.http.get<Team[]>(this.baseUrl + '/team/teams/' , options);
     }
 
-
- 
-
-
     saveComment(sessionId: string, note:Comment): Observable<Comment>{
-        
-        
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        headers= this.addAuthHeader(headers);
         var options = { headers : headers};
 
         if(note.commentId.length==0){
@@ -102,13 +106,12 @@ export class NotesService {
         }
        
             return this.http.put<Comment>(this.baseUrl + '/notes/note/' + sessionId, note, options );
-       
-
     }
 
 
     saveMeeting(meeting: Meeting): Observable<Meeting>{
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        headers= this.addAuthHeader(headers);
         var options = { headers : headers};
     
         console.log('saving meeting');
@@ -130,9 +133,8 @@ export class NotesService {
     }
 
     deleteNote(commentId: string): void{
-
-        
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        headers= this.addAuthHeader(headers);
         var options = { headers : headers};
        
 
@@ -141,8 +143,6 @@ export class NotesService {
           ).subscribe();
           
           return ;
-        
-
     }
 
 

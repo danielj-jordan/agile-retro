@@ -12,7 +12,7 @@ namespace Retrospective.Data.Model
 
         /// <summary>
         /// Role of the user on the team:
-        /// member, stakeholder, owner
+        /// member, stakeholder, manager
         /// </summary>
         /// <value></value>
         public string Role {get;set;}

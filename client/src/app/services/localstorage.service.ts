@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {User} from '../models/user';
 
 @Injectable()
 export class LocalstorageService {
@@ -6,12 +7,12 @@ export class LocalstorageService {
   constructor() { }
 
 
-  set userEmail(email: string){
-    sessionStorage.setItem("user", email);
+  set user(activeUser: User){
+    sessionStorage.setItem("user", JSON.stringify(activeUser));
   }
 
-  get userEmail(): string{
-    return sessionStorage.getItem("user");
+  get user(): User{
+    return JSON.parse(sessionStorage.getItem("user"));
   }
 
   set userToken(token: string){
@@ -21,4 +22,7 @@ export class LocalstorageService {
   get userToken():string {
     return sessionStorage.getItem("token");
   }
+
+  
+
 }
