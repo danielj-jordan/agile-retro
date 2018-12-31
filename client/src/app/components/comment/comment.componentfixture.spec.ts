@@ -10,6 +10,7 @@ import { Category } from '../../models/category';
 import { FormsModule } from '@angular/forms';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import {IconsModule} from '../../icons/icons.module';
 
 
 describe('comment component fixture', () => {
@@ -19,7 +20,7 @@ describe('comment component fixture', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [CommentComponent, CommentEditComponent],
-      imports: [FormsModule, RouterTestingModule],
+      imports: [FormsModule, RouterTestingModule, IconsModule],
       providers: [{ provide: NotesService, useValue: new NotesServiceMock() }]
     }).compileComponents();
 
