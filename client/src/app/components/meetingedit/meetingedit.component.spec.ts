@@ -5,6 +5,7 @@ import { MeetingEditComponent } from './meetingedit.component';
 import { FormsModule } from '@angular/forms';
 import { NotesService } from '../../services/notes.service';
 import { NotesServiceMock } from '../../services/notes.service.mock';
+import {IconsModule} from '../../icons/icons.module';
 
 
 describe('MeetingEditComponent', () => {
@@ -14,7 +15,7 @@ describe('MeetingEditComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MeetingEditComponent],
-      imports: [RouterTestingModule, FormsModule],
+      imports: [RouterTestingModule, FormsModule, IconsModule],
       providers: [
         { provide: NotesService, useClass: NotesServiceMock },
         {

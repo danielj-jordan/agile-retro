@@ -9,6 +9,7 @@ import { Category } from '../../models/category';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { doesNotThrow } from 'assert';
+import {IconsModule} from '../../icons/icons.module';
 
 
 describe('comment component', () => {
@@ -21,7 +22,7 @@ describe('comment component', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             declarations: [CommentComponent, CommentEditComponent],
-            imports: [FormsModule, RouterTestingModule],
+            imports: [FormsModule, RouterTestingModule, IconsModule],
             providers: [CommentComponent,
                 { provide: NotesService, useClass: NotesServiceMock },
             ]

@@ -5,6 +5,7 @@ import { NotesService } from '../../services/notes.service';
 import { NotesServiceMock } from '../../services/notes.service.mock';
 import { Component } from '@angular/core';
 import { Comment } from '../../models/comment';
+import {IconsModule} from '../../icons/icons.module';
 
 describe('CommentEditComponent', () => {
   let component: CommentEditComponent;
@@ -13,6 +14,7 @@ describe('CommentEditComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CommentEditComponent],
+      imports: [IconsModule],
       providers: [{ provide: NotesService, useValue: new NotesServiceMock() }]
     }).compileComponents();
 
