@@ -6,7 +6,7 @@ import {FormsModule} from '@angular/forms'
 import { LocalstorageService } from '../../services/localstorage.service';
 import {NotesService} from '../../services/notes.service'
 import { NotesServiceMock } from '../../services/notes.service.mock';
-
+import {IconsModule} from '../../icons/icons.module';
 
 describe('MeetingListComponent', () => {
   let component: MeetingListComponent;
@@ -14,7 +14,7 @@ describe('MeetingListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, RouterTestingModule],
+      imports: [FormsModule, RouterTestingModule, IconsModule],
       declarations: [ MeetingListComponent  ],
       providers: [ LocalstorageService, {provide: NotesService, useValue: new  NotesServiceMock() }]
     })
