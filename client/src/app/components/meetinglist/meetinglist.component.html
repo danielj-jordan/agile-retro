@@ -1,6 +1,4 @@
-<p>
-  retrospectivelist works!
-</p>
+
 <div class='container'>
   <div>List of Teams</div>
   <div class="row" *ngFor="let team of teams">
@@ -15,8 +13,12 @@
           <div class ="row" *ngFor="let meeting of team.meetings">
               <div>{{meeting.name}}</div>
                 <div>
-                  <a [routerLink]="['/meetingedit', team.teamId, meeting.id]" >edit meeting details</a>
-                  <a [routerLink]="['/comment', meeting.id]" >edit meeting comments</a>
+                  <a [routerLink]="['/meetingedit', team.teamId, meeting.id]" >
+                  details
+                </a>
+                  <a [routerLink]="['/comment', meeting.id]" >
+                    <i-message-square></i-message-square>
+                  </a>
                 </div>
          
           </div>

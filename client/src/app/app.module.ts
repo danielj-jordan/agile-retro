@@ -16,14 +16,16 @@ import { LocalstorageService } from './services/localstorage.service';
 import { Router } from '@angular/router';
 import { MeetingEditComponent } from './components/meetingedit/meetingedit.component';
 import { TeamEditComponent } from './components/teamedit/teamedit.component';
-
+import {IconsModule} from './icons/icons.module';
 
 @NgModule({
     imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    IconsModule
+    
   ],
   declarations: [
     AppComponent,
