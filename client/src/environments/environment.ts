@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false, 
-  demoEnabled: true
+  demoEnabled: true,
+  signupEnabled: false
 };

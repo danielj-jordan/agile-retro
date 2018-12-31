@@ -24,9 +24,12 @@ export class LoginComponent implements OnInit {
 
   public isDemo: boolean;
 
+  private isLoginAllowed: boolean;
+
 
   ngOnInit() {
     this.isDemo=environment.demoEnabled;
+    this.isLoginAllowed=environment.signupEnabled;
 
 
   }
@@ -53,6 +56,10 @@ export class LoginComponent implements OnInit {
 
   public Login():void{
     console.log('logging in user: ' + this.model.loginName);  
+
+    if(!this.isLoginAllowed){
+      return;
+    }
     
     
     //verify login -- assume valid for now

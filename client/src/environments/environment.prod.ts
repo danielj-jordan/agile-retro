@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  demoEnabled: true
+  demoEnabled: true,
+  signupEnabled: false
 };
