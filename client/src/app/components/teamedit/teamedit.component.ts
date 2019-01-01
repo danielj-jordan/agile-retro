@@ -56,7 +56,7 @@ export class TeamEditComponent implements OnInit {
   }
 
   navigateToList(): void {
-    this.router.navigateByUrl('/list');
+    this.router.navigateByUrl('/retrospective/list');
   }
 
   save(): void{

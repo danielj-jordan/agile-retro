@@ -19,9 +19,9 @@
                         [(ngModel)]="category.name"/>
                     </div>
                     <div class="col">
-                        <button class="btn" (click)="categoryMoveUp(category.categoryNum);" >move up</button>
-                        <button class="btn" (click)="categoryMoveDown(category.categoryNum);"  >move down</button>
-                        <button class="btn" (click)="categoryDelete(category.categoryNum);">delete</button>
+                        <button class="btn" (click)="categoryMoveUp(category.categoryNum);" ><i-arrow-up class="color-primary"></i-arrow-up></button>
+                        <button class="btn" (click)="categoryMoveDown(category.categoryNum);"><i-arrow-down class="color-primary"></i-arrow-down></button>
+                        <button class="btn" (click)="categoryDelete(category.categoryNum);"><i-delete class="color-secondary"></i-delete ></button>
                     </div>
                   </div>
                 </div>
@@ -29,9 +29,9 @@
           </div> 
       </div>
       <div> 
-        <button class="btn btn-secondary" id="btnAddCategory" (click)="addCategory();">Add Category</button>
         <button  class="btn btn-secondary" id="btnCancel"  (click)="navigateToList();">Cancel</button>
-        <button type="submit" class="btn btn-success" id="btnSave" (click)="save();">Save</button>
+        <button class="btn btn-primary" id="btnAddCategory" (click)="addCategory();">Add Category</button>
+        <button type="submit" class="btn btn-primary" id="btnSave" (click)="save();">Save</button>
       </div>
     </form>
 

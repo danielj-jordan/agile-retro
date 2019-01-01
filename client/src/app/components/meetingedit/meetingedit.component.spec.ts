@@ -89,7 +89,7 @@ describe('MeetingEditComponent', () => {
   it('clicking on move up', () => {
     spyOn(fixture.componentInstance, 'categoryMoveUp');
     fixture.detectChanges();
-    const button = fixture.nativeElement.querySelector('#divCategory2 :nth-child(2) :nth-child(1)');
+    const button = fixture.nativeElement.querySelector('#divCategory2>div:nth-child(1)>div:nth-child(2)>button:nth-child(1)');
     fixture.detectChanges();
     button.dispatchEvent(new Event('click'));
 
@@ -99,17 +99,17 @@ describe('MeetingEditComponent', () => {
   it('clicking on move down', () => {
     spyOn(fixture.componentInstance, 'categoryMoveDown');
     fixture.detectChanges();
-    const button = fixture.nativeElement.querySelector('#divCategory2 :nth-child(2) :nth-child(2)');
+    const button = fixture.nativeElement.querySelector('#divCategory2>div:nth-child(1)>div:nth-child(2)>button:nth-child(2)');
     fixture.detectChanges();
     button.dispatchEvent(new Event('click'));
-
+    fixture.detectChanges();
     expect(fixture.componentInstance.categoryMoveDown).toHaveBeenCalled();
   });
 
   it('clicking on delete', () => {
     spyOn(fixture.componentInstance, 'categoryDelete');
     fixture.detectChanges();
-    const button = fixture.nativeElement.querySelector('#divCategory2 :nth-child(2) :nth-child(3)');
+    const button = fixture.nativeElement.querySelector('#divCategory2>div:nth-child(1)>div:nth-child(2)>button:nth-child(3)');
     fixture.detectChanges();
     button.dispatchEvent(new Event('click'));
 
