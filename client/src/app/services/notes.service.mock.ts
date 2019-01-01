@@ -26,6 +26,8 @@ export class NotesServiceMock {
         let notes: Comment[] =[]
         notes.push({commentId: "1", sessionId:" + sessionId + ", categoryNum:1, text:"this is a test", updateUser:"bob"});
         notes.push({commentId: "2", sessionId:" + sessionId + ", categoryNum:1, text:"this is also a test", updateUser:"bob"});
+  
+
 
         console.log('notes count: ' + notes.length);
         return Observable.of(notes);
@@ -38,6 +40,7 @@ export class NotesServiceMock {
 
         categories.push({categoryNum:1, name:"test", sortOrder:1});
         categories.push({categoryNum:2, name:"another test", sortOrder: 2});
+        categories.push({categoryNum:3, name:"still another test", sortOrder: 3});
         categories$= Observable.create( (observer:any) => 
         {
             observer.next(categories);

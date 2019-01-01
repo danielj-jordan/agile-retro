@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         this.storage.user=this.model;
 
         // redirect to teams retrospectivelist page
-        this.router.navigateByUrl('/list');
+        this.router.navigateByUrl('/retrospective/list');
       });
 
   }
@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
         this.storage.user=this.model;
 
         // redirect to teams retrospectivelist page
-        this.router.navigateByUrl('/list');
+        this.router.navigateByUrl('/retrospective/list');
       });
   }
 

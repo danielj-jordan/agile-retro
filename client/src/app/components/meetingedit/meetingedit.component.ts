@@ -111,7 +111,7 @@ export class MeetingEditComponent implements OnInit {
   }
 
   navigateToList(): void {
-    this.router.navigateByUrl('/list');
+    this.router.navigateByUrl('/retrospective/list');
   }
 
   categoryDomId(categoryNum: number): string {
