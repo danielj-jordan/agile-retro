@@ -5,6 +5,7 @@ export class Meeting{
   teamId: string;
   name: string;
   categories: Category[];
+  message: string;
 
 
 }
