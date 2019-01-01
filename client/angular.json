@@ -22,7 +22,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/bootstrap-minty.min.css" 
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -79,7 +79,7 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/bootstrap-minty.min.css" 
             ],
             "assets": [
               "src/assets",
