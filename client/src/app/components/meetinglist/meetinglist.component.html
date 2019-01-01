@@ -1,29 +1,47 @@
 
-<div class='container'>
-  <div>List of Teams</div>
-  <div class="row" *ngFor="let team of teams">
-    <div class="col"  >
-      <div>
-      <h3>{{team.name}}</h3>
-      <a [routerLink]="['/retrospective/teamedit', team.teamId]" >edit team</a>
-      </div>
-      <div><a [routerLink]="['/retrospective/meetingedit', team.teamId]" >new meeting</a></div>
-      <div class="container">
-        <div class="col">
-          <div class ="row" *ngFor="let meeting of team.meetings">
-              <div>{{meeting.name}}</div>
-                <div>
-                  <a [routerLink]="['/retrospective/meetingedit', team.teamId, meeting.id]" >
-                  details
-                </a>
-                  <a [routerLink]="['/retrospective/comment', meeting.id]" >
-                    <i-message-square></i-message-square>
-                  </a>
+<div class="alert alert-dismissible alert-info" >
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p>This is your home screen.  It has a listing of teams and retrospective meetings.</p>
+</div>
+<br/>
+<div id="accordian">
+  <div class="card" *ngFor="let team of teams">
+    <div class="card-header">
+      <h5 class="mb-0">
+        <a  [attr.class]="teams.length>1 ? 'btn' : null" [attr.data-toggle]="teams.length>1 ? 'collapse': null" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" >{{team.name}}</a>
+      </h5>
+    </div>
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+    <div class="card-body"  >
+
+        <h3>Team: {{team.name}}</h3>
+        <p>{{team.message}}</p>
+        <a [routerLink]="['/retrospective/teamedit', team.teamId]" >Edit this team</a>
+        <div><a [routerLink]="['/retrospective/meetingedit', team.teamId]" >Add another retrospective meeting for this team</a></div>
+        <br/>        
+        <div class="container">
+          <div class="card-group">
+            <div class="card" *ngFor="let meeting of team.meetings">
+              <div class="card-body">
+                <h5>{{meeting.name}}</h5>
+                <p>{{meeting.message}}</p>
+                  <p><a [routerLink]="['/retrospective/meetingedit', team.teamId, meeting.id]" >
+                    Edit this meeting name and categories
+                  </a></p>
+                  <div>
+                    
+                    <a class="btn btn-primary" [routerLink]="['/retrospective/comment', meeting.id]" >
+                      Enter retrospective comments&nbsp;<i-message-square></i-message-square>
+                    </a>
+                  </div>
                 </div>
-         
+            </div>
           </div>
         </div>
-      </div>
+
+
     </div>
   </div>
+  </div>
 </div>
+
