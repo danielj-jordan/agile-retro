@@ -47,10 +47,12 @@ describe('comment component fixture', () => {
     const category1 = fixture.nativeElement.querySelector('#category1');
     const category2 = fixture.nativeElement.querySelector('#category2');
     const category3 = fixture.nativeElement.querySelector('#category3');
+    const category4 = fixture.nativeElement.querySelector('#category4');
 
     expect(category1).toBeDefined();
     expect(category2).toBeDefined();
-    expect(category3).toBeNull();
+    expect(category3).toBeDefined();
+    expect(category4).toBeNull();
   });
 
   it('because the service is mocked, there are two comment in category 1', () => {

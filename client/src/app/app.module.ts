@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { MeetingEditComponent } from './components/meetingedit/meetingedit.component';
 import { TeamEditComponent } from './components/teamedit/teamedit.component';
 import {IconsModule} from './icons/icons.module';
+import { MenuComponent } from './components/menu/menu.component';
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import {IconsModule} from './icons/icons.module';
     MeetingListComponent,
     MeetingEditComponent,
     TeamEditComponent,
+    MenuComponent,
 
   ],
   providers: [NotesService, LocalstorageService],

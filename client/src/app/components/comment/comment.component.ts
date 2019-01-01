@@ -74,6 +74,14 @@ export class CommentComponent implements OnInit, AfterViewInit {
     );
   }
 
+
+  isCategoriesFew(): boolean{
+    if(this.categories.length<4){
+      return true;
+    }
+    return false;
+  }
+  
   getComments(): void {
     // get the notes for this session
     this.notesService.getNotes(this.sessionId).subscribe(
