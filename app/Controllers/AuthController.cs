@@ -69,9 +69,6 @@ namespace app.Controllers
             userToken.Token= tokenHandler.WriteToken(token);
 
             return userToken;
-
-
-
         }
 
         [HttpPost("[action]")]
