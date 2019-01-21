@@ -18,8 +18,8 @@ pipeline {
             sh 'whoami'
             sh 'dotnet build /agile-retro/app/app.csproj'
             sh 'ng --version'
-            sh 'ls -al /agile-retro/client'
-            sh 'cd /agile-retro/client && npm install && ng build'
+            sh 'ls -al /agile-retro/web/client'
+            sh 'cd /agile-retro/web/client && npm install && ng build'
             
           }
       }
