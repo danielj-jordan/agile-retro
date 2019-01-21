@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   public isDemo: boolean;
 
-  private isLoginAllowed: boolean;
+  public isLoginAllowed: boolean;
 
 
   ngOnInit() {

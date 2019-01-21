@@ -26,32 +26,6 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       }
-    },
-    ".NETStandard,Version=v2.0/ubuntu-x64": {
-      "Microsoft.NETCore.Platforms/1.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard1.0/_._": {}
-        },
-        "runtime": {
-          "lib/netstandard1.0/_._": {}
-        }
-      },
-      "NETStandard.Library/2.0.3": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.1.0"
-        },
-        "compile": {
-          "lib/netstandard1.0/_._": {}
-        },
-        "runtime": {
-          "lib/netstandard1.0/_._": {}
-        },
-        "build": {
-          "build/netstandard2.0/NETStandard.Library.targets": {}
-        }
-      }
     }
   },
   "libraries": {
@@ -202,23 +176,23 @@
     ]
   },
   "packageFolders": {
-    "/root/.nuget/packages/": {},
-    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "/Users/daniel/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/projects/agile-retro/Retrospective.Domain.Model/Retrospective.Domain.Model.csproj",
+      "projectUniqueName": "/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/Retrospective.Domain.Model.csproj",
       "projectName": "Retrospective.Domain.Model",
-      "projectPath": "/projects/agile-retro/Retrospective.Domain.Model/Retrospective.Domain.Model.csproj",
-      "packagesPath": "/root/.nuget/packages/",
-      "outputPath": "/projects/agile-retro/Retrospective.Domain.Model/obj/",
+      "projectPath": "/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/Retrospective.Domain.Model.csproj",
+      "packagesPath": "/Users/daniel/.nuget/packages/",
+      "outputPath": "/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/root/.nuget/NuGet/NuGet.Config"
+        "/Users/daniel/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
@@ -252,11 +226,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true
-      }
-    },
-    "runtimes": {
-      "ubuntu-x64": {
-        "#import": []
       }
     }
   }
