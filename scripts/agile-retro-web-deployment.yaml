@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: agile-retro-web
+  labels:
+    app: agile-retro-web
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+  selector:
+    app: agile-retro-web
+    tier: web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agile-retro-web
+spec:
+  selector:
+    matchLabels:
+      app: agile-retro-web
+      tier: web
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: agile-retro-web
+        tier: web
+        track: stable
+    spec:
+      containers:
+        - name: agile-retro-web
+          image: "agile-retro-web"
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 80
+

@@ -74,6 +74,10 @@ RUN mkdir /vsdbg
 RUN chmod +x ./getvsdbgsh
 RUN ./getvsdbgsh -v latest -l /vsdbg
 
+ENV PATH=$PATH:/mongodb/bin
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV DB_CONNECTIONSTRING=mongodb://localhost:27017
+ENV DB_NAME=e2e_test
 
 
 # Define mountable directories.
