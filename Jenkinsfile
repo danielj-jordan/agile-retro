@@ -28,9 +28,9 @@ pipeline {
            sh 'mkdir /agile-retro/data'
            sh '/mongodb/bin/mongod --dbpath "/agile-retro/data"  --bind_ip 0.0.0.0  &'
            sh 'dotnet test /agile-retro/Retrospective.Data.Test/Retrospective.Data.Test.csproj'
-           //sh 'dotnet test /agile-retro/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj'
-           //sh 'dotnet test /agile-retro/apptest/apptest.csproj'
-           //sh 'dotnet run -p /agile-retro/tools/testdata/testdata.csproj'
+           sh 'dotnet test /agile-retro/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj'
+           sh 'dotnet test /agile-retro/apptest/apptest.csproj'
+           sh 'dotnet run -p /agile-retro/tools/testdata/testdata.csproj'
            sh 'cd /agile-retro/web/client && ng test  --watch=false'
         }
       }
