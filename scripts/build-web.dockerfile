@@ -12,7 +12,7 @@ WORKDIR /agile-retro/web
 # COPY ./client/package.json package-lock.json  /app/
 RUN npm install -g @angular/cli --unsafe
 RUN mkdir /app
-COPY ./client  /app
+COPY ./web/client  /app
 RUN cd /app && npm install
 
 # Build with $env variable from outside
@@ -20,8 +20,10 @@ RUN cd /app && npm run build
 
 # Build a small nginx image with static website
 FROM nginx:alpine
+RUN mkdir -p /run/nginx
+RUN apk add --no-cache nginx-mod-http-lua
 RUN rm -rf /usr/share/nginx/html/*
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY ./web/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
