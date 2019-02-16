@@ -3,7 +3,7 @@ pipeline {
       dockerfile {
         filename 'scripts/ci-build.dockerfile'
         additionalBuildArgs '-t app-image '
-        args '-u root --privileged --shm-size="128m" -it -p 9222:9222 -p 5000:5000 -p 4200:4200 -p 27017:27017 -p 127.0.0.1:8022:22'
+        args '-u root --privileged --shm-size="128m" -it -p 9222:9222 -p 5000:5000 -p 4200:4200'
       } 
     }
     stages {
@@ -18,8 +18,8 @@ pipeline {
             sh 'whoami'
             sh 'dotnet build /agile-retro/app/app.csproj'
             sh 'ng --version'
-            sh 'ls -al /agile-retro/client'
-            sh 'cd /agile-retro/client && npm install && ng build'
+            sh 'ls -al /agile-retro/web/client'
+            sh 'cd /agile-retro/web/client && npm install && ng build'
             
           }
       }
@@ -31,7 +31,7 @@ pipeline {
            //sh 'dotnet test /agile-retro/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj'
            //sh 'dotnet test /agile-retro/apptest/apptest.csproj'
            //sh 'dotnet run -p /agile-retro/tools/testdata/testdata.csproj'
-           sh 'cd /agile-retro/client && ng test  --watch=false'
+           sh 'cd /agile-retro/web/client && ng test  --watch=false'
         }
       }
     }

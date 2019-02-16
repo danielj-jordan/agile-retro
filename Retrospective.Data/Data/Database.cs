@@ -19,7 +19,7 @@ namespace Retrospective.Data
 
         public Database()
         {
-            this.database="e2e_test";
+            this.database=Environment.GetEnvironmentVariable("DB_NAME");
             Map();
             Open();
         }
@@ -54,8 +54,8 @@ namespace Retrospective.Data
         }
 
         private void Open(){
-
-            var client = new MongoClient("mongodb://localhost:27017");
+            var connectionString =   Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
+            var client = new MongoClient(connectionString);
             MongoDatabase= client.GetDatabase(database);
         }
 

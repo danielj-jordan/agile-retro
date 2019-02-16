@@ -1,0 +1,2 @@
+docker build -f build-app.dockerfile -t agile-retro-app ../
+docker build -f build-web.dockerfile -t agile-retro-web ../

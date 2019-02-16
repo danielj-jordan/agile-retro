@@ -46,7 +46,8 @@ RUN rm -R /mongodb-linux-x86_64-3.6.3
 
 ENV PATH=$PATH:/mongodb/bin
 ENV ASPNETCORE_ENVIRONMENT=Development
-
+ENV DB_CONNECTIONSTRING=mongodb://localhost:27017
+ENV DB_NAME=e2e_test
 
 #
 #  install the project source code
@@ -57,8 +58,8 @@ ADD . /agile-retro
 # Expose ports for Mongo.
 #   - 27017: process
 #   - 28017: http
-EXPOSE 27017
-EXPOSE 28017
+#EXPOSE 27017
+#EXPOSE 28017
 
 #KARMA test runner port
 EXPOSE 9876

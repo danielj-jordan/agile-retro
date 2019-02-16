@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: agile-retro-app
+  labels:
+    app: agile-retro-app
+spec:
+  type: NodePort
+  ports:
+    - port: 5000
+  selector:
+    app: agile-retro-app
+    tier: backend
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: agile-retro-app
+spec:
+  selector:
+    matchLabels:
+      app: agile-retro-app
+      tier: backend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: agile-retro-app
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: agile-retro-app
+          image: "agile-retro-app"
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 5000
+          env:
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Production"
+          - name: DB_CONNECTIONSTRING
+            value: mongodb://$(AGILE_RETRO_DB_SERVICE_HOST):27017
+          - name: DB_NAME
+            value: e2e_test
+
