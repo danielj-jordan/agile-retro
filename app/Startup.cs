@@ -23,6 +23,7 @@ namespace app
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
+      Console.WriteLine("injected Configuration");
     }
 
     public IConfiguration Configuration { get; }
@@ -38,17 +39,22 @@ namespace app
       })
           .AddJwtBearer(config =>
           {
-            config.TokenValidationParameters = new TokenValidationParameters()
+            var key =Configuration["JWTTokenConfiguration:Key"];
+            var temp = new TokenValidationParameters
             {
               ValidateIssuer = false,
-              ValidIssuer = Configuration["JWTTokenConfiguration:Issuer"],
+             // ValidIssuer = Configuration["JWTTokenConfiguration:Issuer"],
               ValidateAudience = false,
-              ValidAudience = Configuration["JWTTokenConfiguration:Audience"],
+             // ValidAudience = Configuration["JWTTokenConfiguration:Audience"],
               ValidateIssuerSigningKey = true,
               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTTokenConfiguration:Key"])),
 
             };
+            config.RequireHttpsMetadata =  false;
+            config.SaveToken = true;
+            config.TokenValidationParameters=temp;
           });
+
 
       services.AddMvc();
       services.AddAutoMapper();
@@ -66,7 +72,7 @@ namespace app
           options.ForwardLimit = 2;
          // options.ForwardedForHeaderName = "X-Forwarded-For-My-Custom-Header-Name";
 
-            var ipAddressString = Environment.GetEnvironmentVariable("RESTSERVICE_FORWARD_FROM_PROXY_IP");
+           /* var ipAddressString = Environment.GetEnvironmentVariable("RESTSERVICE_FORWARD_FROM_PROXY_IP");
             if(string.IsNullOrWhiteSpace(ipAddressString))
             {
               ipAddressString="127.0.0.1" ;
@@ -75,7 +81,10 @@ namespace app
             foreach(var address in ipAddressString.Split(" "))
             {
                 options.KnownProxies.Add(IPAddress.Parse(address));
-            }
+            }*/
+
+            //forward everything unless specific network provided
+            //options.KnownNetworks.Add( new IPNetwork(IPAddress.Parse("10.0.0.0"),8));
       });
 
       //services.UseAngularCliServer();
@@ -95,14 +104,14 @@ namespace app
       }
       else
       {
-        app.UseExceptionHandler("/Home/Error");
+      //  app.UseExceptionHandler("/Home/Error");
       }
 
-      app.UseStaticFiles();
+      //app.UseStaticFiles();
 
       if (env.IsDevelopment())
       {
-        app.UseSpaStaticFiles();
+       // app.UseSpaStaticFiles();
       }
 
       //for JWT
@@ -112,13 +121,17 @@ namespace app
       });
       app.UseAuthentication();
 
+      app.UseMvc();
+
+/* 
       app.UseMvc(routes =>
       {
         routes.MapRoute(
             name: "default",
             template: "{controller=Home}/{action=Index}/{id?}");
       });
-
+*/
+/* 
       if (env.IsDevelopment())
       {
         app.UseSpa(spa =>
@@ -128,10 +141,11 @@ namespace app
 
           if (env.IsDevelopment())
           {
-            spa.UseAngularCliServer("start");
+           // spa.UseAngularCliServer("start");
           }
         });
       }
+      */
     }
   }
 }

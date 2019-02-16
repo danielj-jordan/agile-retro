@@ -21,8 +21,9 @@ namespace app
                     .ConfigureAppConfiguration((hostingContext, config) =>
                      {
                          var env = hostingContext.HostingEnvironment;
-                         config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                               .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                         config.SetBasePath(Directory.GetCurrentDirectory());
+                         config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
+                               .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: false);
                          config.AddEnvironmentVariables();
                      })
                      .ConfigureLogging((hostingContext, logging) =>

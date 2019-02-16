@@ -21,6 +21,8 @@ RUN apt-get -qq update
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 RUN apt-get install -y nodejs
+RUN npm install -g @angular/cli --unsafe
+RUN npm install -g webpack --unsafe
 #RUN npm install -g @angular/cli
 #RUN npm install -g webpack
 
@@ -93,7 +95,6 @@ ENV DB_NAME=e2e_test
 #   - 27017: process
 #   - 28017: http
 EXPOSE 27017
-EXPOSE 28017
 
 #KARMA test runner port
 EXPOSE 9876

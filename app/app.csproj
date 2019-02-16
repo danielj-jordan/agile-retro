@@ -32,4 +32,9 @@
     <ProjectReference Include="..\Retrospective.Domain.Model\Retrospective.Domain.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+   <None Include="appsettings.json" CopyToOutputDirectory="Always" />
+   <None Include="appsettings.Development.json" CopyToOutputDirectory="Always" />
+</ItemGroup>
+
 </Project>
