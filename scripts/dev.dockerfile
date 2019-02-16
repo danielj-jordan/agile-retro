@@ -21,6 +21,8 @@ RUN apt-get -qq update
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 RUN apt-get install -y nodejs
+RUN npm install -g @angular/cli --unsafe
+RUN npm install -g webpack --unsafe
 #RUN npm install -g @angular/cli
 #RUN npm install -g webpack
 
@@ -74,6 +76,10 @@ RUN mkdir /vsdbg
 RUN chmod +x ./getvsdbgsh
 RUN ./getvsdbgsh -v latest -l /vsdbg
 
+ENV PATH=$PATH:/mongodb/bin
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV DB_CONNECTIONSTRING=mongodb://localhost:27017
+ENV DB_NAME=e2e_test
 
 
 # Define mountable directories.
@@ -89,7 +95,6 @@ RUN ./getvsdbgsh -v latest -l /vsdbg
 #   - 27017: process
 #   - 28017: http
 EXPOSE 27017
-EXPOSE 28017
 
 #KARMA test runner port
 EXPOSE 9876

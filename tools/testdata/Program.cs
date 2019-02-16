@@ -14,8 +14,8 @@ namespace testdata {
     class Program {
         static void Main (string[] args) {
 
-            string connectionString = "mongodb://localhost:27017";
-            string databaseName = "e2e_test";
+            var connectionString =   Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
+            var databaseName = Environment.GetEnvironmentVariable("DB_NAME");
 
             //start with an empty database
             var client = new MongoClient (connectionString);

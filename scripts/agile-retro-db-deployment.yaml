@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: agile-retro-db
+  labels:
+    app: mongodb
+spec:
+  type: NodePort
+  ports:
+    - port: 27017
+  selector:
+    app: mongodb
+    tier: db
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pv-claim
+  labels:
+    app: mongodb
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: agile-retro-db-deployment
+  labels:
+    app: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+      tier: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mongodb
+        tier: db
+    spec:
+      containers:
+      - image: mongo:3.6
+        name: mongo
+        command: ["mongod", "--dbpath", "/projects/agile-retro/data", "--bind_ip_all"]
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "root"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: "password"
+        ports:
+        - containerPort: 27017
+          name: mongo
+        volumeMounts:
+        - name: mongo-persistent-storage
+          mountPath: /projects/agile-retro/data
+      volumes:
+      - name: mongo-persistent-storage
+        persistentVolumeClaim:
+          claimName: mongo-pv-claim

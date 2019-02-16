@@ -18,7 +18,7 @@ namespace Retrospective.Domain.Test {
         public Retrospective.Data.Database Database { get; private set; }
 
         public TestFixture () {
-            string connectionString = "mongodb://localhost:27017";
+            string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
             string databaseName = "test_domainlayer";
 
             //start with an empty database
