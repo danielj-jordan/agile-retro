@@ -67,7 +67,7 @@ describe('comment component fixture', () => {
     expect(note3).toBeNull();
   });
 
-
+/*
   it('move mouse over note to show footer with edit and delete buttons', () => {
 
     fixture.detectChanges();
@@ -85,7 +85,7 @@ describe('comment component fixture', () => {
     fixture.detectChanges();
     expect(note.querySelector('.card-footer').style.display).toBe('');
   });
-
+*/
 
   it('clicking the delete button removes it from the collection', () => {
     spyOn(commentComponent, 'onDeleteId');

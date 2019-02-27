@@ -32,8 +32,7 @@ spec:
     spec:
       containers:
         - name: agile-retro-app
-          image: "agile-retro-app"
-          imagePullPolicy: Never
+          image: "gcr.io/agileretro-232800/agile-retro-app"
           ports:
             - name: http
               containerPort: 5000
@@ -41,7 +40,10 @@ spec:
           - name: ASPNETCORE_ENVIRONMENT
             value: "Production"
           - name: DB_CONNECTIONSTRING
-            value: mongodb://$(AGILE_RETRO_DB_SERVICE_HOST):27017
+            valueFrom:
+              secretKeyRef:
+                name: db-connectionstring
+                key: connection.txt
           - name: DB_NAME
             value: e2e_test
 
