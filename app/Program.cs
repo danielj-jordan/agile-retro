@@ -37,8 +37,6 @@ namespace app
                     .Build();
 
                     host.Run();
-
-
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

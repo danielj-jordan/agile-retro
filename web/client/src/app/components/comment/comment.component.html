@@ -22,7 +22,7 @@
             <div class="card-block mx-auto" >
               <div class="card rounded note-small note-yellow" (mouseenter)="onNoteMouseEnter(comment)" (mouseleave)="onNoteMouseLeave(comment)" [attr.id]="this.domId(comment)" > 
               <div  class="card-body note-body" >{{ comment.text }} </div>
-              <div  class="card-footer" style="display:none; text-align: center">
+              <div  class="card-footer" style="text-align: center">
                   <button (click)="onEditId(comment.commentId)" class="btn btn-primary btn-sm retro-btn-edit" ><i-edit-3></i-edit-3></button>
                   <button (click)="onDeleteId(comment.commentId)" class="btn btn-secondary btn-sm retro-btn-delete">
                     <i-delete></i-delete>
