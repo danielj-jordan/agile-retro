@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-//using Microsoft.AspNetCore.SpaServices.Webpack;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -86,14 +85,6 @@ namespace app
             //forward everything unless specific network provided
             //options.KnownNetworks.Add( new IPNetwork(IPAddress.Parse("10.0.0.0"),8));
       });
-
-      //services.UseAngularCliServer();
-      /*
-      services.AddSpaStaticFiles(configuration =>
-      {
-        configuration.RootPath = "../web/client";
-      });
-      */
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,13 +98,6 @@ namespace app
       //  app.UseExceptionHandler("/Home/Error");
       }
 
-      //app.UseStaticFiles();
-
-      if (env.IsDevelopment())
-      {
-       // app.UseSpaStaticFiles();
-      }
-
       //for JWT
       app.UseForwardedHeaders(new ForwardedHeadersOptions
       {
@@ -122,30 +106,6 @@ namespace app
       app.UseAuthentication();
 
       app.UseMvc();
-
-/* 
-      app.UseMvc(routes =>
-      {
-        routes.MapRoute(
-            name: "default",
-            template: "{controller=Home}/{action=Index}/{id?}");
-      });
-*/
-/* 
-      if (env.IsDevelopment())
-      {
-        app.UseSpa(spa =>
-        {
-          //spa.Options.DefaultPage = "/index.html";
-          spa.Options.SourcePath = "../web/client";
-
-          if (env.IsDevelopment())
-          {
-           // spa.UseAngularCliServer("start");
-          }
-        });
-      }
-      */
     }
   }
 }
