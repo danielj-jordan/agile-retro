@@ -5,7 +5,8 @@ metadata:
   labels:
     app: agile-retro-web-service
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerIP: "35.222.33.68"
   ports:
     - port: 80
   selector:
@@ -32,8 +33,7 @@ spec:
     spec:
       containers:
         - name: agile-retro-web
-          image: "agile-retro-web"
-          imagePullPolicy: Never
+          image: "gcr.io/agileretro-232800/agile-retro-web"
           ports:
             - name: http
               containerPort: 80

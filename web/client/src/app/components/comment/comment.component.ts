@@ -74,7 +74,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     );
   }
 
-
   isCategoriesFew(): boolean{
     if(this.categories.length<4){
       return true;
@@ -117,7 +116,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.comments = newNotes;
   }
 
-
   onSelect(note: Comment): void {
     console.log('selected note: ' + note.text + note.commentId);
     this.selectedNote = note;
@@ -155,8 +153,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   }
 
-
-
   onDeleteSelected(): void {
     if (this.selectedNote) {
       this.deleteNote(this.selectedNote.commentId);
@@ -172,6 +168,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.selectedNote = null;
   }
 
+  /*
   onNoteMouseEnter(note: Comment): void {
     const id: string = '#' + this.domId(note);
     jQuery(id).children('.card-footer').show();
@@ -181,6 +178,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     const id: string = '#' + this.domId(note);
     jQuery(id).children('.card-footer').hide();
   }
+  */
 
   domId(comment: Comment): string {
     return 'comment' + comment.commentId;
