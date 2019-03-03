@@ -8,7 +8,7 @@ pipeline {
             PATH="/usr/local/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
           }
           steps {
-            sh VERSION=`cat version.app`
+            sh 'VERSION=`cat version.app`'
             sh 'docker build -f build-app.dockerfile -t agile-retro-app:${VERSION}.${currentBuild.number} ../../
           }
       }
