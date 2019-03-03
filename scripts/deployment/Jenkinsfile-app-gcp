@@ -14,7 +14,7 @@ pipeline {
       }
       stage('Test'){
         steps{
-           sh 'echo "doing nothing"
+           sh 'echo "doing nothing" '
         }
       }
       stage('Push to Registry')
