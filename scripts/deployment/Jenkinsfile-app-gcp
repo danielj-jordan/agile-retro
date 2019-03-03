@@ -2,6 +2,7 @@ pipeline {
    environment{
      PROJECT_ID = 'agileretro-232800'
    }
+   agent any
     stages {
       stage('Build'){
           environment {
