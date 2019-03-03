@@ -1,0 +1,32 @@
+pipeline {
+   environment{
+     PROJECT_ID = 'agileretro-232800'
+   }
+    stages {
+      stage('Build'){
+          environment {
+            PATH="/usr/local/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
+          }
+          steps {
+            sh VERSION=`cat version.app`
+            sh 'docker build -f build-app.dockerfile -t agile-retro-app:${VERSION}.${currentBuild.number} ../../
+          }
+      }
+      stage('Test'){
+        steps{
+           sh 'echo "doing nothing"
+        }
+      }
+      stage('Push to Registry')
+      {
+        steps{
+          sh 'docker push gcr.io/${PROJECT_ID}/agile-retro-app:latest'
+        }
+      }
+      stage('Deploy'){
+        steps{
+          sh 'kubectl set image deployment agile-retro-web-deployment agile-retro-web=gcr.io/${PROJECT_ID}/agile-retro-web:latest'
+        }
+      }
+    }
+}
