@@ -10,9 +10,9 @@ pipeline {
           }
           steps {
             sh 'export VERSION=`cat scripts/deployment/version.app`'
-            sh 'echo ${BUILD_NUMBER} '
-            sh 'export TAG=`cat ${VERSION}.${BUILD_NUMBER}`'
-            sh 'docker build -f scripts/deployment/build-app.dockerfile -t agile-retro-app:${TAG} .'
+            sh 'echo $BUILD_NUMBER '
+            sh 'export TAG=`cat $VERSION.$BUILD_NUMBER`'
+            sh 'docker build -f scripts/deployment/build-app.dockerfile -t agile-retro-app:$TAG .'
           }
       }
       stage('Test'){
