@@ -9,9 +9,9 @@ pipeline {
             PATH="/usr/local/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
           }
           steps {
-            sh 'VERSION=`cat scripts/deployment/version.app`'
+            sh 'export VERSION=`cat scripts/deployment/version.app`'
             sh 'echo ${BUILD_NUMBER} '
-            sh 'TAG=${VERSION}.${BUILD_NUMBER}'
+            sh 'export TAG=${VERSION}.${BUILD_NUMBER}'
             sh 'docker build -f scripts/deployment/build-app.dockerfile -t agile-retro-app:${TAG} .'
           }
       }
