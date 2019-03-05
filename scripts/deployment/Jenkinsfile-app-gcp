@@ -3,7 +3,7 @@
 import hudson.model.*
 import hudson.EnvVars
 
-dev projectid = "agileretro-232800"
+def projectid = "agileretro-232800"
 def versionbase =  new File('scripts/deployment/version.app').text
 def version =  "${versionbase}.${env.BUILD_ID}"
 
