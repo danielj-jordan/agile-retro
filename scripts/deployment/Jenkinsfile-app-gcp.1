@@ -1,0 +1,38 @@
+pipeline {
+   environment{
+    PROJECT_ID = 'agileretro-232800'
+    VERSION = `cat scripts/deployment/version.app` 
+    TAG_VERSION = $VERSION.$BUILD_NUMBER
+   }
+   agent any
+    stages {
+      stage('Build'){
+          environment {
+            PATH="/usr/local/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
+
+          }
+          steps {
+            sh 'export VERSION=`cat scripts/deployment/version.app`'
+            sh 'echo $BUILD_NUMBER '
+            sh 'export TAG=`cat $VERSION.$BUILD_NUMBER`'
+            sh 'docker build -f scripts/deployment/build-app.dockerfile -t gcr.io/${PROJECT_ID}/agile-retro-web:$TAG_VERSION .'
+          }
+      }
+      stage('Test'){
+        steps{
+           sh 'echo "doing nothing" '
+        }
+      }
+      stage('Push to Registry')
+      {
+        steps{
+          sh 'docker push gcr.io/${PROJECT_ID}/agile-retro-app:$TAG_VERSION'
+        }
+      }
+      stage('Deploy'){
+        steps{
+          sh 'kubectl set image deployment agile-retro-web-deployment agile-retro-web=gcr.io/${PROJECT_ID}/agile-retro-web:$TAG_VERSION'
+        }
+      }
+    }
+}
