@@ -4,14 +4,14 @@ import hudson.model.*
 import hudson.EnvVars
 import hudson.FilePath
 
-def projectid = "agileretro-232800"
-def versionbase =  readFile "${env.WORKSPACE}/scripts/deployment/version.app"
-def version =  "${versionbase}.${env.BUILD_ID}"
 
 try {
   node {
     stage('Build'){
         steps {
+          def projectid = "agileretro-232800"
+          def versionbase =  readFile("${env.WORKSPACE}/scripts/deployment/version.app")
+          def version =  "${versionbase}.${env.BUILD_ID}"
 
           sh 'docker build -f scripts/deployment/build-app.dockerfile -t gcr.io/${projectid}/agile-retro-web:${version} .'
         }
