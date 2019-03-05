@@ -2,7 +2,6 @@
 
 import hudson.model.*
 import hudson.EnvVars
-import java.io
 
 dev projectid = "agileretro-232800"
 def versionbase =  new File('scripts/deployment/version.app').text
