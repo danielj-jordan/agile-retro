@@ -8,8 +8,8 @@ import hudson.FilePath
 
 try {
   node {
-    dev version
-    dev projectid
+    def version 
+    def projectid
 
     stage('Build'){
           projectid = "agileretro-232800"
