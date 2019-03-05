@@ -2,6 +2,7 @@
 
 import hudson.model.*
 import hudson.EnvVars
+import hudson.FilePath
 
 def projectid = "agileretro-232800"
 def versionbase =  readFile "${env.WORKSPACE}/scripts/deployment/version.app"
