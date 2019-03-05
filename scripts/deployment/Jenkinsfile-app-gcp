@@ -4,11 +4,13 @@ import hudson.model.*
 import hudson.EnvVars
 import hudson.FilePath
 
-dev version
-dev projectid
+
 
 try {
   node {
+    dev version
+    dev projectid
+
     stage('Build'){
           projectid = "agileretro-232800"
           def versionbase =  readFile("${env.WORKSPACE}/scripts/deployment/version.app")
