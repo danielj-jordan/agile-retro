@@ -34,6 +34,7 @@ try {
     }
   }
 }
-catch{
+catch (err){
+    throw err
 
 }
