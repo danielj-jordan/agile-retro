@@ -11,7 +11,7 @@ try {
           def projectid = "agileretro-232800"
           def versionbase =  readFile("${env.WORKSPACE}/scripts/deployment/version.app")
           def version =  "${versionbase}.${env.BUILD_ID}"
-
+          echo 'version:${version}'
           sh 'docker build -f scripts/deployment/build-app.dockerfile -t gcr.io/${projectid}/agile-retro-web:${version} .'
         
     }
