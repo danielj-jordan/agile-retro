@@ -5,7 +5,7 @@ import hudson.EnvVars
 
 dev projectid = "agileretro-232800"
 def versionbase =  new File('scripts/deployment/version.app').text
-dev version =  "${versionbase}.${env.BUILD_ID}"
+def version =  "${versionbase}.${env.BUILD_ID}"
 
 try {
   node {
