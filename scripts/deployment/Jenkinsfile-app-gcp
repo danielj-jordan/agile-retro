@@ -14,7 +14,7 @@ try {
     stage('Build'){
           projectid = "agileretro-232800"
           def versionbase =  readFile("${env.WORKSPACE}/scripts/deployment/version.app")
-          version =  "${versionbase}.${env.BUILD_ID}"
+          version = "${versionbase}.${env.BUILD_ID}"
           echo "version:${version}"
           sh "docker build -f scripts/deployment/build-app.dockerfile -t gcr.io/${projectid}/agile-retro-web:${version} ."
         
@@ -24,10 +24,10 @@ try {
     }
     stage('Push to Registry')
     {
-        sh "docker push gcr.io/${projectid}/agile-retro-app:${version}"
+        sh "docker push gcr.io/${projectid}/agile-retro-app:latest"
     }
     stage('Deploy'){
-        sh "kubectl set image deployment agile-retro-web-deployment agile-retro-web=gcr.io/${projectid}/agile-retro-web:${version}"
+        sh "kubectl set image deployment agile-retro-web-deployment agile-retro-web=gcr.io/${projectid}/agile-retro-web:latest"
     }
   }
 }
