@@ -24,6 +24,7 @@ try {
     }
     stage('Push to Registry')
     {
+        sh "gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io"
         sh "docker push gcr.io/${projectid}/agile-retro-app:${version}"
     }
     stage('Deploy'){
