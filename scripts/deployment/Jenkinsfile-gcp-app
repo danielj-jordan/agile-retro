@@ -1,0 +1,38 @@
+#!/usr/bin/env groovy
+
+import hudson.model.*
+import hudson.EnvVars
+import hudson.FilePath
+
+try {
+  node {
+    def version 
+    def projectid
+
+    stage('Build'){
+          projectid = "agileretro-232800"
+          def versionbase =  readFile("${env.WORKSPACE}/scripts/deployment/version.app")
+          version = "${versionbase}.${env.BUILD_ID}"
+          echo "version:${version}"
+          sh "docker build -f scripts/deployment/build-app.dockerfile -t gcr.io/${projectid}/agile-retro-app:${version} ."
+    }
+    stage('Test'){
+          echo "doing nothing" 
+    }
+    stage('Push to Registry')
+    {
+        withEnv(['PATH+EXTRA=/Users/Shared/Jenkins/google-cloud-sdk/bin'])
+        {
+        sh "gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io"
+        sh "docker push gcr.io/${projectid}/agile-retro-app:${version}"
+        }
+    }
+    stage('Deploy'){
+        sh "kubectl set image deployment agile-retro-app-deployment agile-retro-app=gcr.io/${projectid}/agile-retro-app:${version} "
+    }
+  }
+}
+catch (err){
+    throw err
+
+}
