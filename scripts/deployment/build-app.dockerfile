@@ -21,4 +21,3 @@ WORKDIR /app
 COPY --from=build-env /agile-retro/app/out .
 ENTRYPOINT ["dotnet", "app.dll"]
 EXPOSE 5000
-#EXPOSE 80
