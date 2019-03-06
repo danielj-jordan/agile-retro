@@ -6,6 +6,7 @@ import hudson.FilePath
 
 try {
   node {
+    checkout scm
     def version 
     def projectid
 
