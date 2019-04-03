@@ -4,4 +4,4 @@
 docker run --shm-size="128m" -it --rm -v ~/projects:/projects \
     -p 9222:9222 -p 5000:5000 -p 4200:4200 -p 27017:27017 -p 127.0.0.1:8022:22 \
     --name dotnetdb -h dotnetdb dotnetdb-image \
-    /projects/agile-retro/scripts/docker-start
+    /projects/agile-retro/scripts/localdev/docker-start

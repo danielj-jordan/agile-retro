@@ -52,7 +52,9 @@ namespace app.Domain
                 .ForMember(dest=>dest.CommentId, opt=>opt.MapFrom(src=>src.CommentId))
                 .ForMember(dest=>dest.SessionId, opt=>opt.MapFrom(src=>src.MeetingId))
                 .ForMember(dest=>dest.CategoryNum, opt=>opt.MapFrom(src=>src.CategoryNumber))
-                .ForMember(dest=>dest.UpdateUser, opt=>opt.MapFrom(src=>src.LastUpdateUser));
+                .ForMember(dest=>dest.UpdateUser, opt=>opt.MapFrom(src=>src.LastUpdateUser))
+                .ForMember(dest => dest.VoteCount, opt => opt.MapFrom( src => src.VotedUp.Count));
+               
 
 
                

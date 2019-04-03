@@ -28,11 +28,11 @@ namespace app.Controllers
         private readonly ILogger<AuthController>  _logger;
         private readonly IMapper _mapper;
         
-        private readonly Database database;
+        private readonly IDatabase database;
 
         private readonly IOptions<JWTTokenConfiguration> tokenConfig;
 
-        public AuthController(ILogger<AuthController> logger, IMapper mapper,Database database, IOptions<JWTTokenConfiguration> tokenConfig)
+        public AuthController(ILogger<AuthController> logger, IMapper mapper,IDatabase database, IOptions<JWTTokenConfiguration> tokenConfig)
         {
             _logger=logger;
             _mapper=mapper;

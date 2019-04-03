@@ -16,9 +16,9 @@ namespace Retrospective.Domain
          private readonly ILogger<MeetingManager>  _logger;
         private readonly IMapper _mapper;
         
-        private readonly Database database;
+        private readonly IDatabase database;
 
-        public MeetingManager(ILogger<MeetingManager> logger, IMapper mapper,Database database)
+        public MeetingManager(ILogger<MeetingManager> logger, IMapper mapper, IDatabase database)
         :base(logger, mapper, database){
             _logger=logger;
             _mapper=mapper;

@@ -24,11 +24,9 @@ export class NotesServiceMock {
 
     public getNotes(sessionId: string):Observable<Comment[]> {
         let notes: Comment[] =[]
-        notes.push({commentId: "1", sessionId:" + sessionId + ", categoryNum:1, text:"this is a test", updateUser:"bob"});
-        notes.push({commentId: "2", sessionId:" + sessionId + ", categoryNum:1, text:"this is also a test", updateUser:"bob"});
+        notes.push({commentId: "1", sessionId:" + sessionId + ", categoryNum:1, text:"this is a test", updateUser:"bob", voteCount: 1, thisUserVoted: false});
+        notes.push({commentId: "2", sessionId:" + sessionId + ", categoryNum:1, text:"this is also a test", updateUser:"bob", voteCount: 2, thisUserVoted: false});
   
-
-
         console.log('notes count: ' + notes.length);
         return Observable.of(notes);
     }
@@ -89,6 +87,17 @@ export class NotesServiceMock {
         return Observable.of(meeting);
 
     }
+
+    voteDown(commentId: string): void{
+        return;
+    }
+
+    voteUp(commentId: string): void{
+        return;
+    }
+
+
+
 
 
 

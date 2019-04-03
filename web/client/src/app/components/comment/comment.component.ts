@@ -116,6 +116,16 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.comments = newNotes;
   }
 
+  onVoteUp(id: string){
+    console.log("votting up")
+    this.notesService.voteUp(id);
+  }
+
+  onVoteDown(id: string){
+    console.log("votting up")
+    this.notesService.voteDown(id);
+  }
+
   onSelect(note: Comment): void {
     console.log('selected note: ' + note.text + note.commentId);
     this.selectedNote = note;

@@ -12,9 +12,9 @@ namespace Retrospective.Domain {
     public class BaseManager {
         private readonly ILogger<BaseManager> logger;
         private readonly IMapper mapper;
-        private readonly Database database;
+        private readonly IDatabase database;
 
-        protected BaseManager (ILogger<BaseManager> logger, IMapper mapper, Database database) {
+        protected BaseManager (ILogger<BaseManager> logger, IMapper mapper, IDatabase database) {
             this.logger = logger;
             this.mapper = mapper;
             this.database = database;
