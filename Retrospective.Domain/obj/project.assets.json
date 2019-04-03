@@ -1545,22 +1545,24 @@
       ]
     },
     "Microsoft.Extensions.Logging.Abstractions/2.1.1": {
-      "sha512": "QWFWKrdeoDSEr8nVJaBAVDMj24wnh9clGzDNmMdgHHRsOIwTUMeh4XljeZXJhIKPT00jWuzwEzn3uNxOtO4cYg==",
+      "sha512": "XRzK7ZF+O6FzdfWrlFTi1Rgj2080ZDsd46vzOjadHUB0Cz5kOvDG8vI7caa5YFrsHQpcfn0DxtjS4E46N4FZsA==",
       "type": "package",
       "path": "microsoft.extensions.logging.abstractions/2.1.1",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll",
-        "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.xml",
         "microsoft.extensions.logging.abstractions.2.1.1.nupkg.sha512",
         "microsoft.extensions.logging.abstractions.nuspec"
       ]
     },
     "Microsoft.NETCore.Platforms/1.1.0": {
-      "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
+      "sha512": "a/iSwnRZb+LHFk49hQOyThh/ZNC3vsbZsF65XwQIb863qF6msmhdQtxGXFL28Ob2NsCz/drEj28BJd/YPpLRBg==",
       "type": "package",
       "path": "microsoft.netcore.platforms/1.1.0",
       "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -3460,10 +3462,12 @@
       ]
     },
     "System.Reflection.Emit/4.0.1": {
-      "sha512": "P2wqAj72fFjpP6wb9nSfDqNBMab+2ovzSDzUZK7MVIm54tBJEPr9jWfSjjoTpPwj1LeKcmX3vr0ttyjSSFM47g==",
+      "sha512": "/3dmiGuUUUjqZaSeTdxkgzY0De8sLpS4J3tYRETskSbZaRjwvL62IBalMGI6iczZ6udJ1iBlsBBYOHtdCfx90Q==",
       "type": "package",
       "path": "system.reflection.emit/4.0.1",
       "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4981,23 +4985,23 @@
     ]
   },
   "packageFolders": {
-    "/Users/daniel/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "/root/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/daniel/projects/agile-retro/Retrospective.Domain/Retrospective.Domain.csproj",
+      "projectUniqueName": "/projects/agile-retro/Retrospective.Domain/Retrospective.Domain.csproj",
       "projectName": "Retrospective.Domain",
-      "projectPath": "/Users/daniel/projects/agile-retro/Retrospective.Domain/Retrospective.Domain.csproj",
-      "packagesPath": "/Users/daniel/.nuget/packages/",
-      "outputPath": "/Users/daniel/projects/agile-retro/Retrospective.Domain/obj/",
+      "projectPath": "/projects/agile-retro/Retrospective.Domain/Retrospective.Domain.csproj",
+      "packagesPath": "/root/.nuget/packages/",
+      "outputPath": "/projects/agile-retro/Retrospective.Domain/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/daniel/.nuget/NuGet/NuGet.Config"
+        "/root/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
@@ -5008,14 +5012,14 @@
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "/Users/daniel/projects/agile-retro/Retrospective.Data.Model/Retrospective.Data.Model.csproj": {
-              "projectPath": "/Users/daniel/projects/agile-retro/Retrospective.Data.Model/Retrospective.Data.Model.csproj"
+            "/projects/agile-retro/Retrospective.Data.Model/Retrospective.Data.Model.csproj": {
+              "projectPath": "/projects/agile-retro/Retrospective.Data.Model/Retrospective.Data.Model.csproj"
             },
-            "/Users/daniel/projects/agile-retro/Retrospective.Data/Retrospective.Data.csproj": {
-              "projectPath": "/Users/daniel/projects/agile-retro/Retrospective.Data/Retrospective.Data.csproj"
+            "/projects/agile-retro/Retrospective.Data/Retrospective.Data.csproj": {
+              "projectPath": "/projects/agile-retro/Retrospective.Data/Retrospective.Data.csproj"
             },
-            "/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/Retrospective.Domain.Model.csproj": {
-              "projectPath": "/Users/daniel/projects/agile-retro/Retrospective.Domain.Model/Retrospective.Domain.Model.csproj"
+            "/projects/agile-retro/Retrospective.Domain.Model/Retrospective.Domain.Model.csproj": {
+              "projectPath": "/projects/agile-retro/Retrospective.Domain.Model/Retrospective.Domain.Model.csproj"
             }
           }
         }

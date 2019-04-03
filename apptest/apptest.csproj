@@ -1,17 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170628-02" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="" />
     <PackageReference Include="moq" Version="4.8.2" />
     <PackageReference Include="xunit" Version="2.2.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
-    <ProjectReference Include="../app/app.csproj" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup>    
+    <ProjectReference Include="..\app\app.csproj" />
     <ProjectReference Include="..\Retrospective.Data\Retrospective.Data.csproj" />
     <ProjectReference Include="..\Retrospective.Data.Model\Retrospective.Data.Model.csproj" />
     <ProjectReference Include="..\Retrospective.Domain\Retrospective.Domain.csproj" />

@@ -10,25 +10,37 @@ namespace Retrospective.Data
 
     public class Database: IDatabase
     {
+        private string connectionString;
         private string database;
-        private DataComment comments;
-        private DataUser users;
-        private DataMeeting sessions;
-        private DataTeam teams;
+        private IDataComment comments;
+        private IDataUser users;
+        private IDataMeeting sessions;
+        private IDataTeam teams;
+
         
 
         public Database()
         {
+            this.connectionString =   Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
             this.database=Environment.GetEnvironmentVariable("DB_NAME");
             Map();
             Open();
         }
 
         public Database(string databaseName){
+             this.connectionString =   Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
             this.database=databaseName;
             Map();
             Open();
         }
+
+        public Database(string connectionString, string databaseName){
+             this.connectionString =  connectionString;
+            this.database=databaseName;
+            Map();
+            Open();
+        }
+        
 
         private void Map()
         {
@@ -54,15 +66,14 @@ namespace Retrospective.Data
         }
 
         private void Open(){
-            var connectionString =   Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
-            var client = new MongoClient(connectionString);
-            MongoDatabase= client.GetDatabase(database);
+            var client = new MongoClient(this.connectionString);
+            MongoDatabase= client.GetDatabase(this.database);
         }
 
         public IMongoDatabase MongoDatabase{get; private set;}
 
 
-        public DataComment Comments { 
+        public IDataComment Comments { 
             get{
                 if(this.comments==null){
                     this.comments= new DataComment(this);
@@ -71,7 +82,7 @@ namespace Retrospective.Data
             }
         }
 
-        public DataUser Users{
+        public IDataUser Users{
             get{
                 if(this.users==null){
                     this.users= new DataUser(this);
@@ -81,7 +92,7 @@ namespace Retrospective.Data
 
         }
 
-        public DataMeeting Meetings{
+        public IDataMeeting Meetings{
             get{
                 if(this.sessions==null){
                     this.sessions=new DataMeeting(this);
@@ -90,7 +101,7 @@ namespace Retrospective.Data
             }
         }
 
-        public DataTeam Teams{
+        public IDataTeam Teams{
             get{
                 if(this.teams==null){
                     this.teams=new DataTeam(this);

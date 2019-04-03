@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconEdit3, IconArrowUp, IconArrowDown, IconMenu, IconDelete, IconSave,
   IconSearch, 
-  IconMessageSquare, IconX, IconSend} from 'angular-feather';
+  IconMessageSquare, IconX, IconSend, IconThumbsUp, IconThumbsDown} from 'angular-feather';
 
 const icons = [
   IconEdit3,
@@ -14,7 +14,9 @@ const icons = [
   IconSearch,
   IconMessageSquare,
   IconSend,
-  IconX
+  IconX,
+  IconThumbsDown,
+  IconThumbsUp
 ];
 
 @NgModule({

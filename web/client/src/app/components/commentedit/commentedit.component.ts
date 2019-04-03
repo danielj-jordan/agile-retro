@@ -75,6 +75,8 @@ class NoteEdit implements Comment{
   categoryNum: number;
   text: string='';
   updateUser: string='';
+  voteCount: number =0;
+  thisUserVoted: false;
 
   constructor(categoryId: number){
     this.categoryNum=categoryId;

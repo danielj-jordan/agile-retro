@@ -5,5 +5,7 @@ export class Comment{
     categoryNum: number;
     text: string;
     updateUser: string;
+    voteCount: number;
+    thisUserVoted: boolean;
 }
 

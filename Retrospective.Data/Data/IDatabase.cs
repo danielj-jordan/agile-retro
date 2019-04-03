@@ -6,13 +6,29 @@ using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Retrospective.Data
 {
-    public interface IDatabase
+  public interface IDatabase
+  {
+    IMongoDatabase MongoDatabase { get; }
+
+    IDataComment Comments
     {
-         IMongoDatabase MongoDatabase{get;}
-
-       //  IDataComment Comments{ get;}
-
-
+      get;
     }
+
+    IDataUser Users
+    {
+      get;
+    }
+
+    IDataMeeting Meetings
+    {
+      get;
+    }
+
+    IDataTeam Teams
+    {
+      get;
+    }
+  }
 }
     

@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.SpaServices;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -58,7 +56,7 @@ namespace app
       services.AddMvc();
       services.AddAutoMapper();
 
-      services.AddScoped<Retrospective.Data.Database, Retrospective.Data.Database>();
+      services.AddScoped<Retrospective.Data.IDatabase, Retrospective.Data.Database>();
 
       services.AddTransient<Retrospective.Domain.TeamManager, Retrospective.Domain.TeamManager>();
       services.AddTransient<Retrospective.Domain.MeetingManager, Retrospective.Domain.MeetingManager>();

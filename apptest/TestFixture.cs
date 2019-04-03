@@ -29,6 +29,11 @@ namespace apptest {
 
 
             string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
+
+            if(string.IsNullOrEmpty(connectionString))
+            {
+                connectionString="mongodb://localhost:27017";
+            }
             string databaseName = "test_controller";
 
             //start with an empty database
@@ -36,7 +41,7 @@ namespace apptest {
             client.DropDatabase (databaseName);
 
             //connect to the database
-            Retrospective.Data.Database database = new Database (databaseName);
+            Retrospective.Data.Database database = new Database (connectionString, databaseName);
             this.Database=database;
             InitializeTestRecords ();
         }

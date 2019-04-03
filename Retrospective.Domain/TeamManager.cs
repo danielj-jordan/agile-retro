@@ -11,9 +11,9 @@ namespace Retrospective.Domain {
     public class TeamManager : BaseManager {
         private readonly ILogger<TeamManager> logger;
         private readonly IMapper mapper;
-        private readonly Database database;
+        private readonly IDatabase database;
 
-        public TeamManager (ILogger<TeamManager> logger, IMapper mapper, Database database) : base (logger, mapper, database) {
+        public TeamManager (ILogger<TeamManager> logger, IMapper mapper, IDatabase database) : base (logger, mapper, database) {
             this.logger = logger;
             this.mapper = mapper;
             this.database = database;
