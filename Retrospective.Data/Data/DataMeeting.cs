@@ -10,7 +10,7 @@ using Retrospective.Data.Model;
 
 namespace Retrospective.Data {
 
-    public class DataMeeting {
+    public class DataMeeting : IDataMeeting{
         private string collection = "meeting";
 
         private IDatabase database;

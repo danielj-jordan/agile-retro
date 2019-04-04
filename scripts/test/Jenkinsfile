@@ -1,7 +1,7 @@
 pipeline {
     agent { 
       dockerfile {
-        filename 'scripts/ci-build.dockerfile'
+        filename 'scripts/test/ci-build.dockerfile'
         additionalBuildArgs '-t app-image '
         args '-u root --privileged --shm-size="128m" -it -p 9222:9222 -p 5000:5000 -p 4200:4200'
       } 

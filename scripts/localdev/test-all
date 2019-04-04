@@ -10,6 +10,6 @@ echo 'testing the app logic in C#'
 dotnet test $PROJECT/apptest/apptest.csproj
 echo '******'
 echo 'testing the UI'
-cd $PROJECT/client
+cd $PROJECT/web/client
 ng test --watch=false
 

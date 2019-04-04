@@ -14,9 +14,3 @@ note: these scripts assume that the project is located at directory named /proje
 * **docker-run-db** - This scripts starts a second terminal and runs the database.
 * **docker-start** - This command is executed by the run script in the container when it is started.  It should not be necessary to run this separately
 * **test-all** - Runs all the application tests
-
-
-### URLs
-
-[http://localhost:5000/notes] - Launches the UI
-

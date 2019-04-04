@@ -11,6 +11,7 @@ using AutoMapper;
 using DomainModel = Retrospective.Domain.Model;
 using app.Model;
 using Retrospective.Domain;
+using app.ModelExtensions;
 
 namespace app.Controllers {
     
@@ -31,18 +32,30 @@ namespace app.Controllers {
         }
 
          private string GetActiveUser(){
-            return HttpContext.User.Identity.Name;
+             var user = HttpContext.User.Identity.Name;
+            _logger.LogInformation("active user is {0}", user);
+            return user;
         }
 
+        [Authorize]
         [HttpGet ("[action]/{retroId}")]
         public IEnumerable<Comment> Notes (string retroId) {
 
-            var comments = _mapper.Map<List<DomainModel.Comment>, List<app.Model.Comment>> (manager.GetComments (this.GetActiveUser(),retroId));
+
+            var comments = manager.GetComments(this.GetActiveUser(), retroId).Select(
+                c => c.ToViewModelComment(this.GetActiveUser())
+            ).ToList();
+
+            //var comments = _mapper.Map<List<DomainModel.Comment>, List<app.Model.Comment>> (manager.GetComments (this.GetActiveUser(),retroId));
 
             _logger.LogDebug ("returning {0} comments", comments.Count);
             return (IEnumerable<Comment>) comments;
+
+
+
         }
 
+        [Authorize]
         [HttpGet ("[action]/{retroId}")]
         public IEnumerable<Category> Categories (string retroId) {
             var categories = manager.GetCategories (this.GetActiveUser(), retroId);
@@ -51,6 +64,7 @@ namespace app.Controllers {
 
         }
 
+        [Authorize]
         [HttpPost ("[action]/{retroId}")]
         public Comment NewNote (string retroId,[FromBody] Comment input) {
             //create a new note and assign an id
@@ -64,9 +78,11 @@ namespace app.Controllers {
 
             _logger.LogDebug ("text:{0}", newNote.Text);
 
-            return _mapper.Map<DomainModel.Comment, app.Model.Comment>(comment);
+            return comment.ToViewModelComment(this.GetActiveUser());
+            //return _mapper.Map<DomainModel.Comment, app.Model.Comment>(comment);
         }
 
+        [Authorize]
         [HttpPut ("[action]/{retroId}")]
         public Comment Note (string retroId, [FromBody] Comment input) {
             //update an existing note
@@ -78,19 +94,45 @@ namespace app.Controllers {
             newNote.MeetingId= retroId;
             newNote.CommentId= input.CommentId;
 
-            var comment = manager.SaveComment(this.GetActiveUser(),newNote);
+            DomainModel.Comment comment;
+           if(string.IsNullOrWhiteSpace(input.CommentId))
+           {
+            comment = manager.SaveComment(this.GetActiveUser(),newNote);
+           }
+           else
+           {
+               comment = manager.UpdateCommentText(this.GetActiveUser(), newNote);
+           }
 
             _logger.LogDebug ("text:{0}", newNote.Text);
 
-            return _mapper.Map<DomainModel.Comment, app.Model.Comment>(comment);
-
+            return comment.ToViewModelComment(this.GetActiveUser());
         }
 
+        [Authorize]
         [HttpDelete ("[action]/{commentId}")]
         public bool DeleteNote (string commentId) {
             _logger.LogDebug ("deleting note id:{0}", commentId);
             manager.DeleteComment(this.GetActiveUser(),commentId);
             return true;
+
+        }
+
+        [Authorize]
+        [HttpPut ("[action]/{commentId}")]
+        public ActionResult VoteUp (string commentId) {
+            _logger.LogDebug ("vote up note id:{0}", commentId);
+            manager.VoteUp(this.GetActiveUser(),commentId);
+            return new EmptyResult();
+
+        }
+
+        [Authorize]
+        [HttpPut ("[action]/{commentId}")]
+        public ActionResult VoteDown (string commentId) {
+            _logger.LogDebug ("vote down id:{0}", commentId);
+            manager.VoteDown(this.GetActiveUser(),commentId);
+            return new EmptyResult() ;
 
         }
 

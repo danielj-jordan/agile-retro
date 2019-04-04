@@ -1,0 +1,26 @@
+works
+GET /api/notes/notes/5c9d9bc534e1434ab9b93ed4 HTTP/1.1
+Host: localhost:4200
+Connection: keep-alive
+Accept: application/json, text/plain, */*
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImRlbW9AbG9jYWxob3N0IiwibmJmIjoxNTUzODcwMDU4LCJleHAiOjE1NTQ0NzQ4NTgsImlhdCI6MTU1Mzg3MDA1OH0.7x7s9pd6sJkMuC8j0WP4PXIf5k18olrbd2WiNoi7INg
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36
+Origin: http://evil.com/
+Referer: http://localhost:4200/retrospective/comment/5c9d9bc534e1434ab9b93ed4
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cookie: io=XoIP1zpHeA98W0_qAAAH
+
+broken
+PUT /api/notes/voteup/5c9d9be634e1434ab9b93ed5 HTTP/1.1
+Host: localhost:4200
+Connection: keep-alive
+Content-Length: 358
+Accept: application/json, text/plain, */*
+Origin: http://evil.com/
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36
+Content-Type: application/json
+Referer: http://localhost:4200/retrospective/comment/5c9d9bc534e1434ab9b93ed4
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cookie: io=XoIP1zpHeA98W0_qAAAH

@@ -7,120 +7,141 @@ using Retrospective.Data;
 using Retrospective.Data.Model;
 using Xunit;
 
-namespace Retrospective.Domain.Test {
-    public class TestFixture : IDisposable {
-        public ObjectId TeamId { get; private set; }
-        public ObjectId SessionId { get; private set; }
-        public ObjectId DeleteNote { get; private set; }
-        public ObjectId UpdateNote { get; private set; }
-        public string SampleUser = "nobody@here.com";
-        public string Owner = "owner@here.com";
-        public Retrospective.Data.Database Database { get; private set; }
+namespace Retrospective.Domain.Test
+{
+  public class TestFixture : IDisposable
+  {
+    public ObjectId TeamId { get; private set; }
+    public ObjectId SessionId { get; private set; }
+    public ObjectId DeleteNote { get; private set; }
+    public ObjectId UpdateNote { get; private set; }
+    public string SampleUser = "nobody@here.com";
+    public string Owner = "owner@here.com";
+    public Retrospective.Data.Database Database { get; private set; }
 
-        public TestFixture () {
-            string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
-            string databaseName = "test_domainlayer";
+    public TestFixture()
+    {
+      string connectionString = Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
+      string databaseName = "test_domainlayer";
 
-            //start with an empty database
-            var client = new MongoClient (connectionString);
-            client.DropDatabase (databaseName);
+      if (String.IsNullOrEmpty(connectionString))
+      {
+        connectionString = "mongodb://127.0.0.1:27017";
+        Environment.SetEnvironmentVariable("DB_CONNECTIONSTRING", connectionString);
+      }
 
-            //connect to the database
-            Retrospective.Data.Database database = new Database (databaseName);
-            this.Database = database;
-            InitializeTestRecords ();
-        }
+      //start with an empty database
+      var client = new MongoClient(connectionString);
+      client.DropDatabase(databaseName);
 
-        private void InitializeTestRecords () {
+      //connect to the database
+      Retrospective.Data.Database database = new Database(databaseName);
+      this.Database = database;
+      InitializeTestRecords();
 
-            System.Console.WriteLine("setup TestFixture") ;
-            //initialize a user record
-            Retrospective.Data.Model.User newUser = this.Database.Users.SaveUser (
-                new Retrospective.Data.Model.User {
-                    Name = "Joe Smoth",
-                        Email = SampleUser
-                }
-            );
+    }
 
-            //initialize a team record
-            Retrospective.Data.Model.Team newTeam =
-                new Retrospective.Data.Model.Team {
-                    Name = "test team A",
-                        Owner = this.Owner
-                };
+    private void InitializeTestRecords()
+    {
 
-            List<TeamMember> members = new List<TeamMember>();
-            members.Add(new TeamMember(){
-                UserName=this.Owner,
-                InviteDate=DateTime.Now
-            });
+      System.Console.WriteLine("setup TestFixture");
+      //initialize a user record
+      Retrospective.Data.Model.User newUser = this.Database.Users.SaveUser(
+          new Retrospective.Data.Model.User
+          {
+            Name = "Joe Smoth",
+            Email = SampleUser
+          }
+      );
 
-            members.Add(new TeamMember(){
-                UserName=this.SampleUser,
-                InviteDate=DateTime.Now
-            });
+      //initialize a team record
+      Retrospective.Data.Model.Team newTeam =
+          new Retrospective.Data.Model.Team
+          {
+            Name = "test team A",
+            Owner = this.Owner
+          };
 
-            newTeam.Members=members.ToArray();
-            var savedTeam = this.Database.Teams.Save(newTeam);
-            System.Console.WriteLine("saved: " + savedTeam.Id);
-            
+      List<TeamMember> members = new List<TeamMember>();
+      members.Add(new TeamMember()
+      {
+        UserName = this.Owner,
+        InviteDate = DateTime.Now
+      });
 
-            this.TeamId = (ObjectId) newTeam.Id;
+      members.Add(new TeamMember()
+      {
+        UserName = this.SampleUser,
+        InviteDate = DateTime.Now
+      });
 
-            //initialize a session record
-            Retrospective.Data.Model.Meeting newSession = this.Database.Meetings.Save (
-                new Meeting {
-                    Name = "test session",
-                        TeamId = (ObjectId) newTeam.Id,
-                        Categories = new Retrospective.Data.Model.Category[] {
+      newTeam.Members = members.ToArray();
+      var savedTeam = this.Database.Teams.Save(newTeam);
+      System.Console.WriteLine("saved: " + savedTeam.Id);
+
+
+      this.TeamId = (ObjectId)newTeam.Id;
+
+      //initialize a session record
+      Retrospective.Data.Model.Meeting newSession = this.Database.Meetings.Save(
+          new Meeting
+          {
+            Name = "test session",
+            TeamId = (ObjectId)newTeam.Id,
+            Categories = new Retrospective.Data.Model.Category[] {
                             new Category (1, "category 1"),
                                 new Category (2, "category 2"),
                                 new Category (3, "category 3")
-                        }
-                }
-            );
-            this.SessionId = (ObjectId) newSession.Id;
+                  }
+          }
+      );
+      this.SessionId = (ObjectId)newSession.Id;
 
-            //initialize some comment records
-            this.Database.Comments.SaveComment (
-                new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
-                        Text = "comment 1 category 2",
-                        CategoryNumber = 2
-                }
-            );
+      //initialize some comment records
+      this.Database.Comments.SaveComment(
+          new Retrospective.Data.Model.Comment
+          {
+            RetrospectiveId = (ObjectId)newSession.Id,
+            Text = "comment 1 category 2",
+            CategoryNumber = 2
+          }
+      );
 
-            this.DeleteNote = (ObjectId) this.Database.Comments.SaveComment (
-                new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
-                        Text = "comment to delete in category 2",
-                        CategoryNumber = 2
-                }
-            ).Id;
+      this.DeleteNote = (ObjectId)this.Database.Comments.SaveComment(
+          new Retrospective.Data.Model.Comment
+          {
+            RetrospectiveId = (ObjectId)newSession.Id,
+            Text = "comment to delete in category 2",
+            CategoryNumber = 2
+          }
+      ).Id;
 
-            this.UpdateNote = (ObjectId) this.Database.Comments.SaveComment (
-                new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
-                        Text = "comment to update in category 2",
-                        CategoryNumber = 2
-                }
-            ).Id;
+      this.UpdateNote = (ObjectId)this.Database.Comments.SaveComment(
+          new Retrospective.Data.Model.Comment
+          {
+            RetrospectiveId = (ObjectId)newSession.Id,
+            Text = "comment to update in category 2",
+            CategoryNumber = 2
+          }
+      ).Id;
 
-            // update the saved user with the team
-            newUser.Teams = new ObjectId[] {
+      // update the saved user with the team
+      newUser.Teams = new ObjectId[] {
                 (ObjectId) newTeam.Id };
-            this.Database.Users.SaveUser (newUser);
-
-        }
-
-        public void Dispose () {
-
-        }
+      this.Database.Users.SaveUser(newUser);
 
     }
 
-    [CollectionDefinition ("Domain Test collection")]
-    public class TextCollection : ICollectionFixture<TestFixture> {
+    public void Dispose()
+    {
 
     }
+
+  }
+
+  [CollectionDefinition("Domain Test collection")]
+  public class TextCollection : ICollectionFixture<TestFixture>
+  {
+
+  }
 }

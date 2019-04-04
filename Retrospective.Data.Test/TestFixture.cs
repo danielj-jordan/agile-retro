@@ -26,6 +26,11 @@ namespace Retrospective.Data.Test
         public TestFixture()
         {
             string connectionString =  Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
+
+            if(String.IsNullOrEmpty(connectionString))
+            {
+                 connectionString= "mongodb://127.0.0.1:27017";
+            }
             string databaseName = "test_datalayer";
 
             //start with an empty database
@@ -33,7 +38,7 @@ namespace Retrospective.Data.Test
             client.DropDatabase (databaseName);
 
             //connect to the database
-            Retrospective.Data.Database database = new Database (databaseName);
+            Retrospective.Data.Database database = new Database (connectionString, databaseName);
             this.database = database;
             IntitialTestRecords();
 
