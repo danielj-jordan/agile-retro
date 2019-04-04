@@ -8,6 +8,7 @@ namespace Retrospective.Data
   {
     Comment GetComment(ObjectId commentId);
 
+    Comment GetComment(string commentId);
     Comment SaveComment(Comment comment);
 
     List<Comment> GetComments(string retrospectiveId);

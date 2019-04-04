@@ -4,7 +4,7 @@ namespace app.ModelExtensions
     {
         public static app.Model.Comment ToViewModelComment(
              this Retrospective.Domain.Model.Comment comment,
-             string activceUser)
+             string activeUser)
         {
             var viewModelComment = new app.Model.Comment
             {
@@ -14,10 +14,12 @@ namespace app.ModelExtensions
                 Text =  comment.Text,
                 UpdateUser = comment.LastUpdateUser,
                 VoteCount =  comment.VotedUp.Count,
-                ThisUserVoted = comment.VotedUp.Contains(activceUser)
+                ThisUserVoted = comment.VotedUp.Contains(activeUser)
             };
             return viewModelComment;
         }
+
+       
     }
 
 }
