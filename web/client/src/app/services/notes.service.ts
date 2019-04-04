@@ -9,6 +9,7 @@ import {UserLogin} from '../models/userlogin';
 import {LocalstorageService} from './localstorage.service';
 import { Options } from 'selenium-webdriver/edge';
 import { UserToken } from '../models/usertoken';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class NotesService {
@@ -19,12 +20,12 @@ export class NotesService {
     constructor( 
         private http: HttpClient,
         private storage: LocalstorageService){
-      this.baseUrl='api';
+      this.baseUrl="api"; 
     }
 
 
     addAuthHeader(headers: HttpHeaders):HttpHeaders {
-        return headers.append('Authorization', 'Bearer ' + this.storage.userToken);
+        return headers.set('Authorization', 'Bearer ' + this.storage.userToken);
     }
 
 
@@ -138,13 +139,36 @@ export class NotesService {
         var options = { headers : headers};
        
 
-        this.http.delete(this.baseUrl + '/notes/DeleteNote/'+ commentId,
+        this.http.delete(this.baseUrl + '/notes/deletenote/'+ commentId,
           options
           ).subscribe();
           
           return ;
     }
 
+    voteUp(commentId: string): void{
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers}; 
+       
+        this.http.put(this.baseUrl + '/notes/voteup/'+ commentId,null,
+          options
+          ).subscribe();
+          
+          return ;
+    }
+
+    voteDown(commentId: string): void{
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};   
+       
+        this.http.put(this.baseUrl + '/notes/votedown/'+ commentId,null,
+          options
+          ).subscribe();
+          
+          return ;
+    }
 
 
 }

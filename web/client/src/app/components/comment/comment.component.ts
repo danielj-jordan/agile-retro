@@ -74,6 +74,14 @@ export class CommentComponent implements OnInit, AfterViewInit {
     );
   }
 
+  findNoteById(id: string){
+    for (let i = 0; i < this.comments.length; i++) {
+      if (this.comments[i].commentId === id) {
+        return this.comments[i];
+      }
+    }
+  }
+
   isCategoriesFew(): boolean{
     if(this.categories.length<4){
       return true;
@@ -114,6 +122,28 @@ export class CommentComponent implements OnInit, AfterViewInit {
       }
     }
     this.comments = newNotes;
+  }
+
+  onVoteUp(id: string){
+    console.log("votting up")
+    let note = this.findNoteById(id);
+    if(!note.thisUserVoted)
+    {
+      note.voteCount++;
+      note.thisUserVoted=true;
+    }
+    this.notesService.voteUp(id);
+  }
+
+  onVoteDown(id: string){
+    console.log("votting up")
+    let note = this.findNoteById(id);
+    if(note.thisUserVoted)
+    {
+      note.voteCount--;
+      note.thisUserVoted=false;
+    }
+    this.notesService.voteDown(id);
   }
 
   onSelect(note: Comment): void {

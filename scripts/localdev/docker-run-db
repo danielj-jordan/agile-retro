@@ -1,0 +1,2 @@
+docker ps --filter "name=dotnetdb"
+docker exec -it dotnetdb /projects/agile-retro/scripts/localdev/docker-start-db

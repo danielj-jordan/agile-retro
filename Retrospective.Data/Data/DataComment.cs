@@ -75,6 +75,11 @@ namespace Retrospective.Data
 
         }
 
+        public Comment GetComment(string commentId)
+        {
+            return this.GetComment(new ObjectId(commentId));
+        }
+
         public void Delete (ObjectId commentId){
                 var filter = MongoDB.Driver.Builders<Comment>.Filter.Eq("Id", commentId);
                 var found= database.MongoDatabase.GetCollection<Comment>(collection).DeleteOne(filter);

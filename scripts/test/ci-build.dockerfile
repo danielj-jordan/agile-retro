@@ -3,7 +3,8 @@
 #
 #
 #  https://hub.docker.com/r/microsoft/dotnet/
-FROM microsoft/dotnet
+# FROM microsoft/dotnet
+FROM mcr.microsoft.com/dotnet/core/sdk
 
 #
 # install utilities

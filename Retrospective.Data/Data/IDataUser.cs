@@ -34,5 +34,10 @@ namespace Retrospective.Data
         List<User> GetTeamUsers (ObjectId teamObjectId);
 
 
+        List<User> GetTeamUsers (string teamId);
+        
+
+
+
     }
 }

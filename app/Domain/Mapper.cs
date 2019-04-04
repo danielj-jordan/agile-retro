@@ -38,7 +38,7 @@ namespace app.Domain
 
             CreateMap<ViewModel.TeamMember, DomainModel.TeamMember>().ReverseMap();
 
-            //mapping for Comment
+            //mapping  Comment view moodel to domain model
             CreateMap<ViewModel.Comment, DomainModel.Comment>()
                 .ForMember(dest=>dest.CommentId, opt=>opt.MapFrom(src=>src.CommentId))
                 .ForMember(dest=>dest.MeetingId, opt=>opt.MapFrom(src=>src.SessionId))
@@ -47,12 +47,15 @@ namespace app.Domain
                 .ForMember(dest=>dest.LastUpdateDate, opt=>opt.Ignore())
                 .ForMember(dest=>dest.VotedUp, opt=>opt.Ignore());
 
-
+            //map Comment domain model to view model
             CreateMap<DomainModel.Comment, ViewModel.Comment>()
                 .ForMember(dest=>dest.CommentId, opt=>opt.MapFrom(src=>src.CommentId))
                 .ForMember(dest=>dest.SessionId, opt=>opt.MapFrom(src=>src.MeetingId))
                 .ForMember(dest=>dest.CategoryNum, opt=>opt.MapFrom(src=>src.CategoryNumber))
-                .ForMember(dest=>dest.UpdateUser, opt=>opt.MapFrom(src=>src.LastUpdateUser));
+                .ForMember(dest=>dest.UpdateUser, opt=>opt.MapFrom(src=>src.LastUpdateUser))
+                .ForMember(dest => dest.VoteCount, opt => opt.MapFrom( src => src.VotedUp.Count))
+                .ForMember(dest => dest.ThisUserVoted, opt=> opt.Ignore());
+               
 
 
                

@@ -12,7 +12,7 @@ namespace Retrospective.Data
 {
 
 
-    public class DataTeam
+    public class DataTeam: IDataTeam
     {
         private string collection="team";
         private IDatabase database;

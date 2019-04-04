@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 
 using app.Model;
@@ -38,6 +38,7 @@ namespace app.Controllers
         /// </summary>
         /// <param name="teamId"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("[action]/{id}")]
         public ActionResult<IEnumerable<Meeting>> Meetings(string id)
         {
@@ -56,6 +57,7 @@ namespace app.Controllers
         /// </summary>
         /// <param name="meetingId"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet("[action]/{id}")]
         public ActionResult<Meeting> Meeting(string id)
         {
@@ -76,6 +78,7 @@ namespace app.Controllers
         /// </summary>
         /// <param name="meeting"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost("[action]")]
         public ActionResult<Meeting> Meeting([FromBody] Meeting meeting)
         {
