@@ -77,6 +77,33 @@ namespace Retrospective.Domain
       );
     }
 
+    public DomainModel.Comment UpdateCommentText (
+      string activeUser,
+      DomainModel.Comment comment
+    )
+    {
+      var meeting = this.GetMeeting(comment.MeetingId);
+      var team = this.GetTeam(meeting.TeamId);
+      if (!IsTeamMember(activeUser, team))
+      {
+        throw new Exception.AccessDenied();
+      }
+
+      //retrieve existing comment
+      var existingComment = this.GetComment(comment.CommentId);
+
+      //update the comment
+      existingComment.Text = comment.Text;
+      existingComment.LastUpdateUser=activeUser;
+      existingComment.LastUpdateDate=DateTime.Now;
+
+      return mapper.Map<DBModel.Comment, DomainModel.Comment>(
+          database.Comments.SaveComment(
+             mapper.Map<DomainModel.Comment, DBModel.Comment>(existingComment))
+          );
+    }
+
+
     public DomainModel.Comment VoteUp(string activeUser, string commentId)
     {
       var comment = this.GetComment(commentId);

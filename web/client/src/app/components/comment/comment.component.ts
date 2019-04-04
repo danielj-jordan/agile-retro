@@ -74,6 +74,14 @@ export class CommentComponent implements OnInit, AfterViewInit {
     );
   }
 
+  findNoteById(id: string){
+    for (let i = 0; i < this.comments.length; i++) {
+      if (this.comments[i].commentId === id) {
+        return this.comments[i];
+      }
+    }
+  }
+
   isCategoriesFew(): boolean{
     if(this.categories.length<4){
       return true;

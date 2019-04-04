@@ -94,13 +94,19 @@ namespace app.Controllers {
             newNote.MeetingId= retroId;
             newNote.CommentId= input.CommentId;
 
-            var comment = manager.SaveComment(this.GetActiveUser(),newNote);
+            DomainModel.Comment comment;
+           if(string.IsNullOrWhiteSpace(input.CommentId))
+           {
+            comment = manager.SaveComment(this.GetActiveUser(),newNote);
+           }
+           else
+           {
+               comment = manager.UpdateCommentText(this.GetActiveUser(), newNote);
+           }
 
             _logger.LogDebug ("text:{0}", newNote.Text);
 
             return comment.ToViewModelComment(this.GetActiveUser());
-           // return _mapper.Map<DomainModel.Comment, app.Model.Comment>(comment);
-
         }
 
         [Authorize]
