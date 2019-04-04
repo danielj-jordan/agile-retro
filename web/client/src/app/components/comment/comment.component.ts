@@ -126,11 +126,23 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   onVoteUp(id: string){
     console.log("votting up")
+    let note = this.findNoteById(id);
+    if(!note.thisUserVoted)
+    {
+      note.voteCount++;
+      note.thisUserVoted=true;
+    }
     this.notesService.voteUp(id);
   }
 
   onVoteDown(id: string){
     console.log("votting up")
+    let note = this.findNoteById(id);
+    if(note.thisUserVoted)
+    {
+      note.voteCount--;
+      note.thisUserVoted=false;
+    }
     this.notesService.voteDown(id);
   }
 
