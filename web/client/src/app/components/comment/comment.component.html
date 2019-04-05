@@ -11,7 +11,7 @@
       *ngFor="let category of categories">
       <div style="background-color:#f0f0f5;padding:3px;" [attr.id]="this.CategoryDomId(category)">
       <h4 style="text-align:center">{{ category.name }} 
-      <button class="btn btn-primary  btn-sm" (click)="onNewNote(category.categoryId)">
+      <button class="btn btn-primary  btn-sm" (click)="onNewNote(category.categoryNum)">
         new <i-message-square></i-message-square>
         </button>
       </h4>
