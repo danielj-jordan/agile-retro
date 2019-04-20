@@ -10,8 +10,8 @@ try {
     def agileretroimage
 
     stage('Docker Build'){
-          sh "docker build -f scripts/test/ci-build.dockerfile  -t  agileretro-ci ."
-          agileretroimage=docker.image('agileretro-ci')
+         
+          agileretroimage=docker.build('agileretro-ci', '-f scripts/test/ci-build.dockerfile ')
     }
 
     stage ('Build')
