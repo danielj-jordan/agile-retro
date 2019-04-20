@@ -1,38 +1,45 @@
-pipeline {
-    agent { 
-      dockerfile {
-        filename 'scripts/test/ci-build.dockerfile'
-        additionalBuildArgs '-t app-image '
-        args '-u root --privileged --shm-size="128m" -it -p 9222:9222 -p 5000:5000 -p 4200:4200'
-      } 
-    }
-    stages {
+#!/usr/bin/env groovy
 
-      stage('Build'){
-          environment {
-            PATH="/usr/local/bin:/Applications/Docker.app/Contents/Resources/bin:$PATH"
-          }
-          steps {
-            sh 'ls /agile-retro'
-            sh 'dotnet --version'
-            sh 'whoami'
-            sh 'dotnet build /agile-retro/app/app.csproj'
-            sh 'ng --version'
-            sh 'ls -al /agile-retro/web/client'
-            sh 'cd /agile-retro/web/client && npm install && ng build'
-            
-          }
-      }
-      stage('Test'){
-        steps{
-           sh 'mkdir /agile-retro/data'
-           sh '/mongodb/bin/mongod --dbpath "/agile-retro/data"  --bind_ip 0.0.0.0  &'
-           sh 'dotnet test /agile-retro/Retrospective.Data.Test/Retrospective.Data.Test.csproj'
-           sh 'dotnet test /agile-retro/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj'
-           sh 'dotnet test /agile-retro/apptest/apptest.csproj'
-           sh 'dotnet run -p /agile-retro/tools/testdata/testdata.csproj'
-           sh 'cd /agile-retro/web/client && ng test  --watch=false'
-        }
+import hudson.model.*
+import hudson.EnvVars
+import hudson.FilePath
+
+try {
+  node {
+    checkout scm
+    def agileretroimage
+
+    stage('Docker Build'){
+          sh "docker build -f scripts/test/ci-build.dockerfile  -t  agileretro-ci ."
+          agileretroimage=docker.image('agileretro-ci')
+    }
+
+    stage ('Build')
+    {
+      agileretroimage.inside(){
+        sh 'ls /agile-retro'
+        sh 'dotnet --version'
+        sh 'whoami'
+        sh 'dotnet build /agile-retro/app/app.csproj'
+        sh 'ng --version'
+        sh 'ls -al /agile-retro/web/client'
+        sh 'cd /agile-retro/web/client && npm install && ng build'
       }
     }
+    stage('Test'){
+      agileretroimage.indside(){
+        sh 'mkdir /agile-retro/data'
+        sh '/mongodb/bin/mongod --dbpath "/agile-retro/data"  --bind_ip 0.0.0.0  &'
+        sh 'dotnet test /agile-retro/Retrospective.Data.Test/Retrospective.Data.Test.csproj'
+        sh 'dotnet test /agile-retro/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj'
+        sh 'dotnet test /agile-retro/apptest/apptest.csproj'
+        sh 'dotnet run -p /agile-retro/tools/testdata/testdata.csproj'
+        sh 'cd /agile-retro/web/client && ng test  --watch=false'
+      }
+    }
+  }
+}
+catch (err){
+    throw err
+
 }
