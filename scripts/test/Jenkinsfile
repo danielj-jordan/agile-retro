@@ -6,12 +6,15 @@ import hudson.FilePath
 
 try {
   node {
-    checkout scm
     def agileretroimage
+
+    stage ('Clone repo'){
+      checkout scm
+    }
 
     stage('Docker Build'){
          
-          agileretroimage=docker.build('agileretro-ci', '-f scripts/test/ci-build.dockerfile ')
+          agileretroimage = docker.build("agileretro", "-f scripts/test/ci-build.dockerfile")
     }
 
     stage ('Build')
