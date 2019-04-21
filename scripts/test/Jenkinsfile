@@ -17,8 +17,7 @@ try {
     }
     stage ('Build')
     {
-      agileretroimage.inside().withRun('-u root'){
-        sh 'export HOME=/tmp'
+      agileretroimage.inside('-u root'){
         sh 'ls /agile-retro'
         sh 'dotnet --version'
         sh 'whoami'
@@ -29,7 +28,7 @@ try {
       }
     }
     stage('Test'){
-      agileretroimage.inside().withRun('-u root'){
+      agileretroimage.inside('-u root'){
         sh 'mkdir /agile-retro/data'
         sh '/mongodb/bin/mongod --dbpath "/agile-retro/data"  --bind_ip 0.0.0.0  &'
         sh 'dotnet test /agile-retro/Retrospective.Data.Test/Retrospective.Data.Test.csproj'
