@@ -11,12 +11,10 @@ try {
     stage ('Clone repo'){
       checkout scm
     }
-
     stage('Docker Build'){
          
           agileretroimage = docker.build("agileretro", "-f scripts/test/ci-build.dockerfile .")
     }
-
     stage ('Build')
     {
       agileretroimage.inside(){
