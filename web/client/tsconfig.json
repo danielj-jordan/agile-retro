@@ -17,5 +17,9 @@
     ],
     "module": "es2015",
     "baseUrl": "./"
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "preserveWhitespaces": false
   }
 }
