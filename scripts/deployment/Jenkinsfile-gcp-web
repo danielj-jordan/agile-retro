@@ -6,11 +6,13 @@ import hudson.FilePath
 
 try {
   node {
-    checkout scm
     def version 
     def projectid
 
-    stage('Build'){
+    stage ('Clone repo'){
+      checkout scm
+    }
+    stage('Build'){å
           projectid = "agileretro-232800"
           def versionbase =  readFile("${env.WORKSPACE}/scripts/deployment/version.web")
           version = "${versionbase}.${env.BUILD_ID}"
