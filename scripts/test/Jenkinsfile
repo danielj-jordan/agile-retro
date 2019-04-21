@@ -35,7 +35,7 @@ try {
         sh 'dotnet test /agile-retro/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj'
         sh 'dotnet test /agile-retro/apptest/apptest.csproj'
         sh 'dotnet run -p /agile-retro/tools/testdata/testdata.csproj'
-        sh 'cd /agile-retro/web/client && ng test  --watch=false'
+        sh 'cd /agile-retro/web/client && npm install && ng test  --watch=false'
       }
     }
   }
