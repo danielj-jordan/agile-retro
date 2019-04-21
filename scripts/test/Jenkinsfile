@@ -21,6 +21,7 @@ try {
         sh 'export HOME=/tmp'
         sh 'ls /agile-retro'
         sh 'dotnet --version'
+        sh 'whoami'
         sh 'dotnet build /agile-retro/app/app.csproj'
         sh 'ng --version'
         sh 'ls -al /agile-retro/web/client'
