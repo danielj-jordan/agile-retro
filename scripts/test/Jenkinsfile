@@ -18,6 +18,7 @@ try {
     stage ('Build')
     {
       agileretroimage.inside(){
+        sh 'export HOME=/tmp'
         sh 'ls /agile-retro'
         sh 'dotnet --version'
         sh 'sudo cd /agile-retro/app && dotnet build app.csproj'
