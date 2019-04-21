@@ -20,7 +20,7 @@ try {
       agileretroimage.inside(){
         sh 'ls /agile-retro'
         sh 'dotnet --version'
-        sh 'dotnet build /agile-retro/app/app.csproj'
+        sh 'cd /agile-retro/app && dotnet build app.csproj'
         sh 'ng --version'
         sh 'ls -al /agile-retro/web/client'
         sh 'cd /agile-retro/web/client && npm install && ng build'
