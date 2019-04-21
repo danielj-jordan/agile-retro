@@ -21,7 +21,7 @@ try {
         sh 'export HOME=/tmp'
         sh 'ls /agile-retro'
         sh 'dotnet --version'
-        sh 'sudo cd /agile-retro/app && dotnet build app.csproj'
+        sh 'dotnet build /agile-retro/app/app.csproj'
         sh 'ng --version'
         sh 'ls -al /agile-retro/web/client'
         sh 'cd /agile-retro/web/client && npm install && ng build'
