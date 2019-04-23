@@ -18,6 +18,7 @@ import { MeetingEditComponent } from './components/meetingedit/meetingedit.compo
 import { TeamEditComponent } from './components/teamedit/teamedit.component';
 import {IconsModule} from './icons/icons.module';
 import { MenuComponent } from './components/menu/menu.component';
+import { PrivacyPolicyComponent } from './components/privacypolicy/privacypolicy.component';
 
 @NgModule({
     imports: [
@@ -37,6 +38,7 @@ import { MenuComponent } from './components/menu/menu.component';
     MeetingEditComponent,
     TeamEditComponent,
     MenuComponent,
+    PrivacyPolicyComponent,
 
   ],
   providers: [NotesService, LocalstorageService],

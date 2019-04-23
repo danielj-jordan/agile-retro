@@ -26,14 +26,14 @@
                 {{ comment.text }} 
               </div>
               <div  class="card-footer" style="text-align: center">
-                  <button (click)="onEditId(comment.commentId)" class="btn btn-primary btn-sm retro-btn-edit" ><i-edit-3></i-edit-3></button>
-                  <button *ngIf="!comment.thisUserVoted" (click)="onVoteUp(comment.commentId)" class="btn btn-primary btn-sm ">
+                  <button (click)="onEditId(comment.commentId)" class="btn btn-primary btn-sm retro-btn-edit margin-2px" ><i-edit-3></i-edit-3></button>
+                  <button *ngIf="!comment.thisUserVoted" (click)="onVoteUp(comment.commentId)" class="btn btn-primary btn-sm margin-2px">
                     <i-thumbs-up></i-thumbs-up>
                   </button>
-                  <button *ngIf="comment.thisUserVoted"  (click)="onVoteDown(comment.commentId)" class="btn btn-primary btn-sm ">
+                  <button *ngIf="comment.thisUserVoted"  (click)="onVoteDown(comment.commentId)" class="btn btn-primary btn-sm margin-2px">
                     <i-thumbs-down></i-thumbs-down>
                   </button>
-                  <button (click)="onDeleteId(comment.commentId)" class="btn btn-secondary btn-sm retro-btn-delete">
+                  <button (click)="onDeleteId(comment.commentId)" class="btn btn-secondary btn-sm retro-btn-delete margin-2px">
                       <i-delete></i-delete>
                     </button> 
               </div>
