@@ -4,14 +4,13 @@ metadata:
   name: agile-retro-web-service
   labels:
     app: agile-retro-web-service
-spec:
-  type: LoadBalancer
-  loadBalancerIP: "35.222.33.68"
+pec:
+  type: NodePort
   ports:
     - port: 80
   selector:
     app: agile-retro-web
-    tier: web
+    tier: backend
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: agile-retro-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: agileretro-ip
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: agile-retro-app-service
+          servicePort: 80
