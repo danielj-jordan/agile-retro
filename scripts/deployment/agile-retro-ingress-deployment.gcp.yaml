@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: agile-retro-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: agileretro-ip
+    networking.gke.io/managed-certificates: agileretro-certificate
+spec:
+  backend:
+    serviceName: agile-retro-web-service
+    servicePort: 80
