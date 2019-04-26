@@ -4,11 +4,8 @@ metadata:
   name: agile-retro-ingress
   annotations:
     kubernetes.io/ingress.global-static-ip-name: agileretro-ip
+    networking.gke.io/managed-certificates: agileretro-certificate
 spec:
-  rules:
-  - http:
-      paths:
-      - path: /*
-        backend:
-          serviceName: agile-retro-app-service
-          servicePort: 80
+  backend:
+    serviceName: agile-retro-web-service
+    servicePort: 80
