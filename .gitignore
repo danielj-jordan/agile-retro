@@ -63,5 +63,3 @@
 !*.[Cc]ache/
 .vscode/**
 
-/web/root/**
-/web/root/node_modules/**
