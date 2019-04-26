@@ -63,3 +63,9 @@
 !*.[Cc]ache/
 .vscode/**
 
+/web/root/dist/**
+/web/root/vendor/**
+/web/root/node_modules/**
+
+
+
