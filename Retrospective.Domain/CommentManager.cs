@@ -77,7 +77,7 @@ namespace Retrospective.Domain
       );
     }
 
-    public DomainModel.Comment UpdateCommentText (
+    public DomainModel.Comment UpdateCommentText(
       string activeUser,
       DomainModel.Comment comment
     )
@@ -94,8 +94,18 @@ namespace Retrospective.Domain
 
       //update the comment
       existingComment.Text = comment.Text;
-      existingComment.LastUpdateUser=activeUser;
-      existingComment.LastUpdateDate=DateTime.Now;
+      existingComment.LastUpdateUser = activeUser;
+      existingComment.LastUpdateDate = DateTime.Now;
+
+      if (existingComment.CategoryNumber != comment.CategoryNumber)
+      {
+        this.logger.LogInformation("changing category from {0} to {1} for commentId {2}",
+          existingComment.CategoryNumber,
+          comment.CategoryNumber,
+          comment.CommentId);
+
+        existingComment.CategoryNumber = comment.CategoryNumber;
+      }
 
       return mapper.Map<DBModel.Comment, DomainModel.Comment>(
           database.Comments.SaveComment(
@@ -156,6 +166,5 @@ namespace Retrospective.Domain
           mapper.Map<DomainModel.Comment, DBModel.Comment>(comment)));
 
     }
-
   }
 }

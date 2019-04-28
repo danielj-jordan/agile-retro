@@ -1,7 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-.color-primary{
+
+.color-primary {
   color: #78C2AD;
 }
-.color-secondary{
+
+.color-secondary {
   color: #F3969A;
+}
+
+.btn {
+  margin-left: 2px;
+  margin-right: 2px;
 }
