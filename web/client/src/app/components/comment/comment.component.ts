@@ -65,6 +65,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
     // this one always runs
     this.getComments();
+    console.log(this.comments);
 
     // this one doesn't run if timer is stopped as in the jasmine test
     Observable.timer(3000, 3000).subscribe(
@@ -94,7 +95,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.notesService.getNotes(this.sessionId).subscribe(
       data => {
         this.comments = data;
-        console.log(this.comments);
       }
     );
   }
