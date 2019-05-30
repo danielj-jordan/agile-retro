@@ -63,8 +63,9 @@ namespace Retrospective.Data
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             }); 
 
-        }
+            
 
+        }
         private void Open(){
             var client = new MongoClient(this.connectionString);
             MongoDatabase= client.GetDatabase(this.database);

@@ -10,5 +10,7 @@ namespace Retrospective.Domain.Model
 
         public bool IsDemoUser {get;set;}
 
+        public DateTime? LastLoggedIn {get;set;}
+
     }
 }
