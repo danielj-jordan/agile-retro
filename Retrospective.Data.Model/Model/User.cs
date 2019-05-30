@@ -15,5 +15,7 @@ namespace Retrospective.Data.Model
         public bool IsDemoUser {get;set;}
         public DateTime? SubscriptionEnd {get; set;}
 
+        public DateTime? LastLoggedIn {get;set;}
+
     }
 }
