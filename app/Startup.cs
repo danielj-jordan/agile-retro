@@ -61,6 +61,7 @@ namespace app
       services.AddTransient<Retrospective.Domain.TeamManager, Retrospective.Domain.TeamManager>();
       services.AddTransient<Retrospective.Domain.MeetingManager, Retrospective.Domain.MeetingManager>();
       services.AddTransient<Retrospective.Domain.CommentManager, Retrospective.Domain.CommentManager>();
+      services.AddTransient<Retrospective.Domain.UserManager, Retrospective.Domain.UserManager>();
 
       services.Configure<JWTTokenConfiguration>(Configuration.GetSection("JWTTokenConfiguration"));
 

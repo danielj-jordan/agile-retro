@@ -13,7 +13,7 @@ namespace Retrospective.Domain
     private readonly IMapper mapper;
     private readonly IDatabase database;
 
-    protected UserManager(ILogger<UserManager> logger, IMapper mapper, IDatabase database) : base(logger, mapper, database)
+    public UserManager(ILogger<UserManager> logger, IMapper mapper, IDatabase database) : base(logger, mapper, database)
     {
       this.logger = logger;
       this.mapper = mapper;
@@ -32,8 +32,8 @@ namespace Retrospective.Domain
         if(users.Count==0)
         {
             logger.LogInformation("No users were found for email address {1}", email);
+            return null;
         }
-
         //return the found user
         return mapper.Map<DBModel.User, DomainModel.User>(users.First());
 
