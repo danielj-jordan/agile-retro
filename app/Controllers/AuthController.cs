@@ -16,7 +16,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using AutoMapper;
 using app.Model;
-using Retrospective.Data;
+using DomainModel = Retrospective.Domain.Model;
+using Retrospective.Domain;
 using Google.Apis.Auth;
 
 namespace app.Controllers
@@ -27,14 +28,14 @@ namespace app.Controllers
 
     private readonly ILogger<AuthController> logger;
     private readonly IMapper mapper;
-    private readonly IDatabase database;
+    private readonly UserManager usermanager;
     private readonly IOptions<JWTTokenConfiguration> tokenConfig;
 
-    public AuthController(ILogger<AuthController> logger, IMapper mapper, IDatabase database, IOptions<JWTTokenConfiguration> tokenConfig)
+    public AuthController(ILogger<AuthController> logger, IMapper mapper, UserManager usermanager, IOptions<JWTTokenConfiguration> tokenConfig)
     {
       this.logger = logger;
       this.mapper = mapper;
-      this.database = database;
+      this.usermanager = usermanager;
       this.tokenConfig = tokenConfig;
     }
 
@@ -89,52 +90,54 @@ namespace app.Controllers
           googleAppId
       };
 
-      try{
-      var validPayload = await GoogleJsonWebSignature.ValidateAsync(googleToken.Token, settings);
+      try
+      {
+        DomainModel.User savedUser;
+        var validPayload = await GoogleJsonWebSignature.ValidateAsync(googleToken.Token, settings);
 
+        Console.WriteLine(validPayload);
+
+        logger.LogInformation("logging in {0} {1}.", validPayload.Name, validPayload.Email);
+
+        //confirm the user is in our db
+        var user = usermanager.GetUserFromEmail(validPayload.Email);
+        if (user == null)
+        {
+          logger.LogDebug("creating new user");
+          var newUser = new DomainModel.User
+          {
+            Name = validPayload.Name,
+            Email = validPayload.Email,
+            IsDemoUser = false,
+            AuthenticationSource="Google",
+            LastLoggedIn = DateTime.UtcNow,
+            AuthenticationID=validPayload.Subject
+          };
+
+          savedUser = usermanager.UpdateUser(newUser);
+          logger.LogInformation("Created new user with email: {0} and userid: {1} ", savedUser.Email, savedUser.UserId);
+        }
+        else
+        {
+          user.LastLoggedIn=DateTime.UtcNow;
+          savedUser = usermanager.UpdateUser(user);
+          logger.LogInformation("updating user with email: {0} and userid: {1} ", savedUser.Email, savedUser.UserId);
+        }
+
+        //return a new token
+        var userToken = this.CreateToken(savedUser.Email, savedUser.UserId);
+        return userToken;
       }
       catch (InvalidJwtException ex)
       {
-        //token is not valid
+        logger.LogWarning("The token is not valid {0}", ex.Message );
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
-        //other error
-
+        logger.LogWarning("Could not authenciate using Google Token {0} {1}", googleToken, ex.Message );
       }
 
- 
-
-
-      //get name and email address
-      var email=validPayload.Prn;
-      var name=validPayload.Name;
-
-      //confirm the user is in our db
-
-
-      
-  
-      
-
-
-      var user = database.Users.FindUserByEmail(email);
-      if( user==null)
-      {
-        var newUser =  new User
-        {
-          Name=name,
-          Email=email,
-          IsDemoUser=false,
-        };
-        user= database.Users.SaveUser(newUser);
-      }
-
-
-      //return a new token
-      var userToken = this.CreateToken(user.Email);
-
-      return userToken;
+      return null;
     }
 
 
@@ -142,15 +145,16 @@ namespace app.Controllers
     public ActionResult<UserLoginToken> Demo()
     {
       string demoUser = "demo@localhost";
+      var user = usermanager.GetUserFromEmail(demoUser);
 
       // authentication successful so generate jwt token
-      var userToken = this.CreateToken(demoUser);
+      var userToken = this.CreateToken(user.Email, user.UserId);
 
       return userToken;
 
     }
 
-    private UserLoginToken CreateToken(string username)
+    private UserLoginToken CreateToken(string username, string userId)
     {
       var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
       var key = Encoding.ASCII.GetBytes(tokenConfig.Value.Key);
@@ -158,7 +162,8 @@ namespace app.Controllers
       {
         Subject = new ClaimsIdentity(new Claim[]
           {
-                    new Claim(ClaimTypes.Name, username)
+                    new Claim(ClaimTypes.Email, username),
+                    new Claim(ClaimTypes.PrimarySid, userId)
           }),
         Expires = DateTime.UtcNow.AddDays(7),
         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
