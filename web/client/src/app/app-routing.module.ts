@@ -7,11 +7,13 @@ import { MeetingEditComponent } from './components/meetingedit/meetingedit.compo
 import { TeamEditComponent } from './components/teamedit/teamedit.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { PrivacyPolicyComponent } from './components/privacypolicy/privacypolicy.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'privacypolicy', component: PrivacyPolicyComponent },
+  { path:  'logout', component:LogoutComponent},
   {
     path: 'retrospective',
     component: MenuComponent,
