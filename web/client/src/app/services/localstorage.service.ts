@@ -23,6 +23,11 @@ export class LocalstorageService {
     return sessionStorage.getItem("token");
   }
 
+  deleteAll(): void{
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+  }
+
   
 
 }

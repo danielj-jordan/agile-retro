@@ -22,27 +22,20 @@
       </div>
 </div>
 <div class="container">
-  <div class='container' [style.display]="isLoginAllowed ? 'inline' : 'none' ">
-    <form (ngSubmit)="Login()"  >
-      <div class="form-group">
-        <label for="login">Login Name (temp)</label>
-        <input type="text" class="form-control" id="login" name="login" 
-        required [(ngModel)]="model.loginName" />
-      </div>
-      <button type="submit" class="btn btn-success">Login</button>
-      </form>
-  </div>
 </div>
 <div class="container" >
     <div class='container'>
-        <div class="g-signin2" id="signinGoogle" data-onsuccess="onGoogleSignIn"></div>
+        <form (ngSubmit)="loginGoogle()">
+            <button type="submit" class="btn btn-success" >Google</button>
+            </form>
+        <div class="g-signin2" id="signinGoogle" (click)="loginGoogle()"></div>
     </div>
 </div>
 <div class="container" [style.display]="isDemo ? 'inline' : 'none'" >
       <div class='container'>
           <p>Click here to try the application without creating an account.
           </p>
-          <form (ngSubmit)="LoginDemo()">
+          <form (ngSubmit)="loginDemo()">
           <button type="submit" class="btn btn-success" >Demo</button>
           </form>
       </div>
