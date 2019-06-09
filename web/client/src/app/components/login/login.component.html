@@ -1,43 +1,42 @@
 <div style="text-align:center">
-    <h1>
+  <h1>
     AgileRetro.io
-    </h1>
+  </h1>
 </div>
 <div class="container">
-    <div class="col-md-12 mb-5">
-        <p class="card-text">
-            AgileRetro.io is a tool to facilitate sprint retrospectives for agile software development teams.
-          </p>
-          <p>The team members contribute comments in different categories such as:
-            <li>What went well?</li>
-            <li>What can be improved</li>
-            <li>What action items does the team commit to for the following sprint?</li>
-        </p>
-        <p>
-            The category names in Agileretro.io are defined  by the leader of the team who is also known as the scrum master.  
-             The team members submit their comments for each category and then discuss and commit to the action items during 
-             a meeting known as the sprint retrospective.  Agileretro.io is a tool to gather those comments before and during 
-             the sprint retrospective.
-          </p>    
-      </div>
+  <div class="col-md-12 mb-5">
+    <p class="card-text">
+      AgileRetro.io is a tool to facilitate sprint retrospectives for agile software development teams.
+    </p>
+    <p>The team members contribute comments in different categories such as:
+      <li>What went well?</li>
+      <li>What can be improved</li>
+      <li>What action items does the team commit to for the following sprint?</li>
+    </p>
+    <p>
+      The category names in Agileretro.io are defined by the leader of the team who is also known as the scrum master.
+      The team members submit their comments for each category and then discuss and commit to the action items during
+      a meeting known as the sprint retrospective. Agileretro.io is a tool to gather those comments before and during
+      the sprint retrospective.
+    </p>
+  </div>
 </div>
 <div class="container">
-</div>
-<div class="container" >
-    <div class='container'>
-        <form (ngSubmit)="loginGoogle()">
-            <button type="submit" class="btn btn-success" >Google</button>
-            </form>
-        <div class="g-signin2" id="signinGoogle" (click)="loginGoogle()"></div>
-    </div>
-</div>
-<div class="container" [style.display]="isDemo ? 'inline' : 'none'" >
-      <div class='container'>
-          <p>Click here to try the application without creating an account.
-          </p>
-          <form (ngSubmit)="loginDemo()">
-          <button type="submit" class="btn btn-success" >Demo</button>
-          </form>
-      </div>
-</div>
 
+  <div class="container">
+      <form (ngSubmit)="loginGoogle()">
+        <button type="submit" class="btn btn-success" style="padding:1px">
+          <img src="assets/btn_google_signin_light_normal_web.png" />
+        </button>
+      </form>
+  </div>
+  <div class="container" [style.display]="isDemo ? 'inline' : 'none'">
+    <div class='container'>
+      <p>Click here to try the application without creating an account.
+      </p>
+      <form (ngSubmit)="loginDemo()">
+        <button type="submit" class="btn btn-success">Sign in as the Demo User</button>
+      </form>
+    </div>
+  </div>
+</div>

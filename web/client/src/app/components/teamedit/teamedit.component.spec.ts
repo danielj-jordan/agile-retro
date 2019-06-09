@@ -13,7 +13,7 @@ describe('TeameditComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TeamEditComponent ],
-      imports: [RouterTestingModule, FormsModule],
+      imports: [RouterTestingModule.withRoutes([]), FormsModule],
       providers: [
         { provide: NotesService, useClass: NotesServiceMock },
         {
