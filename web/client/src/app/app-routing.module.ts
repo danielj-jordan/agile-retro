@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'privacypolicy', component: PrivacyPolicyComponent },
-  { path:  'logout', component:LogoutComponent},
+  { path: 'logout', component: LogoutComponent },
   {
     path: 'retrospective',
     component: MenuComponent,

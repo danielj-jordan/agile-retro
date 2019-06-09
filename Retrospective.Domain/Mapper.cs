@@ -77,7 +77,7 @@ namespace Retrospective.Domain {
                 .ForMember (dest => dest.Name, opt => opt.MapFrom (src => src.Name))
                 .ForMember (dest => dest.Email, opt => opt.MapFrom (src => src.Email))
                 .ForMember (dest => dest.LastLoggedIn, opt => opt.MapFrom( src => src.LastLoggedIn))
-                .ForMember (dest => dest.SubscriptionEnd, opt => opt.MapFrom( src => src.SubscriptionEnd))
+                .ForMember (dest => dest.SubscriptionEnd, opt => opt.Ignore())
                 .ForMember( dest => dest.Teams, opt => opt.Ignore());
 
             CreateMap<DBModel.TeamMember, DomainModel.TeamMember> ()
