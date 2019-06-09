@@ -41,7 +41,7 @@ namespace Retrospective.Domain
 
     public DomainModel.User UpdateUser(DomainModel.User user)
     {
-            logger.LogDebug ("saving user {0}", user.Email);
+            logger.LogDebug ("saving user {0} {1}", user.Email, user.UserId);
 
             var dbUser = database.Users.SaveUser (mapper.Map<DomainModel.User, DBModel.User> (user));
             return mapper.Map<DBModel.User, DomainModel.User> (dbUser);

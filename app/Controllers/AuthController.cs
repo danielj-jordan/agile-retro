@@ -120,6 +120,7 @@ namespace app.Controllers
         else
         {
           user.LastLoggedIn=DateTime.UtcNow;
+          Console.WriteLine("user id {0}", user.UserId);
           savedUser = usermanager.UpdateUser(user);
           logger.LogInformation("updating user with email: {0} and userid: {1} ", savedUser.Email, savedUser.UserId);
         }
