@@ -150,12 +150,13 @@ namespace app.Controllers
 
       // authentication successful so generate jwt token
       var userToken = this.CreateToken(user.Email, user.UserId);
+      logger.LogInformation("Created token {0} for user {1}", userToken.Token, user.Email);
 
       return userToken;
 
     }
 
-    private UserLoginToken CreateToken(string username, string userId)
+    private UserLoginToken CreateToken(string email, string userId)
     {
       var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
       var key = Encoding.ASCII.GetBytes(tokenConfig.Value.Key);
@@ -163,7 +164,7 @@ namespace app.Controllers
       {
         Subject = new ClaimsIdentity(new Claim[]
           {
-                    new Claim(ClaimTypes.Email, username),
+                    new Claim(ClaimTypes.Name, email),
                     new Claim(ClaimTypes.PrimarySid, userId)
           }),
         Expires = DateTime.UtcNow.AddDays(7),
