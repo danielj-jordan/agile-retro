@@ -15,7 +15,7 @@ describe('MeetingEditComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MeetingEditComponent],
-      imports: [RouterTestingModule, FormsModule, IconsModule],
+      imports: [RouterTestingModule.withRoutes([]), FormsModule, IconsModule],
       providers: [
         { provide: NotesService, useClass: NotesServiceMock },
         {

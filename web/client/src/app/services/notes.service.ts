@@ -28,6 +28,19 @@ export class NotesService {
         return headers.set('Authorization', 'Bearer ' + this.storage.userToken);
     }
 
+    isLoggedIn()
+    {
+        this.http.get(this.baseUrl + '/auth/isloggedin')
+        .subscribe(resp => console.log(resp));
+    }
+
+    loginGoogle(googleToken: UserToken):Observable<UserToken>{
+        var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        var options = { headers : headers};
+        console.log("calling loginGoogle: " + googleToken);
+
+        return this.http.post<UserToken>(this.baseUrl + '/auth/logingoogle', googleToken, options );
+    }
 
     login( user: UserLogin): Observable<UserToken>{
         
