@@ -18,7 +18,6 @@ namespace Retrospective.Domain.Model
 
     public string AuthenticationID { get; set; }
 
-    public DateTime? SubscriptionEnd {get;set;}
 
   }
 }

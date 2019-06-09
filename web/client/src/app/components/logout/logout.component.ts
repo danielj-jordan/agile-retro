@@ -20,5 +20,6 @@ export class LogoutComponent implements AfterViewInit {
     console.log("logging out");
     this.storage.deleteAll();
     this.googleAuth.signOut();
+    this.router.navigateByUrl('');
   }
 }
