@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms'
 import { User } from '../../models/user';
 import { LocalstorageService } from '../../services/localstorage.service';
 import { NotesService } from '../../services/notes.service';
+import { GoogleAuthService } from '../../services/google-auth.service';
 import { UserLogin } from '../../models/userlogin';
 import { environment } from '../../../environments/environment';
+import { UserToken } from '../../models/usertoken';
 
 
 @Component({
@@ -13,30 +15,35 @@ import { environment } from '../../../environments/environment';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router,
     private storage: LocalstorageService,
-    private notesService: NotesService) {
-
-  }
-  public model = new User();
-
-  public isDemo: boolean;
-
-  public isLoginAllowed: boolean;
-
-
-  ngOnInit() {
+    private notesService: NotesService,
+    private googleAuth: GoogleAuthService) {
     this.isDemo = environment.demoEnabled;
     this.isLoginAllowed = environment.signupEnabled;
     this.storage.user = null;
     this.storage.userToken = null;
   }
 
+  public model = new User();
 
+  public isDemo: boolean;
 
-  public LoginDemo(): void {
+  public isLoginAllowed: boolean;
+
+  ngOnInit() {
+  }
+
+  ngAfterViewInit() {
+  }
+
+  public loginGoogle(): void {
+    this.googleAuth.signIn();
+  }
+
+  public loginDemo(): void {
 
     this.notesService.loginDemo().subscribe(
       data => {
@@ -52,36 +59,5 @@ export class LoginComponent implements OnInit {
       });
 
   }
-
-
-  public Login(): void {
-    console.log('logging in user: ' + this.model.loginName);
-
-    if (!this.isLoginAllowed) {
-      return;
-    }
-
-
-    //verify login -- assume valid for now
-    let login = new UserLogin();
-    login.LoginName = this.model.loginName;
-
-
-    this.notesService.login(login).subscribe(
-      data => {
-        console.log('test');
-        console.log(data);
-        this.storage.userToken = data.token;
-
-
-
-        // save to local storage
-        this.storage.user = this.model;
-
-        // redirect to teams retrospectivelist page
-        this.router.navigateByUrl('/retrospective/list');
-      });
-  }
-
 
 }

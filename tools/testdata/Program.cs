@@ -26,6 +26,9 @@ namespace testdata {
             InitializeTestRecords (database);
             
             InitializeDemoRecords(database);
+
+
+            
         }
 
         public static void InitializeDemoRecords (Retrospective.Data.Database database) {

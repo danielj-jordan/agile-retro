@@ -50,7 +50,11 @@ namespace Retrospective.Domain.Test
           new Retrospective.Data.Model.User
           {
             Name = "Joe Smoth",
-            Email = SampleUser
+            Email = SampleUser,
+            AuthenticationID ="123",
+            AuthenticationSource="Google",
+            LastLoggedIn=DateTime.UtcNow,
+            IsDemoUser=false
           }
       );
 

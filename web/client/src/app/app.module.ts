@@ -19,6 +19,8 @@ import { TeamEditComponent } from './components/teamedit/teamedit.component';
 import {IconsModule} from './icons/icons.module';
 import { MenuComponent } from './components/menu/menu.component';
 import { PrivacyPolicyComponent } from './components/privacypolicy/privacypolicy.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { GoogleAuthService} from './services/google-auth.service';
 
 @NgModule({
     imports: [
@@ -39,9 +41,10 @@ import { PrivacyPolicyComponent } from './components/privacypolicy/privacypolicy
     TeamEditComponent,
     MenuComponent,
     PrivacyPolicyComponent,
+    LogoutComponent,
 
   ],
-  providers: [NotesService, LocalstorageService],
+  providers: [NotesService, LocalstorageService, GoogleAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
