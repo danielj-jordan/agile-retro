@@ -6,10 +6,23 @@ namespace demodata
 {
   class Program
   {
-    static void Main(string[] args)
+    static int Main(string[] args)
     {
       var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
       var databaseName = Environment.GetEnvironmentVariable("DB_NAME");
+
+
+      if (String.IsNullOrWhiteSpace(connectionString))
+      {
+        Console.WriteLine("DB_CONNECTIONSTRING environment variable is not set");
+        return -1;
+      }
+
+      if (String.IsNullOrWhiteSpace(databaseName))
+      {
+        Console.WriteLine("DB_NAME environment varialbe is not set");
+        return -1;
+      }
 
       //start with an empty database
       var client = new MongoClient(connectionString);
@@ -19,6 +32,7 @@ namespace demodata
 
       DemoData demoData = new DemoData(database);
       demoData.Initialize();
+      return 0;
     }
   }
 }
