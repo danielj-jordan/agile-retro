@@ -34,7 +34,7 @@ namespace testdata {
         public static void InitializeDemoRecords (Retrospective.Data.Database database) {
 
             //initialize the Demo user record
-            Retrospective.Data.Model.User newUser = database.Users.SaveUser (
+            Retrospective.Data.Model.User newUser = database.Users.Save (
                 new Retrospective.Data.Model.User {
                     Name = "Demo User",
                     Email = "demo@localhost",
@@ -61,7 +61,7 @@ namespace testdata {
             // update the saved user with the team
             newUser.Teams = new ObjectId[] {
                 (ObjectId) newTeam.Id };
-            database.Users.SaveUser (newUser);
+            database.Users.Save (newUser);
 
                 Console.WriteLine("initialized demo records");
         }
@@ -124,7 +124,7 @@ namespace testdata {
         private static void InitializeTestRecords (Retrospective.Data.Database database) {
 
             //initialize a user record
-            Retrospective.Data.Model.User newUser = database.Users.SaveUser (
+            Retrospective.Data.Model.User newUser = database.Users.Save (
                 new Retrospective.Data.Model.User {
                     Name = "Joe Smith",
                         Email = "nobody@127.0.0.1"
@@ -147,7 +147,7 @@ namespace testdata {
             // update the saved user with the team
             newUser.Teams = new ObjectId[] {
                 (ObjectId) newTeam.Id };
-            database.Users.SaveUser (newUser);
+            database.Users.Save (newUser);
 
             CreateSession (database, (ObjectId) newTeam.Id, 1);
 

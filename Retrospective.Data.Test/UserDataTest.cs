@@ -28,11 +28,8 @@ namespace Retrospective.Data.Test
             user.Id=null;
             user.Email="nobody@here.com";
             user.Name="nobody";
-            user.Teams= new ObjectId[0];
-        
 
-            fixture.database.Users.SaveUser(user);
-
+            fixture.database.Users.Save(user);
 
             Console.WriteLine("created user id:{0}", user.Id);
             Assert.True(user.Id!=null);
@@ -45,7 +42,7 @@ namespace Retrospective.Data.Test
             ObjectId begin= (ObjectId)fixture.owner.Id;
             fixture.owner.Name+=" more";
 
-            fixture.database.Users.SaveUser(fixture.owner);
+            fixture.database.Users.Save(fixture.owner);
 
             Assert.True(begin==(ObjectId)fixture.owner.Id);
             Assert.Contains(" more", fixture.owner.Name);
@@ -58,42 +55,50 @@ namespace Retrospective.Data.Test
             user.Id=null;
             user.Email="nobody@here.com";
             user.Name="nobody";
-            user.Teams= new ObjectId[0];
-
-            fixture.database.Users.SaveUser(user);
+           
+            fixture.database.Users.Save(user);
 
             List<User> foundbyEmail =fixture.database.Users.FindUserByEmail("nobody@here.com");
             Assert.True(foundbyEmail.Count>0);
 
-            var foundById =fixture.database.Users.GetUser((ObjectId)user.Id);
+            var foundById =fixture.database.Users.Get((ObjectId)user.Id);
             Assert.True(foundById.Id==user.Id);
         }
 
 
+/* 
         [Fact]
         public void FindUsersOnTeam()
         {
-            Team team = new Team();
-            team.Id=null;
-            team.Name="another test team";
-            
-            DataTeam teamData = new DataTeam(fixture.database);
-            teamData.Save(team);
 
             User user = new User();
             user.Id=null;
             user.Email="nobody@here.com";
             user.Name="nobody";
-            user.Teams= new ObjectId[1];
-            user.Teams[0]= (ObjectId)team.Id;
+            fixture.database.Users.Save(user);
 
 
-            fixture.database.Users.SaveUser(user);
+            Team team = new Team();
+            team.Id=null;
+            team.Name="another test team";
+            team.Members= new TeamMember[1]{
+                new TeamMember{
+                    UserId=(ObjectId)user.Id,
+                    UserName=user.Name,
+                    Role= TeamRole.Member,
+                    StartDate=DateTime.UtcNow
+                }
+            };
+            
+            DataTeam teamData = new DataTeam(fixture.database);
+            teamData.Save(team);
 
-            List<User> found =fixture.database.Users.GetTeamUsers((ObjectId)team.Id);
+            List<User> found =fixture.database.Users.GetTeamUsers((ObjectId)user.Id);
             Assert.True(found.Count>0);
-
         }
+
+
+        */
     }   
 
 }

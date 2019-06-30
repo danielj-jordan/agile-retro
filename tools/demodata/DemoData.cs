@@ -37,7 +37,7 @@ namespace demodata
         newUser.IsDemoUser = true;
         newUser.Name = "Demo User";
 
-        this.database.Users.SaveUser(newUser);
+        this.database.Users.Save(newUser);
       }
 
     }

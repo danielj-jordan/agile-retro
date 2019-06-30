@@ -64,7 +64,7 @@ namespace Retrospective.Domain
     {
       var meeting = this.GetMeeting(comment.MeetingId);
       var team = this.GetTeam(meeting.TeamId);
-      Console.WriteLine(team.Owner + team.Name);
+
       if (!IsTeamMember(activeUser, team))
       {
         throw new Exception.AccessDenied();
@@ -78,13 +78,13 @@ namespace Retrospective.Domain
     }
 
     public DomainModel.Comment UpdateCommentText(
-      string activeUser,
+      string activeUserId,
       DomainModel.Comment comment
     )
     {
       var meeting = this.GetMeeting(comment.MeetingId);
       var team = this.GetTeam(meeting.TeamId);
-      if (!IsTeamMember(activeUser, team))
+      if (!IsTeamMember(activeUserId, team))
       {
         throw new Exception.AccessDenied();
       }
@@ -94,8 +94,8 @@ namespace Retrospective.Domain
 
       //update the comment
       existingComment.Text = comment.Text;
-      existingComment.LastUpdateUser = activeUser;
-      existingComment.LastUpdateDate = DateTime.Now;
+      existingComment.LastUpdateUserId = activeUserId;
+      existingComment.LastUpdateDate = DateTime.UtcNow;
 
       if (existingComment.CategoryNumber != comment.CategoryNumber)
       {
@@ -145,20 +145,20 @@ namespace Retrospective.Domain
 
     }
 
-    public DomainModel.Comment VoteDown(string activeUser, string commentId)
+    public DomainModel.Comment VoteDown(string activeUserId, string commentId)
     {
       var comment = this.GetComment(commentId);
       var meeting = this.GetMeeting(comment.MeetingId);
       var team = this.GetTeam(meeting.TeamId);
 
-      if (!IsTeamMember(activeUser, team))
+      if (!IsTeamMember(activeUserId, team))
       {
         throw new Exception.AccessDenied();
       }
 
-      if (comment.VotedUp.Contains(activeUser))
+      if (comment.VotedUp.Contains(activeUserId))
       {
-        comment.VotedUp.Remove(activeUser);
+        comment.VotedUp.Remove(activeUserId);
       }
 
       return mapper.Map<DBModel.Comment, DomainModel.Comment>(

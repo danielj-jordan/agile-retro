@@ -43,7 +43,7 @@ namespace Retrospective.Domain
     {
             logger.LogDebug ("saving user {0} {1}", user.Email, user.UserId);
 
-            var dbUser = database.Users.SaveUser (mapper.Map<DomainModel.User, DBModel.User> (user));
+            var dbUser = database.Users.Save (mapper.Map<DomainModel.User, DBModel.User> (user));
             return mapper.Map<DBModel.User, DomainModel.User> (dbUser);
     }
 

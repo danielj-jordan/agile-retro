@@ -50,7 +50,7 @@ namespace apptest {
 
 
             //initialize a user record
-            Retrospective.Data.Model.User newUser = this.Database.Users.SaveUser (
+            Retrospective.Data.Model.User newUser = this.Database.Users.Save (
                 new Retrospective.Data.Model.User {
                     Name = "Joe Smoth",
                         Email = SampleUser
@@ -118,7 +118,7 @@ namespace apptest {
 
             // update the saved user with the team
             newUser.Teams = new ObjectId []{ (ObjectId)newTeam.Id};
-            this.Database.Users.SaveUser(newUser);
+            this.Database.Users.Save(newUser);
 
         }
 
