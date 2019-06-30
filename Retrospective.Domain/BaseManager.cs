@@ -20,21 +20,22 @@ namespace Retrospective.Domain {
             this.database = database;
         }
 
-        protected static bool IsTeamMember (string activeUser, DomainModel.Team team) {
-            //confirm that this user is a member of the team
-            if (team.Owner.Equals (activeUser, StringComparison.OrdinalIgnoreCase)) {
-                return true;
-            }
 
+        protected DomainModel.TeamRole GetTeamRole(DomainModel.Team team, string userId)
+        {
+            var teamMember = team.Members.Where(tm => tm.UserId == userId).First();
+            return teamMember.Role;
+        }
+
+        protected bool IsTeamMember (string activeUserId, DomainModel.Team team) 
+        {
             if(team.Members==null)return false;
-           /*  var found = Array.Exists (team.Members,
-                member => member.UserName.Equals (activeUser, StringComparison.OrdinalIgnoreCase)
-                );
-            */
-            System.Console.WriteLine("activeUser:" + activeUser + " " + team.Members.ToList().Count);
+         
+            //confirm that this user is a member of the team
+            System.Console.WriteLine("activeUser:" + activeUserId + " " + team.Members.ToList().Count);
 
             var found= from member in team.Members 
-                 where  member.UserName==activeUser
+                 where  member.UserId==activeUserId
                 select member;
 
             if (found.ToList().Count>0) return true;
@@ -43,9 +44,13 @@ namespace Retrospective.Domain {
 
         }
 
-        protected static bool IsTeamOwner (string activeUser, DomainModel.Team team) {
+        protected bool IsTeamOwner (string activeUserId, DomainModel.Team team) {
             //confirm that this user is a member of the team
-            if (team.Owner.Equals (activeUser, StringComparison.OrdinalIgnoreCase)) {
+            if(team.Members==null)return false;
+
+            //confirm that this user is a member of the team
+            if (DomainModel.TeamRole.Owner == this.GetTeamRole(team, activeUserId)) 
+            {
                 return true;
             }
 
@@ -60,7 +65,7 @@ namespace Retrospective.Domain {
             }
             logger.LogDebug ("looking for {0}", teamId);
 
-            var dbteam = database.Teams.Get (teamId);
+            var dbteam = database.Teams.Get(teamId);
             var team = mapper.Map<DBModel.Team, DomainModel.Team> (dbteam);
             return team;
         }

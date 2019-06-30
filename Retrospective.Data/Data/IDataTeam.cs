@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
 using Retrospective.Data.Model;
 
 namespace Retrospective.Data
@@ -9,8 +11,10 @@ namespace Retrospective.Data
 
     Team Get(string teamId);
 
-    List<Team> GetUserTeams(string email);
+    List<Team> GetUserTeams(ObjectId userId);
 
-    List<Team> GetOwnedTeams(string email);
+    List<Team> GetUserTeams(string userId);
+
+    List<Team> GetOwnedTeams(ObjectId userId);
   }
 }

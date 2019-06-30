@@ -1,8 +1,10 @@
 using System;
-using MongoDB.Driver;
-using Retrospective.Data.Model;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
+using Retrospective.Data.Model;
 
 namespace Retrospective.Data
 {
@@ -62,6 +64,10 @@ namespace Retrospective.Data
                 cm.AutoMap();
                 cm.MapIdMember(c=>c.Id).SetIdGenerator(ObjectIdGenerator.Instance);
             }); 
+            BsonClassMap.RegisterClassMap<TeamMember>(cm => {
+                cm.AutoMap();
+                cm.MapMember( c => c.Role).SetSerializer(new EnumSerializer<TeamRole>(BsonType.String));
+            });
 
             
 

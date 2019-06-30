@@ -34,7 +34,6 @@ namespace Retrospective.Data.Test
             Team team= new Team();
                                       
             team.Name="test team";
-            team.Owner = fixture.owner.Email;
             DataTeam teamData = new DataTeam(fixture.database);
             var savedTeam= teamData.Save(team);
 
@@ -61,7 +60,7 @@ namespace Retrospective.Data.Test
         public void FindUserOwnedTeams()
         { 
             DataTeam teamData = new DataTeam(fixture.database);
-            List<Team> ownedByEmail= teamData.GetOwnedTeams(fixture.owner.Email);
+            List<Team> ownedByEmail= teamData.GetOwnedTeams((ObjectId)fixture.owner.Id);
             Assert.True(ownedByEmail.Count>0, "user should own at least one team");            
         }
 
@@ -69,7 +68,7 @@ namespace Retrospective.Data.Test
         public void FindTeamsHavingUserAsMember()
         {
             DataTeam teamData = new DataTeam(fixture.database);
-            List<Team> foundbyEmail =teamData.GetUserTeams(fixture.owner.Email);
+            List<Team> foundbyEmail =teamData.GetUserTeams((ObjectId)fixture.owner.Id);
             Assert.True(foundbyEmail.Count>0, "user should be a member on at least one team");
 
         }

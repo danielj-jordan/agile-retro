@@ -1,12 +1,11 @@
 using System;
+using MongoDB.Bson;
 
 namespace Retrospective.Data.Model
 {
     public class TeamMember
     {
-
-        public string UserName {get;set;}
-        public DateTime InviteDate {get;set;}
+        public ObjectId UserId {get;set;}
         public DateTime? RemoveDate {get;set;}
         public DateTime? StartDate {get;set;}
 
@@ -14,8 +13,8 @@ namespace Retrospective.Data.Model
         /// Role of the user on the team:
         /// member, stakeholder, manager
         /// </summary>
-        /// <value></value>
-        public string Role {get;set;}
+        /// <value></value>  
+        public TeamRole Role {get;set;}
         
     }
 }
