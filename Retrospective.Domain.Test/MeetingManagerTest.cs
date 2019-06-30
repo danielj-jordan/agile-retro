@@ -24,7 +24,7 @@ namespace Retrospective.Domain.Test {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
             var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
 
-            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser, fixture.TeamId.ToString ());
+            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
             Assert.Equal (meetings[0].TeamId, fixture.TeamId.ToString ());
 
         }
@@ -47,9 +47,9 @@ namespace Retrospective.Domain.Test {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
             var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
 
-            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser, fixture.TeamId.ToString ());
+            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 
-            Retrospective.Domain.Model.Meeting meeting = manager.GetMeeting (fixture.SampleUser, meetings[0].Id);
+            Retrospective.Domain.Model.Meeting meeting = manager.GetMeeting (fixture.SampleUser.Id.ToString(), meetings[0].Id);
             Assert.Equal (meeting.TeamId, fixture.TeamId.ToString ());
 
         }
@@ -59,7 +59,7 @@ namespace Retrospective.Domain.Test {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
             var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
 
-            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser, fixture.TeamId.ToString ());
+            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 
             Assert.Throws<Exception.AccessDenied> (
                 () => {
@@ -77,7 +77,7 @@ namespace Retrospective.Domain.Test {
             newMeeting.Name = "test meeting";
             newMeeting.Categories = new Model.Category[0];
 
-            var saved = manager.SaveMeeting (fixture.Owner, newMeeting);
+            var saved = manager.SaveMeeting (fixture.OwnerUser.Id.ToString(), newMeeting);
             Assert.True (!String.IsNullOrEmpty (saved.Id));
 
         }
@@ -87,12 +87,12 @@ namespace Retrospective.Domain.Test {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
             var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
 
-            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser, fixture.TeamId.ToString ());
+            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 
-            var beginMeeting = manager.GetMeeting (fixture.Owner, meetings[0].Id);
+            var beginMeeting = manager.GetMeeting (fixture.OwnerUser.Id.ToString(), meetings[0].Id);
 
             beginMeeting.Name += " more";
-            var endMeeting = manager.SaveMeeting (fixture.Owner, beginMeeting);
+            var endMeeting = manager.SaveMeeting (fixture.OwnerUser.Id.ToString(), beginMeeting);
 
             Assert.Equal (beginMeeting.Id, endMeeting.Id);
             Assert.Equal (beginMeeting.TeamId, endMeeting.TeamId);
@@ -112,7 +112,7 @@ namespace Retrospective.Domain.Test {
 
             Assert.Throws<Exception.AccessDenied> (
                 () => {
-                    manager.SaveMeeting (fixture.SampleUser, newMeeting);
+                    manager.SaveMeeting (fixture.SampleUser.Id.ToString(), newMeeting);
                 });
 
         }
@@ -122,12 +122,12 @@ namespace Retrospective.Domain.Test {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
             var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
 
-            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser, fixture.TeamId.ToString ());
+            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 
-            var beginMeeting = manager.GetMeeting (fixture.Owner, meetings[0].Id);
+            var beginMeeting = manager.GetMeeting (fixture.OwnerUser.Id.ToString(), meetings[0].Id);
             Assert.Throws<Exception.AccessDenied> (
                 () => {
-                    manager.SaveMeeting (fixture.SampleUser, beginMeeting);
+                    manager.SaveMeeting (fixture.SampleUser.Id.ToString(), beginMeeting);
                 });
         }
 
@@ -136,14 +136,14 @@ namespace Retrospective.Domain.Test {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
             var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
 
-            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser, fixture.TeamId.ToString ());
+            List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 
-            var beginMeeting = manager.GetMeeting (fixture.Owner, meetings[0].Id);
+            var beginMeeting = manager.GetMeeting (fixture.OwnerUser.Id.ToString(), meetings[0].Id);
             beginMeeting.TeamId = "123";
             Assert.Throws<Exception.AccessDenied> (
                 () => {
 
-                    manager.SaveMeeting (fixture.Owner, beginMeeting);
+                    manager.SaveMeeting (fixture.OwnerUser.Id.ToString(), beginMeeting);
                 });
         }
     }

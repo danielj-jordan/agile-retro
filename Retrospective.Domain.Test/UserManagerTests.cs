@@ -24,7 +24,7 @@ namespace Retrospective.Domain.Test.obj
         {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.UserManager> ();
             var userManager= new UserManager(logger,this.mapper,this.fixture.Database);
-            var user= userManager.GetUserFromEmail(this.fixture.SampleUser);
+            var user= userManager.GetUserFromEmail(this.fixture.SampleUser.Email);
             System.Console.WriteLine(user.UserId);
             Assert.DoesNotContain(user.UserId, "00000000");
         }
@@ -34,7 +34,7 @@ namespace Retrospective.Domain.Test.obj
         {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.UserManager> ();
             var userManager= new UserManager(logger,this.mapper,this.fixture.Database);
-            var user= userManager.GetUserFromEmail(this.fixture.SampleUser);
+            var user= userManager.GetUserFromEmail(this.fixture.SampleUser.Email);
 
             var updatTime= System.DateTime.UtcNow;
             user.LastLoggedIn=updatTime;

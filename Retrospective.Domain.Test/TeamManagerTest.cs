@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using Xunit;
+using MongoDB.Bson;
 
 namespace Retrospective.Domain.Test {
 
@@ -25,7 +26,7 @@ namespace Retrospective.Domain.Test {
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.TeamManager> ();
             var manager = new Retrospective.Domain.TeamManager (logger, mapper, fixture.Database);
-            var teams = manager.GetUserTeams (fixture.SampleUser, fixture.SampleUser);
+            var teams = manager.GetUserTeams (fixture.SampleUser.Id.ToString(), fixture.SampleUser.Id.ToString());
             Assert.True (teams.Count > 0);
 
         }
@@ -35,7 +36,7 @@ namespace Retrospective.Domain.Test {
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.TeamManager> ();
             var manager = new Retrospective.Domain.TeamManager (logger, mapper, fixture.Database);
-            var users = manager.GetTeamMembers (fixture.SampleUser, fixture.TeamId.ToString ());
+            var users = manager.GetTeamMembers (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
             Assert.True (users.Count > 0);
 
         }
@@ -44,7 +45,7 @@ namespace Retrospective.Domain.Test {
         public void GetTeam () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.TeamManager> ();
             var manager = new Retrospective.Domain.TeamManager (logger, mapper, fixture.Database);
-            Retrospective.Domain.Model.Team team = manager.GetTeam (fixture.SampleUser, fixture.TeamId.ToString ());
+            Retrospective.Domain.Model.Team team = manager.GetTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
             Assert.Equal (team.TeamId, fixture.TeamId.ToString ());
         }
 
@@ -68,9 +69,16 @@ namespace Retrospective.Domain.Test {
             Retrospective.Domain.Model.Team team = new Retrospective.Domain.Model.Team ();
             team.TeamId = null;
             team.Name = "test team";
-            team.Owner = fixture.Owner;
+            team.Members= new Domain.Model.TeamMember[]
+            {
+                new Domain.Model.TeamMember
+                {
+                    UserId= fixture.OwnerUser.Id.ToString(),
+                    Role = Model.TeamRole.Owner
+                }
+            };
 
-            var result = manager.SaveTeam (fixture.Owner, team);
+            var result = manager.SaveTeam (fixture.OwnerUser.Id.ToString(), team);
 
             Assert.True (!String.IsNullOrEmpty (result.TeamId));
         }
@@ -80,9 +88,9 @@ namespace Retrospective.Domain.Test {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.TeamManager> ();
             var manager = new Retrospective.Domain.TeamManager (logger, mapper, fixture.Database);
 
-            var teamStart = manager.GetTeam (fixture.Owner, fixture.TeamId.ToString ());
+            var teamStart = manager.GetTeam (fixture.OwnerUser.Id.ToString(), fixture.TeamId.ToString ());
             teamStart.Name += "more";
-            var teamEnd = manager.SaveTeam (fixture.Owner, teamStart);
+            var teamEnd = manager.SaveTeam (fixture.OwnerUser.Id.ToString(), teamStart);
 
             Assert.Equal (teamStart.TeamId, teamEnd.TeamId);
 
@@ -96,7 +104,7 @@ namespace Retrospective.Domain.Test {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.TeamManager> ();
             var manager = new Retrospective.Domain.TeamManager (logger, mapper, fixture.Database);
 
-            var teamStart = manager.GetTeam (fixture.SampleUser, fixture.TeamId.ToString ());
+            var teamStart = manager.GetTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
             teamStart.Name += "more";
 
             Assert.Throws<Exception.AccessDenied> (
