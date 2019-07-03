@@ -47,7 +47,7 @@ namespace apptest
             controller.ControllerContext = new ControllerContext ();
             controller.ControllerContext.HttpContext = new DefaultHttpContext ();
             controller.ControllerContext.HttpContext.User = new ClaimsPrincipal (new ClaimsIdentity (new Claim[] {
-                new Claim (ClaimTypes.Name, fixture.Owner)
+                new Claim (ClaimTypes.Name, fixture.Owner.Id.ToString())
             }, "someAuthTypeName"));
 
         }
@@ -83,7 +83,7 @@ namespace apptest
 
             MockHttpContextValid(controller);
 
-            var meeting = controller.Meeting (fixture.SessionId.ToString());
+            var meeting = controller.Meeting (fixture.MeetingId.ToString());
 
             Assert.True (!String.IsNullOrEmpty(meeting.Value.Name));
 
@@ -120,7 +120,7 @@ namespace apptest
             var controller = new app.Controllers.MeetingController (logger, mapper,  manager);
              MockHttpContextValid(controller);
 
-            var meetingStart = controller.Meeting(fixture.SessionId.ToString());
+            var meetingStart = controller.Meeting(fixture.MeetingId.ToString());
 
             meetingStart.Value.Name+= "more";
 

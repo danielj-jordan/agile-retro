@@ -100,7 +100,7 @@ namespace testdata {
             //initialize some comment records
             database.Comments.SaveComment (
                 new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
+                    MeetingId = (ObjectId) newSession.Id,
                         Text = "comment 1 category " + categoryCount,
                         CategoryNumber = categoryCount
                 }
@@ -108,14 +108,14 @@ namespace testdata {
 
             database.Comments.SaveComment (
                 new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
+                    MeetingId = (ObjectId) newSession.Id,
                         Text = "comment to delete in category" + categoryCount,
                         CategoryNumber = categoryCount
                 });
 
             database.Comments.SaveComment (
                 new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
+                    MeetingId = (ObjectId) newSession.Id,
                         Text = "comment to update in category " + categoryCount,
                         CategoryNumber = categoryCount
                 });

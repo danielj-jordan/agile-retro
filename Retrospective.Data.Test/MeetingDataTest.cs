@@ -50,16 +50,16 @@ namespace Retrospective.Data.Test
         public void UpdateMeeting()
         {
 
-            ObjectId begin= (ObjectId)fixture.retrospectiveSession.Id;
-            fixture.retrospectiveSession.Name+=" more";
+            ObjectId begin= (ObjectId)fixture.meeting.Id;
+            fixture.meeting.Name+=" more";
 
-            fixture.database.Meetings.Save(fixture.retrospectiveSession);
+            fixture.database.Meetings.Save(fixture.meeting);
 
-            Assert.True(begin==(ObjectId)fixture.retrospectiveSession.Id);
-            Assert.Contains(" more", fixture.retrospectiveSession.Name);
+            Assert.True(begin==(ObjectId)fixture.meeting.Id);
+            Assert.Contains(" more", fixture.meeting.Name);
 
 
-            var saved = fixture.database.Meetings.Get(fixture.retrospectiveSession.Id.ToString());
+            var saved = fixture.database.Meetings.Get(fixture.meeting.Id.ToString());
             Assert.Contains(" more", saved.Name);
 
         }

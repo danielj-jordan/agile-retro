@@ -23,14 +23,14 @@ namespace Retrospective.Domain {
             //mapping for Comment
             CreateMap<DBModel.Comment, DomainModel.Comment> ()
                 .ForMember (dest => dest.CommentId, opt => opt.MapFrom (src => src.Id))
-                .ForMember (dest => dest.MeetingId, opt => opt.MapFrom (src => src.RetrospectiveId))
+                .ForMember (dest => dest.MeetingId, opt => opt.MapFrom (src => src.MeetingId))
                 .ForMember (dest => dest.CategoryNumber, opt => opt.MapFrom (src => src.CategoryNumber))
                 .ForMember (dest => dest.Text, opt => opt.MapFrom (src => src.Text))
                 .ForMember (dest => dest.LastUpdateUserId, opt => opt.MapFrom (src => src.LastUpdateUserId));
 
             CreateMap<DomainModel.Comment, DBModel.Comment> ()
                 .ForMember (dest => dest.Id, opt => opt.MapFrom (src => ObjectId.Parse (src.CommentId)))
-                .ForMember (dest => dest.RetrospectiveId, opt => opt.MapFrom (src => ObjectId.Parse (src.MeetingId)))
+                .ForMember (dest => dest.MeetingId, opt => opt.MapFrom (src => ObjectId.Parse (src.MeetingId)))
                 .ForMember (dest => dest.CategoryNumber, opt => opt.MapFrom (src => src.CategoryNumber))
                 .ForMember (dest => dest.Text, opt => opt.MapFrom (src => src.Text))
                 .ForMember (dest => dest.LastUpdateUserId, opt => opt.MapFrom (src => src.LastUpdateUserId));
@@ -81,7 +81,12 @@ namespace Retrospective.Domain {
 
 
             CreateMap<DBModel.TeamMember, DomainModel.TeamMember> ()
-                .ReverseMap();
+            .ForMember (dest => dest.UserId, opt => opt.MapFrom (src => src.UserId));
+
+
+            CreateMap<DomainModel.TeamMember, DBModel.TeamMember> ()
+            .ForMember (dest => dest.UserId, opt => opt.MapFrom (src => ObjectId.Parse(src.UserId)));
+   
 
 
             CreateMap<DBModel.Invitation, DomainModel.Invitation> ()

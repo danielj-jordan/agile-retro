@@ -5,9 +5,10 @@ namespace app.Model
         public string TeamId {get; set;}
 
         public string Name {get;set;}
-
-        public string Owner {get;set;}
-
+        
         public TeamMember[] Members {get;set;}
+
+        public Invitation[] Invited {get;set;}
+
     }
 }

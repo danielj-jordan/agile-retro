@@ -14,7 +14,7 @@ namespace Retrospective.Data.Test
     {
         public User owner {get; private set;}
         public Team team {get; private set;}
-        public Meeting retrospectiveSession {get; private set;}
+        public Meeting meeting {get; private set;}
 
         public Retrospective.Data.Database database { get; private set; }
 
@@ -86,7 +86,7 @@ namespace Retrospective.Data.Test
             DataMeeting retroData = new DataMeeting(database);
             
             retroData.Save(session);
-            retrospectiveSession=session;
+            meeting=session;
 
         }
     
