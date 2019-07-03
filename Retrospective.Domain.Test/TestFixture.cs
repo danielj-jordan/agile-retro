@@ -123,7 +123,7 @@ namespace Retrospective.Domain.Test
       this.Database.Comments.SaveComment(
           new Retrospective.Data.Model.Comment
           {
-            RetrospectiveId = (ObjectId)newSession.Id,
+            MeetingId = (ObjectId)newSession.Id,
             Text = "comment 1 category 2",
             CategoryNumber = 2
           }
@@ -132,7 +132,7 @@ namespace Retrospective.Domain.Test
       this.DeleteNote = (ObjectId)this.Database.Comments.SaveComment(
           new Retrospective.Data.Model.Comment
           {
-            RetrospectiveId = (ObjectId)newSession.Id,
+            MeetingId = (ObjectId)newSession.Id,
             Text = "comment to delete in category 2",
             CategoryNumber = 2
           }
@@ -141,7 +141,7 @@ namespace Retrospective.Domain.Test
       this.UpdateNote = (ObjectId)this.Database.Comments.SaveComment(
           new Retrospective.Data.Model.Comment
           {
-            RetrospectiveId = (ObjectId)newSession.Id,
+            MeetingId = (ObjectId)newSession.Id,
             Text = "comment to update in category 2",
             CategoryNumber = 2
           }

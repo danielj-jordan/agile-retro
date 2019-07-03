@@ -40,7 +40,7 @@ namespace apptest {
             controller.ControllerContext = new ControllerContext ();
             controller.ControllerContext.HttpContext = new DefaultHttpContext ();
             controller.ControllerContext.HttpContext.User = new ClaimsPrincipal (new ClaimsIdentity (new Claim[] {
-                new Claim (ClaimTypes.Name, fixture.Owner)
+                new Claim (ClaimTypes.Name, fixture.Owner.Id.ToString())
             }, "someAuthTypeName"));
 
         }

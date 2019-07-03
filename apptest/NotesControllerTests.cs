@@ -40,7 +40,7 @@ namespace apptest
             controller.ControllerContext = new ControllerContext ();
             controller.ControllerContext.HttpContext = new DefaultHttpContext ();
             controller.ControllerContext.HttpContext.User = new ClaimsPrincipal (new ClaimsIdentity (new Claim[] {
-                new Claim (ClaimTypes.Name, fixture.Owner)
+                new Claim (ClaimTypes.Name, fixture.Owner.Id.ToString())
             }, "someAuthTypeName"));
 
         }
@@ -54,7 +54,7 @@ namespace apptest
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
             MockHttpContextValid(controller);
 
-            var notes = controller.Notes(fixture.SessionId.ToString());
+            var notes = controller.Notes(fixture.MeetingId.ToString());
             var count=0;
             foreach(var note in notes)
             {
@@ -74,7 +74,7 @@ namespace apptest
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
             MockHttpContextValid(controller);
 
-            var categories = controller.Categories(fixture.SessionId.ToString());
+            var categories = controller.Categories(fixture.MeetingId.ToString());
             var count=0;
             foreach (var category in categories)
             {
@@ -95,12 +95,12 @@ namespace apptest
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
             MockHttpContextValid(controller);
 
-            var beginCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
+            var beginCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
 
             var categories = controller.DeleteNote(fixture.DeleteNote.ToString());
 
-             var endCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
+             var endCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
             Assert.True(endCount<beginCount, "comment was not deleted");
             
@@ -116,18 +116,18 @@ namespace apptest
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
             MockHttpContextValid(controller);
 
-            var beginCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
+            var beginCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
             app.Model.Comment comment = new app.Model.Comment();
             comment.Text="this is a new comment";
             comment.CategoryNum=2;
-            comment.SessionId=fixture.SessionId.ToString();
-            comment.UpdateUser=fixture.SampleUser;
+            comment.MeetingId=fixture.MeetingId.ToString();
+            comment.UpdateUserId=fixture.SampleUser.Id.ToString();
             
 
-            var categories = controller.NewNote(fixture.SessionId.ToString(), comment);
+            var categories = controller.NewNote(fixture.MeetingId.ToString(), comment);
 
-             var endCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
+             var endCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
             Assert.True(endCount>beginCount, "comment was not created");
             
@@ -145,7 +145,7 @@ namespace apptest
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
             MockHttpContextValid(controller);
 
-            var beginCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
+            var beginCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
 
             app.Model.Comment comment = new app.Model.Comment();
@@ -153,9 +153,9 @@ namespace apptest
             comment.CategoryNum=2;
             comment.CommentId= this.fixture.UpdateNote.ToString();
 
-            var categories = controller.Note(fixture.SessionId.ToString(), comment);
+            var categories = controller.Note(fixture.MeetingId.ToString(), comment);
 
-            var endCount= fixture.Database.Comments.GetComments(fixture.SessionId.ToString()).Count;
+            var endCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
             Assert.True(endCount==beginCount, "comment was updated");
             
