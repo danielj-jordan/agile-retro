@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -29,8 +30,8 @@ namespace app.Controllers
             this.manager=manager;
         }
         
-        private string GetActiveUser(){
-            return HttpContext.User.Identity.Name;
+        private string GetActiveUserId(){
+            return HttpContext.User.Identity.GetUserId();
         }
         
         /// <summary>
@@ -47,7 +48,7 @@ namespace app.Controllers
                 return new BadRequestResult();
             }
 
-            var meetings= manager.GetMeetingsForTeam(GetActiveUser(), id);  
+            var meetings= manager.GetMeetingsForTeam(GetActiveUserId(), id);  
             return (_mapper.Map<List<DomainModel.Meeting>,List<app.Model.Meeting> >(meetings)).ToList();
 
         }
@@ -66,7 +67,7 @@ namespace app.Controllers
                 return new BadRequestResult();
             }
 
-            var meeting = manager.GetMeeting(GetActiveUser(), id);
+            var meeting = manager.GetMeeting(GetActiveUserId(), id);
             return (_mapper.Map<DomainModel.Meeting,app.Model.Meeting> (meeting));
 
         }
@@ -88,7 +89,7 @@ namespace app.Controllers
             }
 
             _logger.LogDebug($"saving meeting id: {meeting.Id}");
-            var saved = manager.SaveMeeting(GetActiveUser(),_mapper.Map<app.Model.Meeting, DomainModel.Meeting>(meeting));
+            var saved = manager.SaveMeeting(GetActiveUserId(),_mapper.Map<app.Model.Meeting, DomainModel.Meeting>(meeting));
             
             
             return (_mapper.Map<DomainModel.Meeting,app.Model.Meeting> (saved));

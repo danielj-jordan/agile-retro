@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -30,9 +31,9 @@ namespace app.Controllers
       this.teamManager = teamManager;
     }
 
-    private string GetActiveUser()
+    private string GetActiveUserId()
     {
-      return HttpContext.User.Identity.Name;
+      return HttpContext.User.Identity.GetUserId();
     }
 
 
@@ -49,7 +50,7 @@ namespace app.Controllers
       _logger.LogDebug("active user " + HttpContext.User.ToString());
 
 
-      var teamMembers = teamManager.GetTeamMembers(GetActiveUser(), teamId);
+      var teamMembers = teamManager.GetTeamMembers(GetActiveUserId(), teamId);
 
       // _logger.LogDebug("db returning {0} team members", team.TeamMembers.);
 
@@ -67,11 +68,11 @@ namespace app.Controllers
     [HttpGet("[action]")]
     public ActionResult<IEnumerable<Team>> Teams()
     {
-      _logger.LogDebug("The active user is: {0}", GetActiveUser());
-      var teams = teamManager.GetUserTeams(GetActiveUser(), GetActiveUser());
+      _logger.LogDebug("The active user is: {0}", GetActiveUserId());
+      var teams = teamManager.GetUserTeams(GetActiveUserId(), GetActiveUserId());
       if (teams == null || teams.Count == 0)
       {
-        _logger.LogInformation("There are no teams for user {0}", GetActiveUser());
+        _logger.LogInformation("There are no teams for user {0}", GetActiveUserId());
       }
       return (_mapper.Map<List<DomainModel.Team>, List<app.Model.Team>>(teams)).ToList();
 
@@ -92,7 +93,7 @@ namespace app.Controllers
         return new BadRequestResult();
       }
 
-      var team = teamManager.GetTeam(GetActiveUser(), id);
+      var team = teamManager.GetTeam(GetActiveUserId(), id);
 
       return (_mapper.Map<DomainModel.Team, app.Model.Team>(team));
 
@@ -111,7 +112,7 @@ namespace app.Controllers
 
       var user = HttpContext.User.ToString();
 
-      var saved = teamManager.SaveTeam(GetActiveUser(), _mapper.Map<app.Model.Team, DomainModel.Team>(team));
+      var saved = teamManager.SaveTeam(GetActiveUserId(), _mapper.Map<app.Model.Team, DomainModel.Team>(team));
 
       return (_mapper.Map<DomainModel.Team, app.Model.Team>(saved));
 

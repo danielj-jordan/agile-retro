@@ -62,12 +62,12 @@ export class NotesService {
         return this.http.post<UserToken>(this.baseUrl + '/auth/demo', options );
     }
 
-    getCategories(sessionId: string) : Observable<Category[]>{
+    getCategories(meetingId: string) : Observable<Category[]>{
         console.log('getting categories');
         var headers= new HttpHeaders();
         headers= this.addAuthHeader(headers);
         var options = { headers : headers};
-        return this.http.get<Category[]>(this.baseUrl + '/notes/categories/' + sessionId, options);
+        return this.http.get<Category[]>(this.baseUrl + '/notes/categories/' + meetingId, options);
     }
 
     getMeeting(meetingId: string): Observable<Meeting>{
@@ -78,11 +78,11 @@ export class NotesService {
         return this.http.get<Meeting>(this.baseUrl + '/meeting/meeting/' + meetingId, options);   
     }
 
-    getNotes(sessionId: string):Observable<Comment[]> {    
+    getNotes(meetingId: string):Observable<Comment[]> {    
         var headers= new HttpHeaders();
         headers= this.addAuthHeader(headers);
         var options = { headers : headers};   
-        return this.http.get<Comment[]>(this.baseUrl + '/notes/notes/' + sessionId, options);
+        return this.http.get<Comment[]>(this.baseUrl + '/notes/notes/' + meetingId, options);
     }
 
     getTeam(teamId: string): Observable<Team>{
@@ -110,16 +110,16 @@ export class NotesService {
         return this.http.get<Team[]>(this.baseUrl + '/team/teams/' , options);
     }
 
-    saveComment(sessionId: string, note:Comment): Observable<Comment>{
+    saveComment(meetingId: string, note:Comment): Observable<Comment>{
         var headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         headers= this.addAuthHeader(headers);
         var options = { headers : headers};
 
         if(note.commentId.length==0){
-            return this.http.post<Comment>(this.baseUrl + '/notes/NewNote/' + sessionId, note, options );
+            return this.http.post<Comment>(this.baseUrl + '/notes/NewNote/' + meetingId, note, options );
         }
        
-            return this.http.put<Comment>(this.baseUrl + '/notes/note/' + sessionId, note, options );
+            return this.http.put<Comment>(this.baseUrl + '/notes/note/' + meetingId, note, options );
     }
 
 
