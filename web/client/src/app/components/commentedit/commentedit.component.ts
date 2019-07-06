@@ -71,7 +71,7 @@ export class CommentEditComponent implements OnInit {
 
 class NoteEdit implements Comment{
   commentId: string="";
-  sessionId: string ="";
+  meetingId: string ="";
   categoryNum: number;
   text: string='';
   updateUser: string='';
