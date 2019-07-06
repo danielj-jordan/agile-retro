@@ -43,14 +43,17 @@ namespace apptest
         }
 
 
-        private void MockHttpContextValid (app.Controllers.MeetingController controller) {
-            controller.ControllerContext = new ControllerContext ();
-            controller.ControllerContext.HttpContext = new DefaultHttpContext ();
-            controller.ControllerContext.HttpContext.User = new ClaimsPrincipal (new ClaimsIdentity (new Claim[] {
-                new Claim (ClaimTypes.Name, fixture.Owner.Id.ToString())
-            }, "someAuthTypeName"));
+    private void MockHttpContextValid(app.Controllers.MeetingController controller, User user)
+    {
+      controller.ControllerContext = new ControllerContext();
+      controller.ControllerContext.HttpContext = new DefaultHttpContext();
+      controller.ControllerContext.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] 
+      {
+        new Claim(ClaimTypes.Name, user.Name),
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+      }, "someAuthTypeName"));
 
-        }
+    }
 
 
         [Fact]
@@ -63,7 +66,7 @@ namespace apptest
             var controller = new app.Controllers.MeetingController (logger, mapper, 
                 manager);
 
-            MockHttpContextValid(controller);
+            MockHttpContextValid(controller, fixture.Owner);
 
             var meetings = controller.Meetings (fixture.TeamId.ToString());
 
@@ -81,7 +84,7 @@ namespace apptest
             var controller = new app.Controllers.MeetingController (logger, mapper, 
                             manager);
 
-            MockHttpContextValid(controller);
+            MockHttpContextValid(controller, fixture.Owner);
 
             var meeting = controller.Meeting (fixture.MeetingId.ToString());
 
@@ -96,7 +99,7 @@ namespace apptest
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
             var controller = new app.Controllers.MeetingController (logger, mapper, manager);
-            MockHttpContextValid(controller);
+            MockHttpContextValid(controller, fixture.Owner);
 
             app.Model.Meeting meeting = new app.Model.Meeting();
             meeting.TeamId=this.fixture.TeamId.ToString();
@@ -118,7 +121,7 @@ namespace apptest
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
             var controller = new app.Controllers.MeetingController (logger, mapper,  manager);
-             MockHttpContextValid(controller);
+             MockHttpContextValid(controller, fixture.Owner);
 
             var meetingStart = controller.Meeting(fixture.MeetingId.ToString());
 

@@ -47,7 +47,7 @@ namespace app.Controllers
       return Ok();
     }
 
-
+  /*
     [HttpPost("[action]")]
     public ActionResult<UserLoginToken> GenerateToken([FromBody] UserLogin login)
     {
@@ -79,6 +79,7 @@ namespace app.Controllers
 
       return userToken;
     }
+    */
 
     [HttpPost("[action]")]
     public async Task<ActionResult<UserLoginToken>> LoginGoogle([FromBody] UserLoginToken googleToken)

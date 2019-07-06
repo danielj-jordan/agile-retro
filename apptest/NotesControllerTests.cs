@@ -36,14 +36,17 @@ namespace apptest
             manager= new Retrospective.Domain.CommentManager(logger, mapper,fixture.Database);
         }
 
-        private void MockHttpContextValid (app.Controllers.NotesController controller) {
-            controller.ControllerContext = new ControllerContext ();
-            controller.ControllerContext.HttpContext = new DefaultHttpContext ();
-            controller.ControllerContext.HttpContext.User = new ClaimsPrincipal (new ClaimsIdentity (new Claim[] {
-                new Claim (ClaimTypes.Name, fixture.Owner.Id.ToString())
-            }, "someAuthTypeName"));
+    private void MockHttpContextValid(app.Controllers.NotesController controller, User user)
+    {
+      controller.ControllerContext = new ControllerContext();
+      controller.ControllerContext.HttpContext = new DefaultHttpContext();
+      controller.ControllerContext.HttpContext.User = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] 
+      {
+        new Claim(ClaimTypes.Name, user.Name),
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+      }, "someAuthTypeName"));
 
-        }
+    }
 
         [Fact]
         public void GetAllNotes()
@@ -52,7 +55,7 @@ namespace apptest
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
-            MockHttpContextValid(controller);
+            MockHttpContextValid(controller, fixture.Owner);
 
             var notes = controller.Notes(fixture.MeetingId.ToString());
             var count=0;
@@ -72,7 +75,7 @@ namespace apptest
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
-            MockHttpContextValid(controller);
+            MockHttpContextValid(controller, fixture.Owner);
 
             var categories = controller.Categories(fixture.MeetingId.ToString());
             var count=0;
@@ -93,7 +96,7 @@ namespace apptest
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
-            MockHttpContextValid(controller);
+            MockHttpContextValid(controller, fixture.Owner);
 
             var beginCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
@@ -114,7 +117,7 @@ namespace apptest
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
-            MockHttpContextValid(controller);
+            MockHttpContextValid(controller,fixture.Owner);
 
             var beginCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
@@ -143,7 +146,7 @@ namespace apptest
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
             var controller = new app.Controllers.NotesController(logger, mapper, manager);
-            MockHttpContextValid(controller);
+            MockHttpContextValid(controller, fixture.Owner);
 
             var beginCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
