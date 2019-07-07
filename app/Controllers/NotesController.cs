@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
+using System.Security.Claims;
+using System.Security.Principal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -32,7 +33,7 @@ namespace app.Controllers {
         }
 
          private string GetActiveUserId(){
-             var user = HttpContext.User.Identity.GetUserId();
+             var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _logger.LogInformation("active user is {0}", user);
             return user;
         }

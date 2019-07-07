@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
+using System.Security.Claims;
+using System.Security.Principal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -31,7 +32,7 @@ namespace app.Controllers
         }
         
         private string GetActiveUserId(){
-            return HttpContext.User.Identity.GetUserId();
+            return HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
         
         /// <summary>
