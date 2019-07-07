@@ -23,17 +23,21 @@ namespace Retrospective.Domain {
             //will check for access here
             var team = GetTeam (activeUser, teamId);
 
-            var users = database.Users.GetTeamUsers (teamId);
-
-            return mapper.Map<List<DBModel.User>, List<DomainModel.User>> (users);
+            List<DBModel.User> teamUsers =  new List<DBModel.User>();
+            foreach(var teamMember in team.Members)
+            {
+                var user = this.database.Users.Get(teamMember.UserId);
+                teamUsers.Add(user);
+            }
+            return mapper.Map<List<DBModel.User>, List<DomainModel.User>> (teamUsers);
         }
 
-        public List<DomainModel.Team> GetUserTeams (string activeUser, string user) {
+        public List<DomainModel.Team> GetUserTeams (string activeUser, string userId) {
 
-            logger.LogDebug ("looking for {0}", user);
-            var teams = database.Teams.GetUserTeams (user);
+            logger.LogDebug ("looking for {0}", userId);
+            var teams = database.Teams.GetUserTeams (userId);
 
-            logger.LogDebug("{0} possible teams for {1}", teams.Count, user);
+            logger.LogDebug("{0} possible teams for {1}", teams.Count, userId);
 
             var domainTeams = mapper.Map<List<DBModel.Team>, List<DomainModel.Team>> (teams);
 
@@ -78,9 +82,7 @@ namespace Retrospective.Domain {
                 if (!IsTeamOwner (activeUser, workingTeam)) {
                     throw new Exception.AccessDenied ();
                 }
-            } else {
-                team.Owner = activeUser;
-            }
+            } 
 
             var dbTeamSaved = database.Teams.Save (mapper.Map<DomainModel.Team, DBModel.Team> (team));
             return mapper.Map<DBModel.Team, DomainModel.Team> (dbTeamSaved);

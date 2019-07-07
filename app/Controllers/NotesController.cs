@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.Security.Claims;
+using System.Security.Principal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
@@ -31,8 +32,8 @@ namespace app.Controllers {
 
         }
 
-         private string GetActiveUser(){
-             var user = HttpContext.User.Identity.Name;
+         private string GetActiveUserId(){
+             var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             _logger.LogInformation("active user is {0}", user);
             return user;
         }
@@ -42,8 +43,8 @@ namespace app.Controllers {
         public IEnumerable<Comment> Notes (string retroId) {
 
 
-            var comments = manager.GetComments(this.GetActiveUser(), retroId).Select(
-                c => c.ToViewModelComment(this.GetActiveUser())
+            var comments = manager.GetComments(this.GetActiveUserId(), retroId).Select(
+                c => c.ToViewModelComment(this.GetActiveUserId())
             ).ToList();
 
             //var comments = _mapper.Map<List<DomainModel.Comment>, List<app.Model.Comment>> (manager.GetComments (this.GetActiveUser(),retroId));
@@ -58,7 +59,7 @@ namespace app.Controllers {
         [Authorize]
         [HttpGet ("[action]/{retroId}")]
         public IEnumerable<Category> Categories (string retroId) {
-            var categories = manager.GetCategories (this.GetActiveUser(), retroId);
+            var categories = manager.GetCategories (this.GetActiveUserId(), retroId);
              _logger.LogDebug ("returning {0} categories", categories.Count);
             return _mapper.Map<List<DomainModel.Category>, List<app.Model.Category>> (categories);
 
@@ -74,11 +75,11 @@ namespace app.Controllers {
             newNote.Text = input.Text;
             newNote.MeetingId= retroId;
 
-            var comment = manager.SaveComment(this.GetActiveUser(),newNote);
+            var comment = manager.SaveComment(this.GetActiveUserId(),newNote);
 
             _logger.LogDebug ("text:{0}", newNote.Text);
 
-            return comment.ToViewModelComment(this.GetActiveUser());
+            return comment.ToViewModelComment(this.GetActiveUserId());
             //return _mapper.Map<DomainModel.Comment, app.Model.Comment>(comment);
         }
 
@@ -97,23 +98,23 @@ namespace app.Controllers {
             DomainModel.Comment comment;
            if(string.IsNullOrWhiteSpace(input.CommentId))
            {
-            comment = manager.SaveComment(this.GetActiveUser(),newNote);
+            comment = manager.SaveComment(this.GetActiveUserId(),newNote);
            }
            else
            {
-               comment = manager.UpdateCommentText(this.GetActiveUser(), newNote);
+               comment = manager.UpdateCommentText(this.GetActiveUserId(), newNote);
            }
 
             _logger.LogDebug ("text:{0}", newNote.Text);
 
-            return comment.ToViewModelComment(this.GetActiveUser());
+            return comment.ToViewModelComment(this.GetActiveUserId());
         }
 
         [Authorize]
         [HttpDelete ("[action]/{commentId}")]
         public bool DeleteNote (string commentId) {
             _logger.LogDebug ("deleting note id:{0}", commentId);
-            manager.DeleteComment(this.GetActiveUser(),commentId);
+            manager.DeleteComment(this.GetActiveUserId(),commentId);
             return true;
 
         }
@@ -122,7 +123,7 @@ namespace app.Controllers {
         [HttpPut ("[action]/{commentId}")]
         public ActionResult VoteUp (string commentId) {
             _logger.LogDebug ("vote up note id:{0}", commentId);
-            manager.VoteUp(this.GetActiveUser(),commentId);
+            manager.VoteUp(this.GetActiveUserId(),commentId);
             return new EmptyResult();
 
         }
@@ -131,7 +132,7 @@ namespace app.Controllers {
         [HttpPut ("[action]/{commentId}")]
         public ActionResult VoteDown (string commentId) {
             _logger.LogDebug ("vote down id:{0}", commentId);
-            manager.VoteDown(this.GetActiveUser(),commentId);
+            manager.VoteDown(this.GetActiveUserId(),commentId);
             return new EmptyResult() ;
 
         }

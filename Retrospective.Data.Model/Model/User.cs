@@ -9,9 +9,6 @@ namespace Retrospective.Data.Model
     public string Name { get; set; }
     public string Email { get; set; }
 
-    //list of the teams that this operson is on
-    public ObjectId[] Teams { get; set; }
-
     public bool IsDemoUser { get; set; }
     public DateTime? SubscriptionEnd { get; set; }
 

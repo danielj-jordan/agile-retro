@@ -12,6 +12,9 @@ namespace testdata {
     create some test data for end to end tests
      */
     class Program {
+
+        private static User demoUser;
+
         static void Main (string[] args) {
 
             var connectionString =   Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
@@ -34,7 +37,7 @@ namespace testdata {
         public static void InitializeDemoRecords (Retrospective.Data.Database database) {
 
             //initialize the Demo user record
-            Retrospective.Data.Model.User newUser = database.Users.SaveUser (
+            demoUser = database.Users.Save (
                 new Retrospective.Data.Model.User {
                     Name = "Demo User",
                     Email = "demo@localhost",
@@ -47,26 +50,19 @@ namespace testdata {
             Retrospective.Data.Model.Team newTeam = database.Teams.Save (
                 new Retrospective.Data.Model.Team {
                     Name = "Demo Team",
-                        Owner = "demo@localhost",
                         Members = new TeamMember[] {
                             new TeamMember {
-                                UserName = "demo@localhost",
-                                Role = "manager",
-                                InviteDate = DateTime.Now,
+                                UserId= (ObjectId) demoUser.Id,
+                                Role =  TeamRole.Owner,
                                 StartDate = DateTime.Now
                             }
                         }
-                });
-
-            // update the saved user with the team
-            newUser.Teams = new ObjectId[] {
-                (ObjectId) newTeam.Id };
-            database.Users.SaveUser (newUser);
+                });   
 
                 Console.WriteLine("initialized demo records");
         }
 
-        private static void CreateSession (Retrospective.Data.Database database,
+        private static void CreateMeeting (Retrospective.Data.Database database,
             ObjectId teamId, int categoryCount) {
 
             var categories = new List<Retrospective.Data.Model.Category> ();
@@ -89,7 +85,7 @@ namespace testdata {
             string meetingName = $"some meeting with {categoryCount} categories";
 
             //initialize a session record
-            Retrospective.Data.Model.Meeting newSession = database.Meetings.Save (
+            Retrospective.Data.Model.Meeting newMeetingId = database.Meetings.Save (
                 new Meeting {
                     Name = $"{meetingName} category meeting",
                         TeamId = teamId,
@@ -100,7 +96,7 @@ namespace testdata {
             //initialize some comment records
             database.Comments.SaveComment (
                 new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
+                    MeetingId = (ObjectId) newMeetingId.Id,
                         Text = "comment 1 category " + categoryCount,
                         CategoryNumber = categoryCount
                 }
@@ -108,14 +104,14 @@ namespace testdata {
 
             database.Comments.SaveComment (
                 new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
+                    MeetingId = (ObjectId) newMeetingId.Id,
                         Text = "comment to delete in category" + categoryCount,
                         CategoryNumber = categoryCount
                 });
 
             database.Comments.SaveComment (
                 new Retrospective.Data.Model.Comment {
-                    RetrospectiveId = (ObjectId) newSession.Id,
+                    MeetingId = (ObjectId) newMeetingId.Id,
                         Text = "comment to update in category " + categoryCount,
                         CategoryNumber = categoryCount
                 });
@@ -124,7 +120,7 @@ namespace testdata {
         private static void InitializeTestRecords (Retrospective.Data.Database database) {
 
             //initialize a user record
-            Retrospective.Data.Model.User newUser = database.Users.SaveUser (
+            Retrospective.Data.Model.User newUser = database.Users.Save (
                 new Retrospective.Data.Model.User {
                     Name = "Joe Smith",
                         Email = "nobody@127.0.0.1"
@@ -135,31 +131,25 @@ namespace testdata {
             Retrospective.Data.Model.Team newTeam = database.Teams.Save (
                 new Retrospective.Data.Model.Team {
                     Name = "test team",
-                        Owner = "nobody@127.0.0.1",
                         Members = new TeamMember[] {
                             new TeamMember {
-                                UserName = "nobody@127.0.0.1",
-                                    InviteDate = DateTime.Now
+                                UserId=  (ObjectId) newUser.Id,
+                                Role= TeamRole.Owner
                             }
                         }
                 });
 
-            // update the saved user with the team
-            newUser.Teams = new ObjectId[] {
-                (ObjectId) newTeam.Id };
-            database.Users.SaveUser (newUser);
+            CreateMeeting (database, (ObjectId) newTeam.Id, 1);
 
-            CreateSession (database, (ObjectId) newTeam.Id, 1);
+            CreateMeeting (database, (ObjectId) newTeam.Id, 2);
 
-            CreateSession (database, (ObjectId) newTeam.Id, 2);
+            CreateMeeting (database, (ObjectId) newTeam.Id, 3);
 
-            CreateSession (database, (ObjectId) newTeam.Id, 3);
+            CreateMeeting (database, (ObjectId) newTeam.Id, 4);
 
-            CreateSession (database, (ObjectId) newTeam.Id, 4);
+            CreateMeeting (database, (ObjectId) newTeam.Id, 5);
 
-            CreateSession (database, (ObjectId) newTeam.Id, 5);
-
-            CreateSession (database, (ObjectId) newTeam.Id, 6);
+            CreateMeeting (database, (ObjectId) newTeam.Id, 6);
 
         }
     }

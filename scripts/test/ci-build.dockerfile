@@ -20,7 +20,7 @@ RUN apt-get -qq update
 RUN apt-get install -y sudo && rm -rf /var/lib/apt/lists/*
 RUN apt-get -qq update
 
-RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
 RUN npm -g config set user root
@@ -38,11 +38,11 @@ RUN apt-get update && apt-get install -y google-chrome-beta
 #
 # install mongo
 #
-RUN curl -OsL https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.3.tgz
-RUN tar -zxvf mongodb-linux-x86_64-3.6.3.tgz
+RUN curl -OsL https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-4.0.10.tgz
+RUN tar -zxvf mongodb-linux-x86_64-4.0.10.tgz
 RUN mkdir mongodb
-RUN cp -R mongodb-linux-x86_64-3.6.3/*  /mongodb
-RUN rm -R /mongodb-linux-x86_64-3.6.3
+RUN cp -R mongodb-linux-x86_64-4.0.10/*  /mongodb
+RUN rm -R /mongodb-linux-x86_64-4.0.10
 
 
 ENV PATH=$PATH:/mongodb/bin

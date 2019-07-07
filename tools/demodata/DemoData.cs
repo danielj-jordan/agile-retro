@@ -37,7 +37,7 @@ namespace demodata
         newUser.IsDemoUser = true;
         newUser.Name = "Demo User";
 
-        this.database.Users.SaveUser(newUser);
+        this.database.Users.Save(newUser);
       }
 
     }
@@ -137,7 +137,7 @@ namespace demodata
     private Comment CreateComment(string meetingid, int category, string text)
     {
       Comment comment = new Comment();
-      comment.RetrospectiveId = new ObjectId(meetingid);
+      comment.MeetingId = new ObjectId(meetingid);
       comment.LastUpdateUser = this.owner;
       comment.LastUpdateDate = DateTime.UtcNow;
       comment.CategoryNumber = category;

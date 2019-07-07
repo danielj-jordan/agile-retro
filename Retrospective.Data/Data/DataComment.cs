@@ -52,7 +52,7 @@ namespace Retrospective.Data
         /// </summary>
         public List<Comment> GetComments(ObjectId retrospectiveObjectId)
         {
-                var filter = MongoDB.Driver.Builders<Comment>.Filter.Eq("RetrospectiveId", retrospectiveObjectId);
+                var filter = MongoDB.Driver.Builders<Comment>.Filter.Eq("MeetingId", retrospectiveObjectId);
                 var found= database.MongoDatabase.GetCollection<Comment>(collection).Find(filter).ToList<Comment>();
                 return found;
 

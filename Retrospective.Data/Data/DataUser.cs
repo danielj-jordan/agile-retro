@@ -29,7 +29,7 @@ namespace Retrospective.Data
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    public User SaveUser(User user)
+    public User Save(User user)
     {
       if (user.Id is null)
       {
@@ -46,6 +46,7 @@ namespace Retrospective.Data
       return user;
     }
 
+
     /// <summary>
     /// Returns a single user by the email address
     /// </summary>
@@ -58,13 +59,20 @@ namespace Retrospective.Data
       return found;
     }
 
-    public User GetUser(ObjectId id)
+    public User Get(ObjectId id)
     {
       var filter = MongoDB.Driver.Builders<User>.Filter.Eq("Id", id);
       var found = database.MongoDatabase.GetCollection<User>(collection).Find(filter).FirstOrDefault();
       return found;
     }
 
+    public User Get(string id)
+    {
+      return this.Get(new ObjectId(id));
+    }
+
+
+/* 
     /// <summary>
     /// Retrieve all the users on a team
     /// </summary>
@@ -89,6 +97,7 @@ namespace Retrospective.Data
     {
       return this.GetTeamUsers(new ObjectId(teamId));
     }
+    */
 
   }
 }
