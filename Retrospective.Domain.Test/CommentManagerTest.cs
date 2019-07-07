@@ -1,9 +1,9 @@
 using System;
-using AutoMapper;
-using Xunit;
-using Moq;
 using System.Collections.Generic;
+using AutoMapper;
 using MongoDB.Bson;
+using Moq;
+using Xunit;
 
 namespace Retrospective.Domain.Test
 {
@@ -31,7 +31,7 @@ namespace Retrospective.Domain.Test
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.CommentManager>();
       var manager = new Retrospective.Domain.CommentManager(logger, mapper, fixture.Database);
 
-      List<Retrospective.Domain.Model.Comment> comments = manager.GetComments(fixture.SampleUser, fixture.SessionId.ToString());
+      List<Retrospective.Domain.Model.Comment> comments = manager.GetComments(fixture.SampleUser.Id.ToString(), fixture.SessionId.ToString());
 
       Assert.True(comments.Count > 0);
 
@@ -57,7 +57,7 @@ namespace Retrospective.Domain.Test
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.CommentManager>();
       var manager = new Retrospective.Domain.CommentManager(logger, mapper, fixture.Database);
 
-      List<Retrospective.Domain.Model.Category> categories = manager.GetCategories(fixture.SampleUser, fixture.SessionId.ToString());
+      List<Retrospective.Domain.Model.Category> categories = manager.GetCategories(fixture.SampleUser.Id.ToString(), fixture.SessionId.ToString());
 
       Assert.True(categories.Count > 0);
 
@@ -83,7 +83,7 @@ namespace Retrospective.Domain.Test
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.CommentManager>();
       var manager = new Retrospective.Domain.CommentManager(logger, mapper, fixture.Database);
 
-      manager.DeleteComment(fixture.Owner, fixture.DeleteNote.ToString());
+      manager.DeleteComment(fixture.OwnerUser.Id.ToString(), fixture.DeleteNote.ToString());
     }
 
     [Fact]
@@ -112,12 +112,12 @@ namespace Retrospective.Domain.Test
       comment.MeetingId = fixture.SessionId.ToString();
       comment.Text = "test";
 
-      var saved = manager.SaveComment(fixture.Owner, comment);
+      var saved = manager.SaveComment(fixture.OwnerUser.Id.ToString(), comment);
       Assert.NotNull(saved.CommentId);
 
       saved.Text += " again";
 
-      var savedAgain = manager.SaveComment(fixture.Owner, saved);
+      var savedAgain = manager.SaveComment(fixture.OwnerUser.Id.ToString(), saved);
       Assert.Equal(savedAgain.CommentId, saved.CommentId);
     }
 
@@ -144,6 +144,8 @@ namespace Retrospective.Domain.Test
     public void VoteDown_WithAlreadyVotedUser_ShouldRemoveFromList()
     {
       //arrange
+      string userA = "1a191fc44dec80f5829e6c1a";
+      string userB = "2b191fc44dec80f5829e6c2b";
       var dataMock = new Mock<Retrospective.Data.IDatabase>();
       var dataCommentMock = new Mock<Retrospective.Data.IDataComment>();
 
@@ -151,7 +153,7 @@ namespace Retrospective.Domain.Test
       dataMock.Setup(m => m.Comments.GetComment(It.IsAny<ObjectId>())).Returns(
           new Retrospective.Data.Model.Comment
           {
-            VotedUp = new string[] { "testUserA", "testUserB" }
+            VotedUp = new ObjectId[] { new ObjectId(userA), new ObjectId(userB) }
           }
       );
 
@@ -159,25 +161,34 @@ namespace Retrospective.Domain.Test
         new Retrospective.Data.Model.Meeting()
       );
 
+
       dataMock.Setup(m => m.Teams.Get(It.IsAny<string>())).Returns(
         new Data.Model.Team
         {
-          Owner = "testUserA"
+          Members = new Data.Model.TeamMember[]
+          {
+            new Data.Model.TeamMember
+            {
+              UserId=  new ObjectId(userA),
+              Role = Data.Model.TeamRole.Member
+            }
         }
-      );
+        });
+
 
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.CommentManager>();
       var manager = new Retrospective.Domain.CommentManager(logger, mapper, dataMock.Object);
 
       //act
-      var resultComment = manager.VoteDown("testUserA", "507f1f77bcf86cd799439011");
+      var resultComment = manager.VoteDown(userA, "507f1f77bcf86cd799439011");
 
       //assert
 
       //check the value passed to SaveComment
       dataMock.Verify(s => s.Comments.SaveComment(It.Is<Retrospective.Data.Model.Comment>(
         c => c.VotedUp.Length == 1)
-      ), Times.Once);
+          ), Times.Once);
+
     }
 
 
@@ -185,6 +196,10 @@ namespace Retrospective.Domain.Test
     public void VoteDown_WithAlreadyUnVotedUser_ShouldNotRemoveFromList()
     {
       //arrange
+      string userA = "1a191fc44dec80f5829e6c1a";
+      string userB = "2b191fc44dec80f5829e6c2b";
+      string userC = "3c191fc44dec80f5829e6c3c";
+
       var dataMock = new Mock<Retrospective.Data.IDatabase>();
       var dataCommentMock = new Mock<Retrospective.Data.IDataComment>();
 
@@ -192,7 +207,7 @@ namespace Retrospective.Domain.Test
       dataMock.Setup(m => m.Comments.GetComment(It.IsAny<ObjectId>())).Returns(
           new Retrospective.Data.Model.Comment
           {
-            VotedUp = new string[] { "testUserA", "testUserB" }
+            VotedUp = new ObjectId[] { new ObjectId(userA), new ObjectId(userB) }
           }
       );
 
@@ -204,7 +219,14 @@ namespace Retrospective.Domain.Test
       dataMock.Setup(m => m.Teams.Get(It.IsAny<string>())).Returns(
         new Data.Model.Team
         {
-          Owner = "testUserC"
+          Members = new Data.Model.TeamMember[]
+          {
+            new Data.Model.TeamMember
+            {
+              UserId= new ObjectId(userC),
+              Role =  Data.Model.TeamRole.Owner
+            }
+          }
         }
       );
 
@@ -212,7 +234,7 @@ namespace Retrospective.Domain.Test
       var manager = new Retrospective.Domain.CommentManager(logger, mapper, dataMock.Object);
 
       //act
-      var resultComment = manager.VoteDown("testUserC", "507f1f77bcf86cd799439011");
+      var resultComment = manager.VoteDown(userC, "507f1f77bcf86cd799439011");
 
       //assert
 
@@ -227,6 +249,9 @@ namespace Retrospective.Domain.Test
     public void VoteUp_WithUnVotedUser_ShouldAddToList()
     {
       //arrange
+      string userA = "1a191fc44dec80f5829e6c1a";
+      string userB = "2b191fc44dec80f5829e6c2b";
+      string userC = "3c191fc44dec80f5829e6c3c";
       var dataMock = new Mock<Retrospective.Data.IDatabase>();
       var dataCommentMock = new Mock<Retrospective.Data.IDataComment>();
 
@@ -234,7 +259,7 @@ namespace Retrospective.Domain.Test
       dataMock.Setup(m => m.Comments.GetComment(It.IsAny<ObjectId>())).Returns(
           new Retrospective.Data.Model.Comment
           {
-            VotedUp = new string[] { "testUserA", "testUserB" }
+            VotedUp = new ObjectId[] { new ObjectId(userA), new ObjectId(userB) }
           }
       );
 
@@ -246,7 +271,14 @@ namespace Retrospective.Domain.Test
       dataMock.Setup(m => m.Teams.Get(It.IsAny<string>())).Returns(
         new Data.Model.Team
         {
-          Owner = "testUserC"
+          Members = new Data.Model.TeamMember[]
+          {
+            new Data.Model.TeamMember
+            {
+              UserId= new ObjectId(userC),
+              Role =  Data.Model.TeamRole.Owner
+            }
+          }
         }
       );
 
@@ -254,7 +286,7 @@ namespace Retrospective.Domain.Test
       var manager = new Retrospective.Domain.CommentManager(logger, mapper, dataMock.Object);
 
       //act
-      var resultComment = manager.VoteUp("testUserC", "507f1f77bcf86cd799439011");
+      var resultComment = manager.VoteUp(userC, "507f1f77bcf86cd799439011");
 
       //assert
 
@@ -267,7 +299,10 @@ namespace Retrospective.Domain.Test
     [Fact]
     public void VoteUp_AlreadyVotedUser_ShouldNotAddToList()
     {
+
       //arrange
+      string userA = "1a191fc44dec80f5829e6c1a";
+      string userB = "2b191fc44dec80f5829e6c2b";
       var dataMock = new Mock<Retrospective.Data.IDatabase>();
       var dataCommentMock = new Mock<Retrospective.Data.IDataComment>();
 
@@ -275,7 +310,7 @@ namespace Retrospective.Domain.Test
       dataMock.Setup(m => m.Comments.GetComment(It.IsAny<ObjectId>())).Returns(
           new Retrospective.Data.Model.Comment
           {
-            VotedUp = new string[] { "testUserA", "testUserB" }
+            VotedUp = new ObjectId[] { new ObjectId(userA), new ObjectId(userB) }
           }
       );
 
@@ -287,7 +322,14 @@ namespace Retrospective.Domain.Test
       dataMock.Setup(m => m.Teams.Get(It.IsAny<string>())).Returns(
         new Data.Model.Team
         {
-          Owner = "testUserA"
+          Members = new Data.Model.TeamMember[]
+          {
+            new Data.Model.TeamMember
+            {
+              UserId= new ObjectId(userA),
+              Role =  Data.Model.TeamRole.Owner
+            }
+          }
         }
       );
 
@@ -295,7 +337,7 @@ namespace Retrospective.Domain.Test
       var manager = new Retrospective.Domain.CommentManager(logger, mapper, dataMock.Object);
 
       //act
-      var resultComment = manager.VoteUp("testUserA", "507f1f77bcf86cd799439011");
+      var resultComment = manager.VoteUp(userA, "507f1f77bcf86cd799439011");
 
       //assert
 
@@ -309,6 +351,8 @@ namespace Retrospective.Domain.Test
     public void UpdateComment_WithDifferentCategoryNumber_UpdatesCategoryNum()
     {
       //arrange
+
+      string userId = "5d191fc44dec80f5829e6ca9";
       var dataMock = new Mock<Retrospective.Data.IDatabase>();
       var dataCommentMock = new Mock<Retrospective.Data.IDataComment>();
 
@@ -324,12 +368,20 @@ namespace Retrospective.Domain.Test
       );
 
 
-      dataMock.Setup(m => m.Teams.Get(It.IsAny<string>())).Returns(
-        new Data.Model.Team
-        {
-          Owner = "testUserA"
-        }
-      );
+      var stubTeam = new Data.Model.Team
+      {
+        Members = new Data.Model.TeamMember[]
+          {
+            new Data.Model.TeamMember
+            {
+              UserId= new ObjectId(userId),
+              Role =  Data.Model.TeamRole.Owner
+            }
+          }
+      };
+
+      dataMock.Setup(m => m.Teams.Get(It.IsAny<string>())).Returns(stubTeam);
+
 
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.CommentManager>();
       var manager = new Retrospective.Domain.CommentManager(logger, mapper, dataMock.Object);
@@ -341,7 +393,7 @@ namespace Retrospective.Domain.Test
         CommentId = "5c9d9bbb34e1434ab9b93ed3"
       };
 
-      manager.UpdateCommentText("testUserA", comment);
+      manager.UpdateCommentText(userId, comment);
 
       //assert
       //check the value passed to SaveComment

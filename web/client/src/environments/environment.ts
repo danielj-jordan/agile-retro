@@ -6,5 +6,5 @@
 export const environment = {
   production: false, 
   demoEnabled: true,
-  signupEnabled: false
+  signupEnabled: true
 };

@@ -14,7 +14,7 @@ namespace Retrospective.Data.Test
     {
         public User owner {get; private set;}
         public Team team {get; private set;}
-        public Meeting retrospectiveSession {get; private set;}
+        public Meeting meeting {get; private set;}
 
         public Retrospective.Data.Database database { get; private set; }
 
@@ -52,18 +52,19 @@ namespace Retrospective.Data.Test
             owner.Email="owner@here.com";
             owner.Name="the Owner";
 
-            database.Users.SaveUser(owner);
+            database.Users.Save(owner);
   
 
             //create a team to test the subsequent save
             team= new Team();
             team.Name="test team";
-            team.Owner = owner.Email;
+    
             
             var members =  new List<TeamMember>();
             members.Add(new TeamMember(){
-                UserName=owner.Email, 
-                InviteDate=DateTime.Now
+                UserId = (ObjectId) owner.Id,
+                Role =  TeamRole.Owner,
+                StartDate = DateTime.UtcNow
             });
             team.Members=members.ToArray();
             
@@ -85,7 +86,7 @@ namespace Retrospective.Data.Test
             DataMeeting retroData = new DataMeeting(database);
             
             retroData.Save(session);
-            retrospectiveSession=session;
+            meeting=session;
 
         }
     

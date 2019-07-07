@@ -47,7 +47,7 @@ namespace app.Controllers
       return Ok();
     }
 
-
+  /*
     [HttpPost("[action]")]
     public ActionResult<UserLoginToken> GenerateToken([FromBody] UserLogin login)
     {
@@ -79,6 +79,7 @@ namespace app.Controllers
 
       return userToken;
     }
+    */
 
     [HttpPost("[action]")]
     public async Task<ActionResult<UserLoginToken>> LoginGoogle([FromBody] UserLoginToken googleToken)
@@ -165,7 +166,7 @@ namespace app.Controllers
         Subject = new ClaimsIdentity(new Claim[]
           {
                     new Claim(ClaimTypes.Name, email),
-                    new Claim(ClaimTypes.PrimarySid, userId)
+                    new Claim(ClaimTypes.NameIdentifier, userId)
           }),
         Expires = DateTime.UtcNow.AddDays(7),
         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

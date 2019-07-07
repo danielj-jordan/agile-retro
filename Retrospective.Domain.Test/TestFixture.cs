@@ -4,7 +4,8 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Core;
 using Retrospective.Data;
-using Retrospective.Data.Model;
+using DBModel = Retrospective.Data.Model;
+using DomainModel =  Retrospective.Domain.Model;
 using Xunit;
 
 namespace Retrospective.Domain.Test
@@ -15,8 +16,9 @@ namespace Retrospective.Domain.Test
     public ObjectId SessionId { get; private set; }
     public ObjectId DeleteNote { get; private set; }
     public ObjectId UpdateNote { get; private set; }
-    public string SampleUser = "nobody@here.com";
-    public string Owner = "owner@here.com";
+    public DBModel.User SampleUser;
+    public DBModel.User OwnerUser;
+
     public Retrospective.Data.Database Database { get; private set; }
 
     public TestFixture()
@@ -39,6 +41,9 @@ namespace Retrospective.Domain.Test
       this.Database = database;
       InitializeTestRecords();
 
+
+
+
     }
 
     private void InitializeTestRecords()
@@ -46,11 +51,11 @@ namespace Retrospective.Domain.Test
 
       System.Console.WriteLine("setup TestFixture");
       //initialize a user record
-      Retrospective.Data.Model.User newUser = this.Database.Users.SaveUser(
+      this.SampleUser = this.Database.Users.Save(
           new Retrospective.Data.Model.User
           {
-            Name = "Joe Smoth",
-            Email = SampleUser,
+            Name = "Joe Smith",
+            Email = "nobody@here.com",
             AuthenticationID ="123",
             AuthenticationSource="Google",
             LastLoggedIn=DateTime.UtcNow,
@@ -58,25 +63,38 @@ namespace Retrospective.Domain.Test
           }
       );
 
+
+      this.OwnerUser =  this.Database.Users.Save(
+        new DBModel.User{
+            Name = "Owner User",
+            Email = "owner@here.com",
+            AuthenticationID ="123",
+            AuthenticationSource="Google",
+            LastLoggedIn=DateTime.UtcNow,
+            IsDemoUser=false
+        }
+      );
+
       //initialize a team record
       Retrospective.Data.Model.Team newTeam =
           new Retrospective.Data.Model.Team
           {
-            Name = "test team A",
-            Owner = this.Owner
+            Name = "test team A"
           };
 
-      List<TeamMember> members = new List<TeamMember>();
-      members.Add(new TeamMember()
+      List<DBModel.TeamMember> members = new List<DBModel.TeamMember>();
+      members.Add(new DBModel.TeamMember
       {
-        UserName = this.Owner,
-        InviteDate = DateTime.Now
+        UserId =  (ObjectId)this.OwnerUser.Id,
+        StartDate = DateTime.Now,
+        Role = DBModel.TeamRole.Owner
       });
 
-      members.Add(new TeamMember()
+      members.Add(new DBModel.TeamMember
       {
-        UserName = this.SampleUser,
-        InviteDate = DateTime.Now
+        UserId = (ObjectId) this.SampleUser.Id,
+        StartDate = DateTime.Now,
+        Role = DBModel.TeamRole.Member
       });
 
       newTeam.Members = members.ToArray();
@@ -87,15 +105,15 @@ namespace Retrospective.Domain.Test
       this.TeamId = (ObjectId)newTeam.Id;
 
       //initialize a session record
-      Retrospective.Data.Model.Meeting newSession = this.Database.Meetings.Save(
-          new Meeting
+      DBModel.Meeting newSession = this.Database.Meetings.Save(
+          new DBModel.Meeting
           {
             Name = "test session",
             TeamId = (ObjectId)newTeam.Id,
-            Categories = new Retrospective.Data.Model.Category[] {
-                            new Category (1, "category 1"),
-                                new Category (2, "category 2"),
-                                new Category (3, "category 3")
+            Categories = new DBModel.Category[] {
+                            new DBModel.Category (1, "category 1"),
+                                new DBModel.Category (2, "category 2"),
+                                new DBModel.Category (3, "category 3")
                   }
           }
       );
@@ -105,7 +123,7 @@ namespace Retrospective.Domain.Test
       this.Database.Comments.SaveComment(
           new Retrospective.Data.Model.Comment
           {
-            RetrospectiveId = (ObjectId)newSession.Id,
+            MeetingId = (ObjectId)newSession.Id,
             Text = "comment 1 category 2",
             CategoryNumber = 2
           }
@@ -114,7 +132,7 @@ namespace Retrospective.Domain.Test
       this.DeleteNote = (ObjectId)this.Database.Comments.SaveComment(
           new Retrospective.Data.Model.Comment
           {
-            RetrospectiveId = (ObjectId)newSession.Id,
+            MeetingId = (ObjectId)newSession.Id,
             Text = "comment to delete in category 2",
             CategoryNumber = 2
           }
@@ -123,16 +141,13 @@ namespace Retrospective.Domain.Test
       this.UpdateNote = (ObjectId)this.Database.Comments.SaveComment(
           new Retrospective.Data.Model.Comment
           {
-            RetrospectiveId = (ObjectId)newSession.Id,
+            MeetingId = (ObjectId)newSession.Id,
             Text = "comment to update in category 2",
             CategoryNumber = 2
           }
       ).Id;
 
-      // update the saved user with the team
-      newUser.Teams = new ObjectId[] {
-                (ObjectId) newTeam.Id };
-      this.Database.Users.SaveUser(newUser);
+      
 
     }
 

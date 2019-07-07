@@ -13,9 +13,11 @@ namespace Retrospective.Data.Test
     public class CommentDataTest
     {
         private IDatabase database;
+        private TestFixture fixture;
 
         public CommentDataTest(TestFixture fixture)
         {
+            this.fixture=fixture;
             database=fixture.database;
         }
 
@@ -25,7 +27,7 @@ namespace Retrospective.Data.Test
 
             Comment comment = new Comment();
             comment.Text="this is a test too.";
-            comment.RetrospectiveId=new ObjectId();
+            comment.MeetingId=new ObjectId();
             comment.Id=null;
             
         
@@ -45,13 +47,11 @@ namespace Retrospective.Data.Test
         {
             DataComment commentdata = new DataComment(database);
 
-            ObjectId retrospectiveId= new ObjectId();
-
             //setup a record to find
             Comment comment = new Comment();
             comment.Id=null;
             comment.Text="this is a test too.";
-            comment.RetrospectiveId =retrospectiveId;
+            comment.MeetingId = (ObjectId)this.fixture.meeting.Id;
             commentdata.SaveComment(comment);
 
             var createdId=(ObjectId)comment.Id;
@@ -64,9 +64,9 @@ namespace Retrospective.Data.Test
 
             Assert.True(createdId==foundComment.Id);
 
-            var foundComments= commentdata.GetComments(retrospectiveId);
+            var foundComments= commentdata.GetComments((ObjectId)this.fixture.meeting.Id);
             
-            Assert.Contains(retrospectiveId, from com in foundComments select com.RetrospectiveId);
+            Assert.Contains(this.fixture.meeting.Id.ToString(), from com in foundComments select com.MeetingId.ToString());
 
 
         }

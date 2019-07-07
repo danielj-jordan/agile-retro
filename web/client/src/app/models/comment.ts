@@ -1,6 +1,6 @@
 
 export class Comment{
-    sessionId: string;
+    meetingId: string;
     commentId: string;
     categoryNum: number;
     text: string;

@@ -1,12 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Driver;
-using Retrospective.Data.Model;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
-using MongoDB.Bson;
-using System.Collections.Generic;
+using MongoDB.Driver;
 using MongoDB.Driver.Linq;
+using Retrospective.Data.Model;
 
 namespace Retrospective.Data
 {
@@ -68,44 +68,33 @@ namespace Retrospective.Data
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        public List<Team> GetUserTeams (string email)
+        public List<Team> GetUserTeams (ObjectId userId)
         {
             var teams = database.MongoDatabase.GetCollection<Team>(collection);
+            var query = teams.AsQueryable<Team>()
+                .Where(t => t.Members.Any(m=>m.UserId==userId ))
+                .Select(t => t);          
+            return query.ToList<Team>();
+        }
 
-
-            var filter= Builders<Team>.Filter.Eq("Members.UserName", email);
-            return teams.Find(filter).ToList();
-            
-           /* *
-            var query = from team in teams.AsQueryable<Team>()
-            where team.Members.Where(item=>
-                item.UserName==email
-                )
-                select team;
-
-            return query.ToList<Team>();*/
-
+        public List<Team> GetUserTeams (string userId)
+        {
+            return this.GetUserTeams(new ObjectId(userId));
         }
 
 
         /// <summary>
         /// Get the teams owned by a given user
         /// </summary>
-        /// <param name="email"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        public List<Team> GetOwnedTeams(string email)
+        public List<Team> GetOwnedTeams(ObjectId userId)
         {
             var teams = database.MongoDatabase.GetCollection<Team>(collection);
-            var query = from team in teams.AsQueryable<Team>()
-            where team.Owner==email
-                select team;
-
+            var query = teams.AsQueryable<Team>()
+                .Where(t => t.Members.Any(m=>m.UserId==userId && m.Role==TeamRole.Owner))
+                .Select(t => t);            
             return query.ToList<Team>();
-
         }
-
-
-
-
     }
 }

@@ -4,9 +4,7 @@ namespace Retrospective.Domain.Model
 {
     public class TeamMember
     {
-        
-        public string UserName {get;set;}
-        public DateTime InviteDate {get;set;}
+        public string UserId {get;set;}
         public DateTime? RemoveDate {get;set;}
         public DateTime? StartDate {get;set;}
 
@@ -15,7 +13,7 @@ namespace Retrospective.Domain.Model
         /// member, stakeholder, owner
         /// </summary>
         /// <value></value>
-        public string Role {get;set;}
+        public TeamRole Role {get;set;}
         
     }
 }

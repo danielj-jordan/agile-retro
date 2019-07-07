@@ -20,12 +20,11 @@ RUN apt-get -qq update
 RUN apt-get install -y sudo && rm -rf /var/lib/apt/lists/*
 RUN apt-get -qq update
 
-RUN curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN apt-get install -y nodejs
 RUN npm install -g @angular/cli --unsafe
 RUN npm install -g webpack --unsafe
-#RUN npm install -g @angular/cli
-#RUN npm install -g webpack
+
 
 #
 # Install Google Chrome
@@ -39,18 +38,11 @@ RUN apt-get update && apt-get install -y google-chrome-beta
 # install mongo
 # https://github.com/dockerfile/mongodb
 #
-#RUN  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
-#RUN  echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' > /etc/apt/sources.list.d/mongodb.list
-#RUN  apt-get --allow-unauthenticated update
-#RUN  apt-get --allow-unauthenticated install -y mongodb-org
-#RUN  rm -rf /var/lib/apt/lists/*
-RUN curl -OsL https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.3.tgz
-RUN tar -zxvf mongodb-linux-x86_64-3.6.3.tgz
+RUN curl -OsL https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-4.0.10.tgz
+RUN tar -zxvf mongodb-linux-x86_64-4.0.10.tgz
 RUN mkdir mongodb
-RUN cp -R mongodb-linux-x86_64-3.6.3/*  /mongodb
-RUN rm -R /mongodb-linux-x86_64-3.6.3
-#RUN cp -R /mongodb/mongodb-linux-x86_64-3.6.3/*  /mongodb
-#RUN rm -R /mongodb/mongodb-linux-x86_64-3.6.3
+RUN cp -R mongodb-linux-x86_64-4.0.10/*  /mongodb
+RUN rm -R /mongodb-linux-x86_64-4.0.10
 
 #
 # install ssh server (used for debugging)
