@@ -13,13 +13,13 @@ try {
     }
     stage('Docker Build'){
          
-          demodataimage = docker.build("agileretro-demodata", "-f scripts/demodata/demodata.dockerfile tools/demodata/.")
+          demodataimage = docker.build("agileretro-demodata", "-f scripts/demodata/demodata.dockerfile .")
     }
     stage ('Build'){
       demodataimage.inside('-u root'){
-        sh 'ls /demodata'
+        sh 'ls /agile-retro/tools/demodata'
         sh 'dotnet --version'
-        sh 'dotnet build /demodata/demodata.csproj'
+        sh 'dotnet build /agile-retro/tools/demodata/demodata.csproj'
       }
     }
     stage('Test'){
@@ -30,7 +30,7 @@ try {
     {
       withCredentials([secret(credentialsId: 'agile-retro-prod-connectionstring', secret: 'connection-string')]) {
         demodataimage.inside('-u root -e DB_NAME=agile-retro-prod -e DB_CONNECTIONSTRING=${projectid}'){
-          sh 'dotnet run /demodata/demodata.csproj'
+          sh 'dotnet run /agile-retro/tools/demodata/demodata.csproj'
         }
       }
     }

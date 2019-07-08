@@ -7,5 +7,5 @@ ENV DB_NAME=e2e_test
 #
 #  install the project source code
 #
-ADD . /demodata
+ADD . /agile-retro
 
