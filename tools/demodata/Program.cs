@@ -20,8 +20,6 @@ namespace demodata
 
       try
       {
-        throw new Exception("hey");
-
         var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTIONSTRING");
         var databaseName = Environment.GetEnvironmentVariable("DB_NAME");
 
