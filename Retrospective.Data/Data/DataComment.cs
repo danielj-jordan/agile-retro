@@ -55,8 +55,6 @@ namespace Retrospective.Data
                 var filter = MongoDB.Driver.Builders<Comment>.Filter.Eq("MeetingId", retrospectiveObjectId);
                 var found= database.MongoDatabase.GetCollection<Comment>(collection).Find(filter).ToList<Comment>();
                 return found;
-
-
         }
 
         public List<Comment> GetComments(string retrospectiveId){

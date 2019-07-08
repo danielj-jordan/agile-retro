@@ -11,7 +11,9 @@ namespace Retrospective.Data
     Comment GetComment(string commentId);
     Comment SaveComment(Comment comment);
 
-    List<Comment> GetComments(string retrospectiveId);
+    List<Comment> GetComments(string meetingId);
+
+    List<Comment> GetComments(ObjectId meetingId);
 
     void Delete(ObjectId commentId);
 
