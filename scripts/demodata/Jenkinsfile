@@ -29,7 +29,7 @@ try {
     stage('Run')
     {
       withCredentials([string(credentialsId: 'agile-retro-prod-connectionstring', variable: 'connectionstring')]) {
-          sh 'docker run --rm -u root -e DB_NAME=agile-retro-prod -e DB_CONNECTIONSTRING=${connectionstring} agileretro-demodata dotnet run /agile-retro/tools/demodata/demodata.csproj'
+          sh 'docker run --rm -u root -e DB_NAME=agile-retro-prod -e DB_CONNECTIONSTRING=${connectionstring} agileretro-demodata dotnet run --project /agile-retro/tools/demodata/demodata.csproj'
       }
       
     }
