@@ -1,0 +1,42 @@
+#!/usr/bin/env groovy
+
+import hudson.model.*
+import hudson.EnvVars
+import hudson.FilePath
+
+try {
+  node {
+    def demodataimage
+
+    stage ('Clone repo'){
+      checkout scm
+    }
+    stage('Docker Build'){
+         
+          demodataimage = docker.build("agileretro-demodata", "-f scripts/demodata/demodata.dockerfile tools/demodata/.")
+    }
+    stage ('Build'){
+      demodataimage.inside('-u root'){
+        sh 'ls /demodata'
+        sh 'dotnet --version'
+        sh 'dotnet build /demodata/demodata.csproj'
+      }
+    }
+    stage('Test'){
+      demodataimage.inside('-u root'){
+      }
+    }
+    stage('Run')
+    {
+      withCredentials([secret(credentialsId: 'agile-retro-prod-connectionstring', secret: 'connection-string')]) {
+        demodataimage.inside('-u root -e DB_NAME=agile-retro-prod -e DB_CONNECTIONSTRING=${projectid}'){
+          sh 'dotnet run /demodata/demodata.csproj'
+        }
+      }
+    }
+  }
+}
+catch (err){
+    throw err
+
+}
