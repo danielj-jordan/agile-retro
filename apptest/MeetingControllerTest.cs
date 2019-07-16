@@ -32,13 +32,12 @@ namespace apptest
             var config = new MapperConfiguration(c =>
             {
                 c.AddProfile<app.Domain.DomainProfile>();
-                c.AddProfile<Retrospective.Domain.DomainProfile> ();
             });
 
             mapper= new Mapper(config);
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            manager= new Retrospective.Domain.MeetingManager(logger, mapper,fixture.Database);
+            manager= new Retrospective.Domain.MeetingManager(logger, fixture.Database);
             
         }
 

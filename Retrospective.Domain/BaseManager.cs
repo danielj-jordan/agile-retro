@@ -1,22 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using DBModel = Retrospective.Data.Model;
 using DomainModel = Retrospective.Domain.Model;
 using Retrospective.Data;
+using Retrospective.Domain.ModelExtensions;
 
 namespace Retrospective.Domain {
     public class BaseManager {
         private readonly ILogger<BaseManager> logger;
-        private readonly IMapper mapper;
         private readonly IDatabase database;
 
-        protected BaseManager (ILogger<BaseManager> logger, IMapper mapper, IDatabase database) {
+        protected BaseManager (ILogger<BaseManager> logger, IDatabase database) {
             this.logger = logger;
-            this.mapper = mapper;
             this.database = database;
         }
 
@@ -66,8 +64,7 @@ namespace Retrospective.Domain {
             logger.LogDebug ("looking for {0}", teamId);
 
             var dbteam = database.Teams.Get(teamId);
-            var team = mapper.Map<DBModel.Team, DomainModel.Team> (dbteam);
-            return team;
+            return dbteam.ToDomainModel();
         }
 
         protected DomainModel.Meeting GetMeeting (string meetingId) {
@@ -75,17 +72,14 @@ namespace Retrospective.Domain {
 
             var dbMeeting = database.Meetings.Get (meetingId);
 
-            var meeting = mapper.Map<DBModel.Meeting, DomainModel.Meeting> (dbMeeting);
-
-            return meeting;
+            return dbMeeting.ToDomainModel();
         }
 
         protected DomainModel.Comment GetComment (string commentId) {
             logger.LogDebug ("looking for meeting {0}", commentId);
 
             var comment = database.Comments.GetComment (new ObjectId (commentId));
-
-            return mapper.Map<DBModel.Comment, DomainModel.Comment> (comment);
+            return comment.ToDomainModel();
         }
     }
 }

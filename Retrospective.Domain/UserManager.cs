@@ -1,22 +1,20 @@
 using System.Linq;
-using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Retrospective.Data;
 using DomainModel = Retrospective.Domain.Model;
 using DBModel = Retrospective.Data.Model;
+using Retrospective.Domain.ModelExtensions;
 
 namespace Retrospective.Domain
 {
   public class UserManager : BaseManager
   {
     private readonly ILogger<UserManager> logger;
-    private readonly IMapper mapper;
     private readonly IDatabase database;
 
-    public UserManager(ILogger<UserManager> logger, IMapper mapper, IDatabase database) : base(logger, mapper, database)
+    public UserManager(ILogger<UserManager> logger, IDatabase database) : base(logger,  database)
     {
       this.logger = logger;
-      this.mapper = mapper;
       this.database = database;
     }
 
@@ -35,7 +33,7 @@ namespace Retrospective.Domain
             return null;
         }
         //return the found user
-        return mapper.Map<DBModel.User, DomainModel.User>(users.First());
+        return users.First().ToDomainModel();
 
     }
 
@@ -43,8 +41,8 @@ namespace Retrospective.Domain
     {
             logger.LogDebug ("saving user {0} {1}", user.Email, user.UserId);
 
-            var dbUser = database.Users.Save (mapper.Map<DomainModel.User, DBModel.User> (user));
-            return mapper.Map<DBModel.User, DomainModel.User> (dbUser);
+            var dbUser = database.Users.Save (user.ToDBModel());
+            return dbUser.ToDomainModel();
     }
 
 

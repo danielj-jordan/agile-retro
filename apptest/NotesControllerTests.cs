@@ -29,11 +29,10 @@ namespace apptest
             var config = new MapperConfiguration(c =>
             {
                 c.AddProfile<app.Domain.DomainProfile>();
-                c.AddProfile<Retrospective.Domain.DomainProfile> ();
             });
             mapper= new Mapper(config);
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.CommentManager> ();
-            manager= new Retrospective.Domain.CommentManager(logger, mapper,fixture.Database);
+            manager= new Retrospective.Domain.CommentManager(logger, fixture.Database);
         }
 
     private void MockHttpContextValid(app.Controllers.NotesController controller, User user)
@@ -130,7 +129,7 @@ namespace apptest
 
             var categories = controller.NewNote(fixture.MeetingId.ToString(), comment);
 
-             var endCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
+            var endCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
 
             Assert.True(endCount>beginCount, "comment was not created");
             
