@@ -88,7 +88,8 @@ namespace apptest
                                 StartDate=DateTime.Now,
                                 Role = TeamRole.Owner
                             }
-                  }
+                  },
+            Invited= new Invitation[0]
           });
       this.TeamId = (ObjectId)newTeam.Id;
       this.TestTeam = newTeam;
@@ -115,7 +116,9 @@ namespace apptest
           {
             MeetingId = (ObjectId)newMeeting.Id,
             Text = "comment 1 category 2",
-            CategoryNumber = 2
+            CategoryNumber = 2,
+            LastUpdateUserId = (ObjectId)this.Owner.Id,
+            VotedUp= new ObjectId[0]
           }
       );
 
@@ -124,7 +127,8 @@ namespace apptest
           {
             MeetingId = (ObjectId)newMeeting.Id,
             Text = "comment to delete in category 2",
-            CategoryNumber = 2
+            CategoryNumber = 2,
+            LastUpdateUserId = (ObjectId) this.Owner.Id
           }
       ).Id;
 
@@ -133,7 +137,8 @@ namespace apptest
           {
             MeetingId = (ObjectId)newMeeting.Id,
             Text = "comment to update in category 2",
-            CategoryNumber = 2
+            CategoryNumber = 2,
+            LastUpdateUserId = (ObjectId) this.Owner.Id
           }
       ).Id;
 

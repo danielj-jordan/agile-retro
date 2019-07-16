@@ -30,14 +30,13 @@ namespace apptest
       var config = new MapperConfiguration(c =>
       {
         c.AddProfile<app.Domain.DomainProfile>();
-        c.AddProfile<Retrospective.Domain.DomainProfile>();
       });
 
       mapper = new Mapper(config);
 
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<TeamManager>();
 
-      teamManager = new TeamManager(logger, mapper, fixture.Database);
+      teamManager = new TeamManager(logger,  fixture.Database);
     }
 
     private void MockHttpContextValid(app.Controllers.TeamController controller, User user)

@@ -16,8 +16,8 @@ namespace app.ModelExtensions
         CategoryNum = comment.CategoryNumber,
         Text = comment.Text,
         UpdateUserId = comment.LastUpdateUserId,
-        VoteCount = comment.VotedUp.Count,
-        ThisUserVoted = comment.VotedUp.Contains(activeUser)
+        VoteCount = comment.VotedUp!=null?comment.VotedUp.Count:0,
+        ThisUserVoted = comment.VotedUp!=null? comment.VotedUp.Contains(activeUser):false
       };
       return viewModelComment;
     }
