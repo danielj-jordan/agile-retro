@@ -11,6 +11,7 @@ using Moq;
 using Retrospective.Data.Model;
 using Retrospective.Domain;
 using Xunit;
+using Retrospective.Domain.ModelExtensions;
 
 namespace apptest
 {
@@ -111,8 +112,7 @@ namespace apptest
 
       MockHttpContextValid(controller, fixture.Owner);
 
-      var teamStart = mapper.DefaultContext.Mapper.Map<Retrospective.Domain.Model.Team, app.Model.Team>(
-          mapper.DefaultContext.Mapper.Map<Retrospective.Data.Model.Team, Retrospective.Domain.Model.Team>(fixture.TestTeam));
+      var teamStart = mapper.DefaultContext.Mapper.Map<Retrospective.Domain.Model.Team, app.Model.Team>(fixture.TestTeam.ToDomainModel());
 
       teamStart.Name += " more";
 
