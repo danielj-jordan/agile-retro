@@ -7,22 +7,17 @@ namespace Retrospective.Domain.Test {
     [Collection ("Domain Test collection")]
     public class MeetingManagerTest {
 
-        AutoMapper.Mapper mapper = null;
         TestFixture fixture;
 
         public MeetingManagerTest (TestFixture fixture) {
             this.fixture = fixture;
-            var config = new MapperConfiguration (c => {
-                c.AddProfile<Retrospective.Domain.DomainProfile> ();
-            });
 
-            mapper = new Mapper (config);
         }
 
         [Fact]
         public void GetMeetingsForTeam () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
+            var manager = new Retrospective.Domain.MeetingManager (logger,  fixture.Database);
 
             List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
             Assert.Equal (meetings[0].TeamId, fixture.TeamId.ToString ());
@@ -32,7 +27,7 @@ namespace Retrospective.Domain.Test {
         [Fact]
         public void GetMeetingsForTeamFail_NotMember () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
+            var manager = new Retrospective.Domain.MeetingManager (logger,  fixture.Database);
 
             Assert.Throws<Exception.AccessDenied> (
                 () => {
@@ -45,7 +40,7 @@ namespace Retrospective.Domain.Test {
         [Fact]
         public void GetMeeting () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
+            var manager = new Retrospective.Domain.MeetingManager (logger,  fixture.Database);
 
             List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 
@@ -57,7 +52,7 @@ namespace Retrospective.Domain.Test {
         [Fact]
         public void GetMeetingFail_NotMember () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
+            var manager = new Retrospective.Domain.MeetingManager (logger,  fixture.Database);
 
             List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 
@@ -70,7 +65,7 @@ namespace Retrospective.Domain.Test {
         [Fact]
         public void SaveMeeting_NewMeeting () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
+            var manager = new Retrospective.Domain.MeetingManager (logger,  fixture.Database);
 
             var newMeeting = new Model.Meeting ();
             newMeeting.TeamId = fixture.TeamId.ToString ();
@@ -85,7 +80,7 @@ namespace Retrospective.Domain.Test {
         [Fact]
         public void SaveMeeting_ExistingMeeting () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
+            var manager = new Retrospective.Domain.MeetingManager (logger,  fixture.Database);
 
             List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 
@@ -103,7 +98,7 @@ namespace Retrospective.Domain.Test {
         [Fact]
         public void SaveMeeting_NewMeetingFail_NotOwner () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
+            var manager = new Retrospective.Domain.MeetingManager (logger,  fixture.Database);
 
             var newMeeting = new Model.Meeting ();
             newMeeting.TeamId = fixture.TeamId.ToString ();
@@ -120,7 +115,7 @@ namespace Retrospective.Domain.Test {
         [Fact]
         public void SaveMeeting_ExistingMeetingFail_NotOwner () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
+            var manager = new Retrospective.Domain.MeetingManager (logger,  fixture.Database);
 
             List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 
@@ -134,7 +129,7 @@ namespace Retrospective.Domain.Test {
         [Fact]
         public void SaveMeeting_ExistingMeetingFail_ChangeTeam () {
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
-            var manager = new Retrospective.Domain.MeetingManager (logger, mapper, fixture.Database);
+            var manager = new Retrospective.Domain.MeetingManager (logger,  fixture.Database);
 
             List<Retrospective.Domain.Model.Meeting> meetings = manager.GetMeetingsForTeam (fixture.SampleUser.Id.ToString(), fixture.TeamId.ToString ());
 

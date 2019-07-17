@@ -1,25 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
-using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
 using DBModel = Retrospective.Data.Model;
 using DomainModel = Retrospective.Domain.Model;
+using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 using Retrospective.Data;
+using Retrospective.Domain.ModelExtensions;
 
 namespace Retrospective.Domain
 {
   public class CommentManager : BaseManager
   {
     private readonly ILogger<CommentManager> logger;
-    private readonly IMapper mapper;
     private readonly IDatabase database;
 
-    public CommentManager(ILogger<CommentManager> logger, IMapper mapper, IDatabase database) : base(logger, mapper, database)
+    public CommentManager(ILogger<CommentManager> logger, IDatabase database) : base(logger,  database)
     {
       this.logger = logger;
-      this.mapper = mapper;
       this.database = database;
     }
 
@@ -32,7 +30,7 @@ namespace Retrospective.Domain
         throw new Exception.AccessDenied();
       }
 
-      return mapper.Map<List<DBModel.Comment>, List<DomainModel.Comment>>(database.Comments.GetComments(meetingId));
+      return database.Comments.GetComments(meetingId).Select(c => c.ToDomainModel()).ToList();
     }
 
     public List<DomainModel.Category> GetCategories(string activeUser, string meetingId)
@@ -70,11 +68,11 @@ namespace Retrospective.Domain
         throw new Exception.AccessDenied();
       }
 
-      return mapper.Map<DBModel.Comment, DomainModel.Comment>(
-          database.Comments.SaveComment(
-              mapper.Map<DomainModel.Comment, DBModel.Comment>(comment)
-          )
-      );
+      comment.LastUpdateUserId= activeUser;
+      comment.LastUpdateDate=DateTime.UtcNow;
+
+      return database.Comments.SaveComment(comment.ToDBModel()).ToDomainModel();
+      
     }
 
     public DomainModel.Comment UpdateCommentText(
@@ -107,10 +105,7 @@ namespace Retrospective.Domain
         existingComment.CategoryNumber = comment.CategoryNumber;
       }
 
-      return mapper.Map<DBModel.Comment, DomainModel.Comment>(
-          database.Comments.SaveComment(
-             mapper.Map<DomainModel.Comment, DBModel.Comment>(existingComment))
-          );
+      return database.Comments.SaveComment(existingComment.ToDBModel()).ToDomainModel();
     }
 
 
@@ -139,10 +134,7 @@ namespace Retrospective.Domain
 
       logger.LogDebug("votes count {0}", comment.VotedUp.Count);
 
-      return mapper.Map<DBModel.Comment, DomainModel.Comment>(
-          database.Comments.SaveComment(
-          mapper.Map<DomainModel.Comment, DBModel.Comment>(comment)));
-
+      return database.Comments.SaveComment(comment.ToDBModel()).ToDomainModel();
     }
 
     public DomainModel.Comment VoteDown(string activeUserId, string commentId)
@@ -161,10 +153,7 @@ namespace Retrospective.Domain
         comment.VotedUp.Remove(activeUserId);
       }
 
-      return mapper.Map<DBModel.Comment, DomainModel.Comment>(
-          database.Comments.SaveComment(
-          mapper.Map<DomainModel.Comment, DBModel.Comment>(comment)));
-
+      return database.Comments.SaveComment(comment.ToDBModel()).ToDomainModel();
     }
   }
 }
