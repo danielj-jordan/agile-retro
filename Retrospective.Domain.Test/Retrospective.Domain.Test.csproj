@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Automapper" Version="7.0.1" />
+    <PackageReference Include="fluentassertions" Version="5.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Moq" Version="4.10.1" />
     <PackageReference Include="xunit" Version="2.3.1" />
@@ -18,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Retrospective.Domain\Retrospective.Domain.csproj" />
     <ProjectReference Include="..\Retrospective.Domain.Model\Retrospective.Domain.Model.csproj" />
+    <ProjectReference Include="..\Retrospective.Data.Model\Retrospective.Data.Model.csproj" />
   </ItemGroup>
 
 

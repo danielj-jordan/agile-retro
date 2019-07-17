@@ -1,27 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using MongoDB.Bson;
 
 using Microsoft.Extensions.Logging;
 using DBModel=Retrospective.Data.Model;
 using DomainModel=Retrospective.Domain.Model;
 using Retrospective.Data;
+using Retrospective.Domain.ModelExtensions;
 
 namespace Retrospective.Domain
 {
     public class MeetingManager:BaseManager
     {
          private readonly ILogger<MeetingManager>  _logger;
-        private readonly IMapper _mapper;
-        
         private readonly IDatabase database;
 
-        public MeetingManager(ILogger<MeetingManager> logger, IMapper mapper, IDatabase database)
-        :base(logger, mapper, database){
+        public MeetingManager(ILogger<MeetingManager> logger,  IDatabase database)
+        :base(logger, database){
             _logger=logger;
-            _mapper=mapper;
             this.database=database;
         }
 
@@ -36,7 +33,7 @@ namespace Retrospective.Domain
 
             _logger.LogDebug("looking for {0}", teamId);
             var meetings = database.Meetings.GetMeetings(teamId);
-            return (_mapper.Map<List<DBModel.Meeting>,List<DomainModel.Meeting> >(meetings)).ToList();
+            return meetings.Select(m => m.ToDomainModel()).ToList();
         }
 
 
@@ -50,8 +47,8 @@ namespace Retrospective.Domain
             {
                 throw new Exception.AccessDenied();
             }
-            
-            return (_mapper.Map<DBModel.Meeting,DomainModel.Meeting> (meeting));
+
+            return meeting.ToDomainModel();
         }
 
         public DomainModel.Meeting SaveMeeting(string activeUser, DomainModel.Meeting meeting)
@@ -82,9 +79,9 @@ namespace Retrospective.Domain
                 }
             }
 
-            DBModel.Meeting dbMeeting= _mapper.Map<DomainModel.Meeting, DBModel.Meeting>(meeting);
+            DBModel.Meeting dbMeeting= meeting.ToDBModel();
             var dbMeetingSaved = database.Meetings.Save(dbMeeting);
-            return _mapper.Map<DBModel.Meeting, DomainModel.Meeting>(dbMeetingSaved);
+            return dbMeetingSaved.ToDomainModel();
         
         }
         

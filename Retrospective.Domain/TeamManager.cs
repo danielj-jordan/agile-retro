@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using Microsoft.Extensions.Logging;
 using DomainModel = Retrospective.Domain.Model;
 using Retrospective.Data;
 using DBModel = Retrospective.Data.Model;
+using Retrospective.Domain.ModelExtensions;
 
 namespace Retrospective.Domain {
     public class TeamManager : BaseManager {
         private readonly ILogger<TeamManager> logger;
-        private readonly IMapper mapper;
         private readonly IDatabase database;
 
-        public TeamManager (ILogger<TeamManager> logger, IMapper mapper, IDatabase database) : base (logger, mapper, database) {
+        public TeamManager (ILogger<TeamManager> logger,  IDatabase database) : base (logger,  database) {
             this.logger = logger;
-            this.mapper = mapper;
             this.database = database;
         }
 
@@ -29,7 +27,7 @@ namespace Retrospective.Domain {
                 var user = this.database.Users.Get(teamMember.UserId);
                 teamUsers.Add(user);
             }
-            return mapper.Map<List<DBModel.User>, List<DomainModel.User>> (teamUsers);
+            return teamUsers.Select(u => u.ToDomainModel()).ToList<DomainModel.User>();
         }
 
         public List<DomainModel.Team> GetUserTeams (string activeUser, string userId) {
@@ -39,7 +37,7 @@ namespace Retrospective.Domain {
 
             logger.LogDebug("{0} possible teams for {1}", teams.Count, userId);
 
-            var domainTeams = mapper.Map<List<DBModel.Team>, List<DomainModel.Team>> (teams);
+            var domainTeams = teams.Select(t=> t.ToDomainModel()).ToList();
 
             foreach (var team in domainTeams) {
                 if (!IsTeamMember (activeUser, team))
@@ -61,7 +59,7 @@ namespace Retrospective.Domain {
 
             var dbteam = database.Teams.Get (teamId);
 
-            var team = mapper.Map<DBModel.Team, DomainModel.Team> (dbteam);
+            var team = dbteam.ToDomainModel();
 
             //confirm that this user is a member of the team
             if (!IsTeamMember (activeUser, team)) {
@@ -84,8 +82,8 @@ namespace Retrospective.Domain {
                 }
             } 
 
-            var dbTeamSaved = database.Teams.Save (mapper.Map<DomainModel.Team, DBModel.Team> (team));
-            return mapper.Map<DBModel.Team, DomainModel.Team> (dbTeamSaved);
+            var dbTeamSaved = database.Teams.Save (team.ToDBModel());
+            return dbTeamSaved.ToDomainModel();
         }
     }
 }
