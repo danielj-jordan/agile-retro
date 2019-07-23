@@ -14,7 +14,6 @@ using Microsoft.IdentityModel;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-using AutoMapper;
 using app.Model;
 using DomainModel = Retrospective.Domain.Model;
 using Retrospective.Domain;
@@ -27,14 +26,12 @@ namespace app.Controllers
   {
 
     private readonly ILogger<AuthController> logger;
-    private readonly IMapper mapper;
-    private readonly UserManager usermanager;
+   private readonly UserManager usermanager;
     private readonly IOptions<JWTTokenConfiguration> tokenConfig;
 
-    public AuthController(ILogger<AuthController> logger, IMapper mapper, UserManager usermanager, IOptions<JWTTokenConfiguration> tokenConfig)
+    public AuthController(ILogger<AuthController> logger, UserManager usermanager, IOptions<JWTTokenConfiguration> tokenConfig)
     {
       this.logger = logger;
-      this.mapper = mapper;
       this.usermanager = usermanager;
       this.tokenConfig = tokenConfig;
     }

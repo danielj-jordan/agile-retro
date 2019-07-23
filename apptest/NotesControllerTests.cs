@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 using Moq;
-using AutoMapper;
 using app.Domain;
 using Retrospective.Data.Model;
 using MongoDB.Bson;
@@ -18,21 +17,19 @@ namespace apptest
     [Collection ("Controller Test collection")]
     public class NotesControllerTest
     {
-        AutoMapper.Mapper mapper= null;
         TestFixture fixture;
 
         Retrospective.Domain.CommentManager manager;
+         Retrospective.Domain.MeetingManager meetingManager;
         
         public NotesControllerTest(TestFixture fixture)
         {
             this.fixture=fixture;
-            var config = new MapperConfiguration(c =>
-            {
-                c.AddProfile<app.Domain.DomainProfile>();
-            });
-            mapper= new Mapper(config);
+
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.CommentManager> ();
             manager= new Retrospective.Domain.CommentManager(logger, fixture.Database);
+            this.meetingManager= new Retrospective.Domain.MeetingManager(
+                new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager>(), fixture.Database);
         }
 
     private void MockHttpContextValid(app.Controllers.NotesController controller, User user)
@@ -53,7 +50,7 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            var controller = new app.Controllers.NotesController(logger,  manager, meetingManager);
             MockHttpContextValid(controller, fixture.Owner);
 
             var notes = controller.Notes(fixture.MeetingId.ToString());
@@ -73,7 +70,7 @@ namespace apptest
             var mock = new Mock<ILogger<app.Controllers.NotesController>>();
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            var controller = new app.Controllers.NotesController(logger,  manager, meetingManager);
             MockHttpContextValid(controller, fixture.Owner);
 
             var categories = controller.Categories(fixture.MeetingId.ToString());
@@ -94,7 +91,7 @@ namespace apptest
             var mock = new Mock<ILogger<app.Controllers.NotesController>>();
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            var controller = new app.Controllers.NotesController(logger,  manager, meetingManager);
             MockHttpContextValid(controller, fixture.Owner);
 
             var beginCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
@@ -115,7 +112,7 @@ namespace apptest
             var mock = new Mock<ILogger<app.Controllers.NotesController>>();
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            var controller = new app.Controllers.NotesController(logger,  manager, meetingManager);
             MockHttpContextValid(controller,fixture.Owner);
 
             var beginCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;
@@ -144,7 +141,7 @@ namespace apptest
             var mock = new Mock<ILogger<app.Controllers.NotesController>>();
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
 
-            var controller = new app.Controllers.NotesController(logger, mapper, manager);
+            var controller = new app.Controllers.NotesController(logger,  manager, meetingManager);
             MockHttpContextValid(controller, fixture.Owner);
 
             var beginCount= fixture.Database.Comments.GetComments(fixture.MeetingId.ToString()).Count;

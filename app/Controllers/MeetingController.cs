@@ -8,11 +8,11 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
 
 using app.Model;
 using Retrospective.Domain;
 using DomainModel=Retrospective.Domain.Model;
+using app.ModelExtensions;
 
 namespace app.Controllers
 {
@@ -20,14 +20,12 @@ namespace app.Controllers
     public class MeetingController: Controller
     {
         private readonly ILogger<MeetingController>  _logger;
-        private readonly IMapper _mapper;
         private readonly MeetingManager manager;
 
-        public MeetingController(ILogger<MeetingController> logger, IMapper mapper,
+        public MeetingController(ILogger<MeetingController> logger, 
              MeetingManager manager)
         {
             _logger=logger;
-            _mapper=mapper;
             this.manager=manager;
         }
         
@@ -50,7 +48,7 @@ namespace app.Controllers
             }
 
             var meetings= manager.GetMeetingsForTeam(GetActiveUserId(), id);  
-            return (_mapper.Map<List<DomainModel.Meeting>,List<app.Model.Meeting> >(meetings)).ToList();
+            return meetings.Select(m => m.ToViewModel()).ToList();
 
         }
 
@@ -69,8 +67,7 @@ namespace app.Controllers
             }
 
             var meeting = manager.GetMeeting(GetActiveUserId(), id);
-            return (_mapper.Map<DomainModel.Meeting,app.Model.Meeting> (meeting));
-
+            return meeting.ToViewModel();
         }
 
 
@@ -90,10 +87,9 @@ namespace app.Controllers
             }
 
             _logger.LogDebug($"saving meeting id: {meeting.Id}");
-            var saved = manager.SaveMeeting(GetActiveUserId(),_mapper.Map<app.Model.Meeting, DomainModel.Meeting>(meeting));
+            var saved = manager.SaveMeeting(GetActiveUserId(),meeting.ToDomainModel());
             
-            
-            return (_mapper.Map<DomainModel.Meeting,app.Model.Meeting> (saved));
+            return saved.ToViewModel();
 
         }
 

@@ -20,7 +20,6 @@ namespace apptest
     public class MeetingControllerTest
     {
         
-        AutoMapper.Mapper mapper= null;
         TestFixture fixture;
 
         Retrospective.Domain.MeetingManager manager;
@@ -29,12 +28,6 @@ namespace apptest
         {
             this.fixture=fixture;
 
-            var config = new MapperConfiguration(c =>
-            {
-                c.AddProfile<app.Domain.DomainProfile>();
-            });
-
-            mapper= new Mapper(config);
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<Retrospective.Domain.MeetingManager> ();
             manager= new Retrospective.Domain.MeetingManager(logger, fixture.Database);
@@ -62,7 +55,7 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
-            var controller = new app.Controllers.MeetingController (logger, mapper, 
+            var controller = new app.Controllers.MeetingController (logger,  
                 manager);
 
             MockHttpContextValid(controller, fixture.Owner);
@@ -80,7 +73,7 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
-            var controller = new app.Controllers.MeetingController (logger, mapper, 
+            var controller = new app.Controllers.MeetingController (logger,  
                             manager);
 
             MockHttpContextValid(controller, fixture.Owner);
@@ -97,7 +90,7 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
-            var controller = new app.Controllers.MeetingController (logger, mapper, manager);
+            var controller = new app.Controllers.MeetingController (logger,  manager);
             MockHttpContextValid(controller, fixture.Owner);
 
             app.Model.Meeting meeting = new app.Model.Meeting();
@@ -119,7 +112,7 @@ namespace apptest
 
             var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.MeetingController> ();
 
-            var controller = new app.Controllers.MeetingController (logger, mapper,  manager);
+            var controller = new app.Controllers.MeetingController (logger,   manager);
              MockHttpContextValid(controller, fixture.Owner);
 
             var meetingStart = controller.Meeting(fixture.MeetingId.ToString());
