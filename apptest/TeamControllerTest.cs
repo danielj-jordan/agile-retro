@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using app.Domain;
-using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -12,6 +11,7 @@ using Retrospective.Data.Model;
 using Retrospective.Domain;
 using Xunit;
 using Retrospective.Domain.ModelExtensions;
+using app.ModelExtensions;
 
 namespace apptest
 {
@@ -20,7 +20,6 @@ namespace apptest
   public class TeamControllerTest
   {
 
-    AutoMapper.Mapper mapper = null;
     TestFixture fixture;
 
     TeamManager teamManager;
@@ -28,12 +27,7 @@ namespace apptest
     public TeamControllerTest(TestFixture fixture)
     {
       this.fixture = fixture;
-      var config = new MapperConfiguration(c =>
-      {
-        c.AddProfile<app.Domain.DomainProfile>();
-      });
-
-      mapper = new Mapper(config);
+     
 
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<TeamManager>();
 
@@ -60,7 +54,7 @@ namespace apptest
 
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController>();
 
-      var controller = new app.Controllers.TeamController(logger, mapper, teamManager);
+      var controller = new app.Controllers.TeamController(logger,  teamManager);
 
       MockHttpContextValid(controller, fixture.Owner);
 
@@ -75,7 +69,7 @@ namespace apptest
     {
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController>();
 
-      var controller = new app.Controllers.TeamController(logger, mapper, teamManager);
+      var controller = new app.Controllers.TeamController(logger,  teamManager);
 
       MockHttpContextValid(controller, fixture.Owner);
       var teams = controller.Teams();
@@ -90,7 +84,7 @@ namespace apptest
 
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController>();
 
-      var controller = new app.Controllers.TeamController(logger, mapper, teamManager);
+      var controller = new app.Controllers.TeamController(logger,  teamManager);
 
       app.Model.Team team = new app.Model.Team();
       team.Name = "test team";
@@ -108,11 +102,11 @@ namespace apptest
 
       var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.TeamController>();
 
-      var controller = new app.Controllers.TeamController(logger, mapper, teamManager);
+      var controller = new app.Controllers.TeamController(logger,  teamManager);
 
       MockHttpContextValid(controller, fixture.Owner);
 
-      var teamStart = mapper.DefaultContext.Mapper.Map<Retrospective.Domain.Model.Team, app.Model.Team>(fixture.TestTeam.ToDomainModel());
+      var teamStart = fixture.TestTeam.ToDomainModel().ToViewModel();
 
       teamStart.Name += " more";
 

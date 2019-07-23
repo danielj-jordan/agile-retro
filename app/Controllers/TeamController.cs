@@ -7,11 +7,11 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-using AutoMapper;
 using MongoDB.Bson;
 using app.Model;
 using DomainModel = Retrospective.Domain.Model;
 using Retrospective.Domain;
+using app.ModelExtensions;
 
 namespace app.Controllers
 {
@@ -21,14 +21,12 @@ namespace app.Controllers
   {
 
     private readonly ILogger<TeamController> _logger;
-    private readonly IMapper _mapper;
     private readonly TeamManager teamManager;
 
 
-    public TeamController(ILogger<TeamController> logger, IMapper mapper, TeamManager teamManager)
+    public TeamController(ILogger<TeamController> logger, TeamManager teamManager)
     {
       _logger = logger;
-      _mapper = mapper;
       this.teamManager = teamManager;
     }
 
@@ -54,8 +52,7 @@ namespace app.Controllers
       var teamMembers = teamManager.GetTeamMembers(GetActiveUserId(), teamId);
 
       // _logger.LogDebug("db returning {0} team members", team.TeamMembers.);
-
-      var users = _mapper.Map<List<DomainModel.User>, List<app.Model.User>>(teamMembers);
+      var users = teamMembers.Select(m => m.ToViewModel()).ToList();
 
       return (IEnumerable<User>)users;
 
@@ -75,7 +72,7 @@ namespace app.Controllers
       {
         _logger.LogInformation("There are no teams for user {0}", GetActiveUserId());
       }
-      return (_mapper.Map<List<DomainModel.Team>, List<app.Model.Team>>(teams)).ToList();
+      return teams.Select(t => t.ToViewModel()).ToList();
 
     }
 
@@ -96,7 +93,7 @@ namespace app.Controllers
 
       var team = teamManager.GetTeam(GetActiveUserId(), id);
 
-      return (_mapper.Map<DomainModel.Team, app.Model.Team>(team));
+      return team.ToViewModel();
 
     }
 
@@ -113,9 +110,9 @@ namespace app.Controllers
 
       var user = HttpContext.User.ToString();
 
-      var saved = teamManager.SaveTeam(GetActiveUserId(), _mapper.Map<app.Model.Team, DomainModel.Team>(team));
+      var saved = teamManager.SaveTeam(GetActiveUserId(),team.ToDomainModel());
 
-      return (_mapper.Map<DomainModel.Team, app.Model.Team>(saved));
+      return saved.ToViewModel();
 
     }
 
