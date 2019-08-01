@@ -45,17 +45,10 @@ namespace app.Controllers
     [HttpGet("[action]")]
     public IEnumerable<User> TeamMembers(string teamId)
     {
-
-      _logger.LogDebug("active user " + HttpContext.User.ToString());
-
-
       var teamMembers = teamManager.GetTeamMembers(GetActiveUserId(), teamId);
 
-      // _logger.LogDebug("db returning {0} team members", team.TeamMembers.);
       var users = teamMembers.Select(m => m.ToViewModel()).ToList();
-
       return (IEnumerable<User>)users;
-
     }
 
     /// <summary>
@@ -91,10 +84,23 @@ namespace app.Controllers
         return new BadRequestResult();
       }
 
-      var team = teamManager.GetTeam(GetActiveUserId(), id);
+      var team = teamManager.GetTeam(GetActiveUserId(), id).ToViewModel();
 
-      return team.ToViewModel();
+      //append usernames
+      var users= teamManager.GetTeamMembers(this.GetActiveUserId(),id);
 
+      if(team.Members!=null)
+      {
+        foreach(var member in team.Members)
+        {
+          var user = users.Where(u => u.UserId==member.UserId).First();
+          if(user!=null)
+          {
+          member.UserName=user.Name;
+          }
+        }
+      }
+      return team;
     }
 
 
@@ -107,16 +113,56 @@ namespace app.Controllers
     [HttpPost("[action]")]
     public ActionResult<Team> Team([FromBody] Team team)
     {
-
-      var user = HttpContext.User.ToString();
-
-      var saved = teamManager.SaveTeam(GetActiveUserId(),team.ToDomainModel());
-
+      var saved = teamManager.SaveTeam(this.GetActiveUserId(),team.ToDomainModel());
       return saved.ToViewModel();
-
     }
 
+     /// <summary>
+    /// adds an invitation to the team
+    /// </summary>
+    /// <param name="invitation"></param>
+    /// <returns></returns>
+    [Authorize]
+    [HttpPost("[action]/{id}")]
+    public ActionResult<Team> Invite(string id, [FromBody] Invitation invitation)
+    {
+    
+      invitation.InviteDate=DateTime.UtcNow;
+      var startTeam = teamManager.GetTeam(this.GetActiveUserId(),id);
 
+      var invites = startTeam.Invited?.ToList();
+      if(invites==null)
+      {
+        invites = new List<DomainModel.Invitation>();
+      }
+      invites.Add(invitation.ToDomainModel());
 
+      startTeam.Invited= invites.ToArray();
+      var saved = teamManager.SaveTeam(GetActiveUserId(),startTeam);
+      return saved.ToViewModel();
+    }
+
+         /// <summary>
+    /// adds an invitation to the team
+    /// </summary>
+    /// <param name="invitation"></param>
+    /// <returns></returns>
+    [Authorize]
+    [HttpPost("[action]/{id}")]
+    public ActionResult<Team> Uninvite(string id, [FromBody] Invitation invite)
+    {
+      var startTeam = teamManager.GetTeam(this.GetActiveUserId(),id);
+
+      var invites = startTeam.Invited?.ToList();
+      if(invites==null)
+      {
+        invites = new List<DomainModel.Invitation>();
+      }
+      invites.RemoveAll(i => i.Email==invite.Email );
+
+      startTeam.Invited= invites.ToArray();
+      var saved = teamManager.SaveTeam(GetActiveUserId(),startTeam);
+      return saved.ToViewModel();
+    }
   }
 }
