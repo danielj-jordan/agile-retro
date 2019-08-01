@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NotesService } from '../../services/notes.service';
 import { Team } from '../../models/team';
 import { TeamMember } from '../../models/teammember';
+import { Invitation } from '../../models/invitation';
+
 
 @Component({
   selector: 'app-teamedit',
@@ -11,8 +13,9 @@ import { TeamMember } from '../../models/teammember';
 })
 export class TeamEditComponent implements OnInit {
   team: Team;
-  newUser: string;
-  newRole: string;
+  newUserName: string;
+  newUserRole: string;
+  newUserEmail: string;
 
   constructor(    
     private route: ActivatedRoute,
@@ -22,8 +25,9 @@ export class TeamEditComponent implements OnInit {
   ngOnInit() {
     this.team = new Team();
     this.team.name = '';
-    this.newRole="member";
-    this.newUser="";
+    this.newUserRole="Member";
+    this.newUserName="";
+    this.newUserEmail="";
 
 
     // get the teamid id
@@ -40,19 +44,27 @@ export class TeamEditComponent implements OnInit {
     );
   }
 
-  addPerson(): void{
-    
-    console.log('addPerson' + this.newRole);
+  addInvite(): void {
+    var invite = new Invitation();
+    invite.email=this.newUserEmail;
+    invite.role=this.newUserRole;
+    invite.name=this.newUserName;
 
-    var newTeamMember= new TeamMember();
-    newTeamMember.role=this.newRole;
-    newTeamMember.userName=this.newUser;
+    this.notesService.addInvite(this.team.teamId, invite).subscribe(
+      data => {
+        this.team=data;
+      });
+  }
 
-    this.team.members.push(newTeamMember);
+  removeInvite(email: string):void{
+    console.log("removing: " + email);
+    var invite = new Invitation();
+    invite.email=email;
 
-    this.newRole="member";
-    this.newUser="";
-
+    this.notesService.removeInvite(this.team.teamId, invite).subscribe(
+      data => {
+        this.team=data;
+      });
   }
 
   navigateToList(): void {
@@ -68,11 +80,11 @@ export class TeamEditComponent implements OnInit {
 
   getDisplayStringForRole(role: string):string{
 
-    if(role=="manager"){
-      return "Team Owner/Manager/Scrum Master";
+    if(role=="Owner"){
+      return "Team Owner/Scrum Master";
     }
 
-    if(role=="stakeholder"){
+    if(role=="Stakeholder"){
       return "Team Stakeholder";
     }
 
