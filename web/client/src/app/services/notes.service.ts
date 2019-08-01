@@ -10,6 +10,7 @@ import {LocalstorageService} from './localstorage.service';
 import { Options } from 'selenium-webdriver/edge';
 import { UserToken } from '../models/usertoken';
 import {environment} from '../../environments/environment';
+import { Invitation } from '../models/invitation';
 
 @Injectable()
 export class NotesService {
@@ -183,5 +184,21 @@ export class NotesService {
           return ;
     }
 
+    addInvite(teamId: string, invitation: Invitation): Observable<Team>{
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};   
+       
+        return this.http.post<Team>(this.baseUrl + '/team/invite/'+ teamId,invitation,
+          options);
+    }
 
+    removeInvite(teamId: string, invite: Invitation): Observable<Team>{
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};   
+       
+        return this.http.post<Team>(this.baseUrl + '/team/uninvite/'+ teamId,invite,
+          options);
+    }
 }
