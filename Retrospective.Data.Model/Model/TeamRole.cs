@@ -4,6 +4,7 @@ namespace Retrospective.Data.Model
     {
         Stakeholder, 
         Member,
+        ScrumMaster, 
         Owner
     }
 }

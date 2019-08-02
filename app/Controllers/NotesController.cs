@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 
-using AutoMapper;
 using DomainModel = Retrospective.Domain.Model;
 using app.Model;
 using Retrospective.Domain;
@@ -20,15 +19,15 @@ namespace app.Controllers {
     [ApiController]
     public class NotesController : Controller {
         private readonly ILogger _logger;
-        private readonly IMapper _mapper;
 
        private readonly CommentManager manager;
+       private readonly MeetingManager meetingManager;
 
         public NotesController (ILogger<NotesController> logger,
-            IMapper mapper, CommentManager manager) {
+            CommentManager manager, MeetingManager meetingManager) {
             _logger = logger;
-            _mapper = mapper;
             this.manager = manager;
+            this.meetingManager=meetingManager;
 
         }
 
@@ -44,7 +43,7 @@ namespace app.Controllers {
 
 
             var comments = manager.GetComments(this.GetActiveUserId(), retroId).Select(
-                c => c.ToViewModelComment(this.GetActiveUserId())
+                c => c.ToViewModel(this.GetActiveUserId())
             ).ToList();
 
             //var comments = _mapper.Map<List<DomainModel.Comment>, List<app.Model.Comment>> (manager.GetComments (this.GetActiveUser(),retroId));
@@ -61,7 +60,10 @@ namespace app.Controllers {
         public IEnumerable<Category> Categories (string retroId) {
             var categories = manager.GetCategories (this.GetActiveUserId(), retroId);
              _logger.LogDebug ("returning {0} categories", categories.Count);
-            return _mapper.Map<List<DomainModel.Category>, List<app.Model.Category>> (categories);
+             
+            var meeting = meetingManager.GetMeeting(this.GetActiveUserId(), retroId);
+            return meeting.ToViewModel().Categories;
+            //return _mapper.Map<List<DomainModel.Category>, List<app.Model.Category>> (categories);
 
         }
 
@@ -79,8 +81,7 @@ namespace app.Controllers {
 
             _logger.LogDebug ("text:{0}", newNote.Text);
 
-            return comment.ToViewModelComment(this.GetActiveUserId());
-            //return _mapper.Map<DomainModel.Comment, app.Model.Comment>(comment);
+            return comment.ToViewModel(this.GetActiveUserId());
         }
 
         [Authorize]
@@ -107,7 +108,7 @@ namespace app.Controllers {
 
             _logger.LogDebug ("text:{0}", newNote.Text);
 
-            return comment.ToViewModelComment(this.GetActiveUserId());
+            return comment.ToViewModel(this.GetActiveUserId());
         }
 
         [Authorize]
