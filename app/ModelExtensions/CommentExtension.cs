@@ -5,7 +5,7 @@ namespace app.ModelExtensions
 {
   public static class CommentExtension
   {
-    public static app.Model.Comment ToViewModelComment(
+    public static app.Model.Comment ToViewModel(
          this Retrospective.Domain.Model.Comment comment,
          string activeUser)
     {
@@ -22,7 +22,7 @@ namespace app.ModelExtensions
       return viewModelComment;
     }
 
-    public static Retrospective.Domain.Model.Comment ToDomainComment(
+    public static Retrospective.Domain.Model.Comment ToDomainModel(
         this app.Model.Comment comment)
     {
       var domainComment = new Retrospective.Domain.Model.Comment
