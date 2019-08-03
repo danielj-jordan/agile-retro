@@ -11,5 +11,7 @@ dotnet test $PROJECT/apptest/apptest.csproj
 echo '******'
 echo 'testing the UI'
 cd $PROJECT/web/client
-ng test --watch=false
+ng test --watch=false --codeCoverage=true --code-coverage=true
+$PROJECT/scripts/localdev/container/code-coverage
+
 

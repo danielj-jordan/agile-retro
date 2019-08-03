@@ -67,5 +67,8 @@
 /web/root/vendor/**
 /web/root/node_modules/**
 
+coverage.info
+coverage.json
+
 
 
