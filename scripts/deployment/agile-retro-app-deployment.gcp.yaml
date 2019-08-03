@@ -42,8 +42,8 @@ spec:
           - name: DB_CONNECTIONSTRING
             valueFrom:
               secretKeyRef:
-                name: db-connectionstring
+                name:  db-connectionstring
                 key: connection.txt
           - name: DB_NAME
-            value: e2e_test
+            value: agile-retro-prod
 
