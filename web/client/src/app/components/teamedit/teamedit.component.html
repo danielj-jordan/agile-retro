@@ -31,7 +31,7 @@
             </td>
             <td>{{teamMember.startDate | date: "mediumDate"}}</td>
             <td></td>
-            <td><button class="btn">
+            <td><button class="btn" *ngIf="teamMember.role!='Owner'">
                 <i-delete class="color-secondary"></i-delete>
               </button></td>
           </tr>

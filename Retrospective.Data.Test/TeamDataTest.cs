@@ -11,10 +11,7 @@ namespace Retrospective.Data.Test
     [Collection("Database collection")]
     public class TeamDataTest
     {
-   
         private TestFixture fixture;
-        
-        
         
         public TeamDataTest(TestFixture fixture)
         {
@@ -52,7 +49,6 @@ namespace Retrospective.Data.Test
 
             Assert.True(begin==(ObjectId)fixture.team.Id);
             Assert.Contains(" more", fixture.team.Name);
-
         }
         
 
@@ -70,8 +66,6 @@ namespace Retrospective.Data.Test
             DataTeam teamData = new DataTeam(fixture.database);
             List<Team> foundbyEmail =teamData.GetUserTeams((ObjectId)fixture.owner.Id);
             Assert.True(foundbyEmail.Count>0, "user should be a member on at least one team");
-
         }
-
     }   
 }

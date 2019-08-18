@@ -53,8 +53,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.storage.userToken = data.token;
 
         // save to local storage
-        this.storage.user = this.model;
+        let activeUser = new User();
+        activeUser.userId=data.userId;
+        activeUser.isDemoUser=data.isDemoUser;
 
+        this.storage.user = activeUser;
+        
         // redirect to teams retrospectivelist page
         this.router.navigateByUrl('/retrospective/list');
       });
