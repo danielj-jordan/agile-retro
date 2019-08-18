@@ -1,7 +1,7 @@
 using AutoMapper;
 using Xunit;
 
-namespace Retrospective.Domain.Test.obj
+namespace Retrospective.Domain.Test
 {
     [Collection ("Domain Test collection")]
     public class UserManagerTests
@@ -10,8 +10,6 @@ namespace Retrospective.Domain.Test.obj
 
         public UserManagerTests (TestFixture fixture) {
             this.fixture = fixture;
-
-
         }
 
         [Fact]

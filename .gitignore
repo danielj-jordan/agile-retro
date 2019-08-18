@@ -2,6 +2,8 @@
 *.dll
 *.pdb
 *.cache
+*.g.props
+*.g.targets
 
 #data directories
 /data/**
@@ -42,10 +44,11 @@
 /tools/testdata/bin/**
 /tools/testdata/obj/**
 
+/tools/dempdata/bin/**
+/tools/demodata/obj/**
+
 
 /obj/
-
-
 /app/.vscode/*
 
 /client/node_modules/**
@@ -67,8 +70,9 @@
 /web/root/vendor/**
 /web/root/node_modules/**
 
-coverage.info
-coverage.json
+/coverage/**
+
+
 
 
 

@@ -164,5 +164,41 @@ namespace app.Controllers
       var saved = teamManager.SaveTeam(GetActiveUserId(),startTeam);
       return saved.ToViewModel();
     }
+
+    [Authorize]
+    [HttpGet ("[action]")]
+    public ActionResult<List<Team>> MyInvitations()
+    {
+      var activeUserId = this.GetActiveUserId();
+      var user =   this.teamManager.GetUser(activeUserId);
+
+
+      var invitations = this.teamManager.GetUserInvitedTeams(activeUserId, user.Email);
+
+      return invitations.Select(i=>i.ToViewModel()).ToList();
+       
+    }
+
+    [Authorize]
+    [HttpPost ("[action]/{teamId}")]
+    public ActionResult<Team> AcceptInvitation(string teamId)
+    {
+      var activeUserId = this.GetActiveUserId();
+      var user =   this.teamManager.GetUser(activeUserId);
+
+      var team = this.teamManager.AcceptInvitation(activeUserId, teamId, user.Email);
+      return team.ToViewModel();
+    }
+
+    [Authorize]
+    [HttpPost ("[action]")]
+    public ActionResult<Team> CreateTeam()
+    {
+      var activeUserId = this.GetActiveUserId();
+      var user =   this.teamManager.GetUser(activeUserId);
+
+      var team = this.teamManager.NewTeam(activeUserId);
+      return team.ToViewModel();
+    }
   }
 }
