@@ -1,12 +1,12 @@
 #! /bin/sh
 
-$HOME/.dotnet/tools/coverlet --output "coverage.json"  $PROJECT/Retrospective.Data.Test/bin/debug/netcoreapp2.2/Retrospective.Data.Test.dll --target "dotnet" --targetargs "test $PROJECT/Retrospective.Data.Test/Retrospective.Data.Test.csproj --no-build"
-$HOME/.dotnet/tools/coverlet --merge-with "coverage.json"  $PROJECT/Retrospective.Domain.Test/bin/debug/netcoreapp2.2/Retrospective.Domain.Test.dll --target "dotnet" --targetargs "test $PROJECT/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj --no-build"
-$HOME/.dotnet/tools/coverlet --merge-with "coverage.json"  $PROJECT/apptest/bin/debug/netcoreapp2.2/apptest.dll --target "dotnet" --targetargs "test $PROJECT/apptest/apptest.csproj --no-build"
+$HOME/.dotnet/tools/coverlet --output "$PROJECT/coverage/coverage.json"  $PROJECT/Retrospective.Data.Test/bin/debug/netcoreapp2.2/Retrospective.Data.Test.dll --target "dotnet" --targetargs "test $PROJECT/Retrospective.Data.Test/Retrospective.Data.Test.csproj --no-build"
+$HOME/.dotnet/tools/coverlet --merge-with "$PROJECT/coverage/coverage.json" --output "$PROJECT/coverage/coverage.json" $PROJECT/Retrospective.Domain.Test/bin/debug/netcoreapp2.2/Retrospective.Domain.Test.dll --target "dotnet" --targetargs "test $PROJECT/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj --no-build"
+$HOME/.dotnet/tools/coverlet --merge-with "$PROJECT/coverage/coverage.json" --output "$PROJECT/coverage/coverage.json" $PROJECT/apptest/bin/debug/netcoreapp2.2/apptest.dll --target "dotnet" --targetargs "test $PROJECT/apptest/apptest.csproj --no-build"
 
-$HOME/.dotnet/tools/coverlet --format lcov $PROJECT/Retrospective.Data.Test/bin/debug/netcoreapp2.2/Retrospective.Data.Test.dll --target "dotnet" --targetargs "test $PROJECT/Retrospective.Data.Test/Retrospective.Data.Test.csproj --no-build"
-$HOME/.dotnet/tools/coverlet --format lcov $PROJECT/Retrospective.Domain.Test/bin/debug/netcoreapp2.2/Retrospective.Domain.Test.dll --target "dotnet" --targetargs "test $PROJECT/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj --no-build"
-$HOME/.dotnet/tools/coverlet --format lcov $PROJECT/apptest/bin/debug/netcoreapp2.2/apptest.dll --target "dotnet" --targetargs "test $PROJECT/apptest/apptest.csproj --no-build"
+$HOME/.dotnet/tools/coverlet --format lcov --output "$PROJECT/coverage/data.coverage.info"  $PROJECT/Retrospective.Data.Test/bin/debug/netcoreapp2.2/Retrospective.Data.Test.dll --target "dotnet" --targetargs "test $PROJECT/Retrospective.Data.Test/Retrospective.Data.Test.csproj --no-build"
+$HOME/.dotnet/tools/coverlet --format lcov --output "$PROJECT/coverage/domain.coverage.info" $PROJECT/Retrospective.Domain.Test/bin/debug/netcoreapp2.2/Retrospective.Domain.Test.dll --target "dotnet" --targetargs "test $PROJECT/Retrospective.Domain.Test/Retrospective.Domain.Test.csproj --no-build"
+$HOME/.dotnet/tools/coverlet --format lcov --output "$PROJECT/coverage/app.coverage.info"  $PROJECT/apptest/bin/debug/netcoreapp2.2/apptest.dll --target "dotnet" --targetargs "test $PROJECT/apptest/apptest.csproj --no-build"
 echo "********************************************************************"
 echo "remember to enable the watch in VS Code to see code coverage gutters"
 echo "********************************************************************"

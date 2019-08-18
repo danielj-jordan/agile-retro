@@ -201,4 +201,31 @@ export class NotesService {
         return this.http.post<Team>(this.baseUrl + '/team/uninvite/'+ teamId,invite,
           options);
     }
+
+    getMyInvitations(): Observable<Team[]>{
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};
+
+        console.log(options);
+        return this.http.get<Team[]>(this.baseUrl + '/team/myinvitations/' , options);
+    }
+
+    acceptnvitations(teamId: string): Observable<Team[]>{
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};
+
+        console.log(options);
+        return this.http.post<Team[]>(this.baseUrl + '/team/acceptinvitation/' + teamId, null, options);
+    }
+
+    createTeam(): Observable<Team[]>{
+        var headers= new HttpHeaders();
+        headers= this.addAuthHeader(headers);
+        var options = { headers : headers};
+
+        console.log(options);
+        return this.http.post<Team[]>(this.baseUrl + '/team/createteam' ,null, options);
+    }
 }

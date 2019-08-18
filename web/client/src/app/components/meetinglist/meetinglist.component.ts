@@ -4,6 +4,7 @@ import { NotesService } from '../../services/notes.service';
 import { LocalstorageService } from '../../services/localstorage.service';
 import { User } from '../../models/user';
 import { Team } from '../../models/team';
+import { strictEqual } from 'assert';
 
 
 @Component({
@@ -20,17 +21,69 @@ export class MeetingListComponent implements OnInit {
   }
 
   public teams: Team[];
-
+  public inviteTeams : Team[];
 
   ngOnInit() {
+    this.getTeamData();
+    this.getInviteData();
+  }
+
+  createTeam(): void {
+    this.noteService.createTeam().subscribe(
+      data => {
+        this.getTeamData();
+      });
+  }
+
+  inviteCount(): number{
+    if(this.inviteTeams==undefined)return 0;
+    return this.inviteTeams.length;
+  }
+
+  ownedTeamCount(): number {
+
+    if(this.storage.user==null ||
+      this.teams == undefined)
+    {
+      return 0;
+    }
+    let activeUserId = this.storage.user.userId;
+    let count = 0;
+    for (let team of this.teams) {
+      if (team.members != null) {
+        for (let member of team.members) {
+          if (member.userId != null &&
+            member.userId == activeUserId &&
+            member.role == 'Owner') {
+            count++;
+          }
+        }
+      }
+    }
+    return count;
+  }
+
+  acceptInvitation(teamId: string):void {
+    this.noteService.acceptnvitations(teamId).subscribe(
+      data => {
+        this.getTeamData();
+        this.getInviteData();
+      }
+    )
+  }
+
+  getInviteData(): void{
+    this.noteService.getMyInvitations().subscribe(
+      data =>{
+        this.inviteTeams=data;
+      }
+    )
+  }
 
 
-    console.log('getting teams');
-
-    //get the teams for this user
+  getTeamData(): void {
     this.noteService.getUserTeams().subscribe(
       data => {
-
         console.log(data);
         this.teams = data;
         console.log('user teams: ' + this.teams);
@@ -52,28 +105,29 @@ export class MeetingListComponent implements OnInit {
                 team.message += '.';
               }
 
-              for(let meeting of data){
-                meeting.message=`This retrospective meeting has ${meeting.categories.length} `;
-                if(meeting.categories.length!=0){
+              for (let meeting of data) {
+                meeting.message = `This retrospective meeting has ${meeting.categories.length} `;
+                if (meeting.categories.length != 0) {
                   meeting.message += 'categories'
-                }else{
-                  meeting.message+= 'category'
+                } else {
+                  meeting.message += 'category'
                 }
-                
+
                 this.noteService.getNotes(meeting.id).subscribe(
-                  meetingData=>{
+                  meetingData => {
                     meeting.message += ` and ${meetingData.length}`;
-                    if(meetingData.length !=1){
+                    if (meetingData.length != 1) {
                       meeting.message += ' comments';
-                    }else{
+                    } else {
                       meeting.message += ' comment';
                     }
                   }
                 )
               }
-            });
+            }
+          );
         }
-        console.log(this.teams);
-      });
+      }
+    );
   }
 }

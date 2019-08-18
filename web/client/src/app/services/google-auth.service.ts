@@ -4,6 +4,7 @@ import { LocalstorageService } from '../services/localstorage.service';
 import { NotesService } from '../services/notes.service';
 import { UserLogin } from '../models/userlogin';
 import { UserToken } from '../models/usertoken';
+import { User } from '../models/user';
 
 declare const gapi: any;
 
@@ -95,7 +96,10 @@ export class GoogleAuthService {
                 this.storage.userToken = data.token;
 
                 // save to local storage
-                //  this.storage.user = ;
+                let activeUser = new User();
+                activeUser.userId=data.userId;
+                activeUser.isDemoUser=data.isDemoUser;
+                this.storage.user=activeUser;
 
                 // redirect to teams retrospectivelist page
                 this.ngZone.run(() => {

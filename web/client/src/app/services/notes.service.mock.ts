@@ -96,12 +96,24 @@ export class NotesServiceMock {
         return;
     }
 
+    getMyInvitations(): Observable<Team[]>{
+        let invitations: Team[] =[]  
+        return Observable.of(invitations);
+    }
 
+    acceptnvitations(teamId: string): Observable<Team>{
+        let team = new Team();
+        team.teamId='test1team';
+        team.name="test team";
+        console.log('getting one team');
+        return Observable.of(team); 
+    }
 
-
-
-
-
-
-
+    createTeam(): Observable<Team>{
+        let team = new Team();
+        team.teamId='test1team';
+        team.name="test team";
+        console.log('getting one team');
+        return Observable.of(team); 
+    }
 }
