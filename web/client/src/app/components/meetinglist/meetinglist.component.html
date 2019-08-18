@@ -15,7 +15,7 @@
   <div class="card-header">
     You are invited to join these teams:
   </div>
-  <div class="card" >
+  <div class="card">
     <div class="card-body">
       <table class="table">
         <tbody>
@@ -41,9 +41,13 @@
       <div class="card-body">
         <h3>Team: {{team.name}}</h3>
         <p>{{team.message}}</p>
-        <a [routerLink]="['/retrospective/teamedit', team.teamId]">Edit this team</a>
-        <div><a [routerLink]="['/retrospective/meetingedit', team.teamId]">Add another retrospective meeting for this
-            team</a></div>
+        <div *ngIf="this.canEditTeam(team.teamId)">
+          <a [routerLink]="['/retrospective/teamedit', team.teamId]">Edit this team</a>
+        </div>
+        <div *ngIf="this.canEditTeam(team.teamId)">
+          <a [routerLink]="['/retrospective/meetingedit', team.teamId]">Add another retrospective meeting for this
+            team</a>
+        </div>
         <br />
         <div class="container">
           <div class="card-group">
@@ -51,9 +55,10 @@
               <div class="card-body">
                 <h5>{{meeting.name}}</h5>
                 <p>{{meeting.message}}</p>
-                <p><a [routerLink]="['/retrospective/meetingedit', team.teamId, meeting.id]">
-                    Edit this meeting name and categories
-                  </a></p>
+                <div *ngIf="this.canEditTeam(team.teamId)">
+                    <a [routerLink]="['/retrospective/meetingedit', team.teamId, meeting.id]">
+                      Edit this meeting name and categories</a>
+                    </div>
                 <div>
                   <a class="btn btn-primary" [routerLink]="['/retrospective/comment', meeting.id]">
                     Enter retrospective comments&nbsp;<i-message-square></i-message-square>
