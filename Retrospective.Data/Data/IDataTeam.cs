@@ -16,5 +16,9 @@ namespace Retrospective.Data
     List<Team> GetUserTeams(string userId);
 
     List<Team> GetOwnedTeams(ObjectId userId);
+
+    List<Team> GetOwnedTeams(string userId);
+    
+    List<Team> GetTeamInvitations(string email);
   }
 }

@@ -53,7 +53,30 @@ namespace Retrospective.Domain {
             }
 
             return false;
+        }
 
+        protected bool isScrumMaster (string activeUserId, DomainModel.Team team) {
+            //confirm that this user is a member of the team
+            if(team.Members==null)return false;
+
+            //confirm that this user is a member of the team
+            if (DomainModel.TeamRole.ScrumMaster == this.GetTeamRole(team, activeUserId)) 
+            {
+                return true;
+            }
+            return false;
+        }
+
+        protected bool isStakeHolder (string activeUserId, DomainModel.Team team) {
+            //confirm that this user is a member of the team
+            if(team.Members==null)return false;
+
+            //confirm that this user is a member of the team
+            if (DomainModel.TeamRole.Stakeholder == this.GetTeamRole(team, activeUserId)) 
+            {
+                return true;
+            }
+            return false;
         }
 
         protected DomainModel.Team GetTeam (string teamId) {
@@ -81,5 +104,13 @@ namespace Retrospective.Domain {
             var comment = database.Comments.GetComment (new ObjectId (commentId));
             return comment.ToDomainModel();
         }
+
+        public DomainModel.User GetUser (string userId) {
+            logger.LogDebug ("looking for userid {0}", userId);
+
+            var user = database.Users.Get(new ObjectId (userId));
+            return user.ToDomainModel();
+        }
+
     }
 }

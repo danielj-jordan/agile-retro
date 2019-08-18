@@ -6027,23 +6027,23 @@
     ]
   },
   "packageFolders": {
-    "/root/.nuget/packages/": {},
-    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "/Users/daniel/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/projects/agile-retro/tools/demodata/demodata.csproj",
+      "projectUniqueName": "/Users/daniel/projects/agile-retro/tools/demodata/demodata.csproj",
       "projectName": "demodata",
-      "projectPath": "/projects/agile-retro/tools/demodata/demodata.csproj",
-      "packagesPath": "/root/.nuget/packages/",
-      "outputPath": "/projects/agile-retro/tools/demodata/obj/",
+      "projectPath": "/Users/daniel/projects/agile-retro/tools/demodata/demodata.csproj",
+      "packagesPath": "/Users/daniel/.nuget/packages/",
+      "outputPath": "/Users/daniel/projects/agile-retro/tools/demodata/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/root/.nuget/NuGet/NuGet.Config"
+        "/Users/daniel/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
@@ -6054,11 +6054,11 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "/projects/agile-retro/Retrospective.Data.Model/Retrospective.Data.Model.csproj": {
-              "projectPath": "/projects/agile-retro/Retrospective.Data.Model/Retrospective.Data.Model.csproj"
+            "/Users/daniel/projects/agile-retro/Retrospective.Data.Model/Retrospective.Data.Model.csproj": {
+              "projectPath": "/Users/daniel/projects/agile-retro/Retrospective.Data.Model/Retrospective.Data.Model.csproj"
             },
-            "/projects/agile-retro/Retrospective.Data/Retrospective.Data.csproj": {
-              "projectPath": "/projects/agile-retro/Retrospective.Data/Retrospective.Data.csproj"
+            "/Users/daniel/projects/agile-retro/Retrospective.Data/Retrospective.Data.csproj": {
+              "projectPath": "/Users/daniel/projects/agile-retro/Retrospective.Data/Retrospective.Data.csproj"
             }
           }
         }

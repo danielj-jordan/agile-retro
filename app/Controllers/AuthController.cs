@@ -124,7 +124,7 @@ namespace app.Controllers
         }
 
         //return a new token
-        var userToken = this.CreateToken(savedUser.Email, savedUser.UserId);
+        var userToken = this.CreateToken(savedUser.Email, savedUser.UserId, false);
         return userToken;
       }
       catch (InvalidJwtException ex)
@@ -147,14 +147,14 @@ namespace app.Controllers
       var user = usermanager.GetUserFromEmail(demoUser);
 
       // authentication successful so generate jwt token
-      var userToken = this.CreateToken(user.Email, user.UserId);
+      var userToken = this.CreateToken(user.Email, user.UserId, true);
       logger.LogInformation("Created token {0} for user {1}", userToken.Token, user.Email);
 
       return userToken;
 
     }
 
-    private UserLoginToken CreateToken(string email, string userId)
+    private UserLoginToken CreateToken(string email, string userId, bool isDemoUser)
     {
       var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
       var key = Encoding.ASCII.GetBytes(tokenConfig.Value.Key);
@@ -172,6 +172,8 @@ namespace app.Controllers
 
       UserLoginToken userToken = new UserLoginToken();
       userToken.Token = tokenHandler.WriteToken(token);
+      userToken.UserId=userId;
+      userToken.IsDemoUser=false;
 
       return userToken;
     }

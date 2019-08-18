@@ -8,6 +8,7 @@ export class LocalstorageService {
 
 
   set user(activeUser: User){
+    console.log("saving user to session storage: " + JSON.stringify(activeUser));
     sessionStorage.setItem("user", JSON.stringify(activeUser));
   }
 
