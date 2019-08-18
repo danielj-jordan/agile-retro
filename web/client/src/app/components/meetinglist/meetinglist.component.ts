@@ -79,7 +79,29 @@ export class MeetingListComponent implements OnInit {
       }
     )
   }
-
+  
+  canEditTeam(teamId: string): boolean{
+    if(this.storage.user==null ||
+      this.teams == undefined)
+    {
+      return false;
+    }
+    let activeUserId = this.storage.user.userId;
+    let count = 0;
+    for (let team of this.teams) {
+      if (team.members != null) {
+        for (let member of team.members) {
+          if (member.userId != null &&
+            member.userId == activeUserId &&
+            (member.role == 'Owner' ||
+            member.role == 'ScrumMaster')) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
 
   getTeamData(): void {
     this.noteService.getUserTeams().subscribe(
