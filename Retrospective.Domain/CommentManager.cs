@@ -10,7 +10,7 @@ using Retrospective.Domain.ModelExtensions;
 
 namespace Retrospective.Domain
 {
-  public class CommentManager : BaseManager
+  public class CommentManager : BaseManager, ICommentManager
   {
     private readonly ILogger<CommentManager> logger;
     private readonly IDatabase database;

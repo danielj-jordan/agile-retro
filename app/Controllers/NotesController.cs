@@ -20,11 +20,11 @@ namespace app.Controllers {
     public class NotesController : Controller {
         private readonly ILogger _logger;
 
-       private readonly CommentManager manager;
-       private readonly MeetingManager meetingManager;
+       private readonly ICommentManager manager;
+       private readonly IMeetingManager meetingManager;
 
         public NotesController (ILogger<NotesController> logger,
-            CommentManager manager, MeetingManager meetingManager) {
+            ICommentManager manager, IMeetingManager meetingManager) {
             _logger = logger;
             this.manager = manager;
             this.meetingManager=meetingManager;
