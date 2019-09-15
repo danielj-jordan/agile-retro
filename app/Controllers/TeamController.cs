@@ -21,10 +21,10 @@ namespace app.Controllers
   {
 
     private readonly ILogger<TeamController> _logger;
-    private readonly TeamManager teamManager;
+    private readonly ITeamManager teamManager;
 
 
-    public TeamController(ILogger<TeamController> logger, TeamManager teamManager)
+    public TeamController(ILogger<TeamController> logger, ITeamManager teamManager)
     {
       _logger = logger;
       this.teamManager = teamManager;
@@ -171,12 +171,8 @@ namespace app.Controllers
     {
       var activeUserId = this.GetActiveUserId();
       var user =   this.teamManager.GetUser(activeUserId);
-
-
       var invitations = this.teamManager.GetUserInvitedTeams(activeUserId, user.Email);
-
       return invitations.Select(i=>i.ToViewModel()).ToList();
-       
     }
 
     [Authorize]
@@ -185,7 +181,6 @@ namespace app.Controllers
     {
       var activeUserId = this.GetActiveUserId();
       var user =   this.teamManager.GetUser(activeUserId);
-
       var team = this.teamManager.AcceptInvitation(activeUserId, teamId, user.Email);
       return team.ToViewModel();
     }
@@ -196,7 +191,6 @@ namespace app.Controllers
     {
       var activeUserId = this.GetActiveUserId();
       var user =   this.teamManager.GetUser(activeUserId);
-
       var team = this.teamManager.NewTeam(activeUserId);
       return team.ToViewModel();
     }

@@ -10,7 +10,7 @@ using Moq;
 using app.Domain;
 using Retrospective.Data.Model;
 using MongoDB.Bson;
-
+using Retrospective.Domain;
 
 namespace apptest
 {
@@ -159,6 +159,51 @@ namespace apptest
             Assert.True(endCount==beginCount, "comment was updated");
             
 
+        }
+
+
+        [Fact]
+        public void VoteUp_withCommentId_CallsManagerVoteUp(){
+
+            //arrange
+            string commentId= this.fixture.UpdateNote.ToString();
+
+            var stubCommentManager = new Mock<ICommentManager>();
+            var stubMeetingManager = new Mock<IMeetingManager>();
+            var mock = new Mock<ILogger<app.Controllers.NotesController>>();
+            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
+
+            var controller = new app.Controllers.NotesController(logger,  stubCommentManager.Object, stubMeetingManager.Object);
+            MockHttpContextValid(controller, fixture.Owner);
+
+            //act
+            var result = controller.VoteUp(commentId);
+
+            //assert
+            stubCommentManager.Verify(m => m.VoteUp(It.IsAny<string>(), commentId),Times.Once);
+              Assert.IsType<EmptyResult>(result);
+        }
+
+        [Fact]
+        public void VoteDown_withCommentId_CallsManagerVoteDown(){
+
+            //arrange
+            string commentId= this.fixture.UpdateNote.ToString();
+
+            var stubCommentManager = new Mock<ICommentManager>();
+            var stubMeetingManager = new Mock<IMeetingManager>();
+            var mock = new Mock<ILogger<app.Controllers.NotesController>>();
+            var logger = new Microsoft.Extensions.Logging.Abstractions.NullLogger<app.Controllers.NotesController>();
+
+            var controller = new app.Controllers.NotesController(logger,  stubCommentManager.Object, stubMeetingManager.Object);
+            MockHttpContextValid(controller, fixture.Owner);
+
+            //act
+            var result = controller.VoteDown(commentId);
+
+            //assert
+            stubCommentManager.Verify(m => m.VoteDown(It.IsAny<string>(), commentId),Times.Once);
+            Assert.IsType<EmptyResult>(result);
         }
     }     
   }

@@ -9,7 +9,7 @@ using Retrospective.Domain.ModelExtensions;
 
 namespace Retrospective.Domain
 {
-  public class TeamManager : BaseManager
+  public class TeamManager : BaseManager, ITeamManager
   {
     private readonly ILogger<TeamManager> logger;
     private readonly IDatabase database;

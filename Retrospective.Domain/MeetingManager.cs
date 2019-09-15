@@ -11,7 +11,7 @@ using Retrospective.Domain.ModelExtensions;
 
 namespace Retrospective.Domain
 {
-    public class MeetingManager:BaseManager
+    public class MeetingManager:BaseManager, IMeetingManager
     {
          private readonly ILogger<MeetingManager>  _logger;
         private readonly IDatabase database;
