@@ -20,10 +20,10 @@ namespace app.Controllers
     public class MeetingController: Controller
     {
         private readonly ILogger<MeetingController>  _logger;
-        private readonly MeetingManager manager;
+        private readonly IMeetingManager manager;
 
         public MeetingController(ILogger<MeetingController> logger, 
-             MeetingManager manager)
+             IMeetingManager manager)
         {
             _logger=logger;
             this.manager=manager;

@@ -7,7 +7,7 @@ using Retrospective.Domain.ModelExtensions;
 
 namespace Retrospective.Domain
 {
-  public class UserManager : BaseManager
+  public class UserManager : BaseManager, IUserManager
   {
     private readonly ILogger<UserManager> logger;
     private readonly IDatabase database;
