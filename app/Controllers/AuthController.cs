@@ -26,10 +26,10 @@ namespace app.Controllers
   {
 
     private readonly ILogger<AuthController> logger;
-   private readonly UserManager usermanager;
+   private readonly IUserManager usermanager;
     private readonly IOptions<JWTTokenConfiguration> tokenConfig;
 
-    public AuthController(ILogger<AuthController> logger, UserManager usermanager, IOptions<JWTTokenConfiguration> tokenConfig)
+    public AuthController(ILogger<AuthController> logger, IUserManager usermanager, IOptions<JWTTokenConfiguration> tokenConfig)
     {
       this.logger = logger;
       this.usermanager = usermanager;

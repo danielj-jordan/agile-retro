@@ -58,10 +58,10 @@ namespace app
 
       services.AddScoped<Retrospective.Data.IDatabase, Retrospective.Data.Database>();
 
-      services.AddTransient<Retrospective.Domain.TeamManager, Retrospective.Domain.TeamManager>();
-      services.AddTransient<Retrospective.Domain.MeetingManager, Retrospective.Domain.MeetingManager>();
-      services.AddTransient<Retrospective.Domain.CommentManager, Retrospective.Domain.CommentManager>();
-      services.AddTransient<Retrospective.Domain.UserManager, Retrospective.Domain.UserManager>();
+      services.AddTransient<Retrospective.Domain.ITeamManager, Retrospective.Domain.TeamManager>();
+      services.AddTransient<Retrospective.Domain.IMeetingManager, Retrospective.Domain.MeetingManager>();
+      services.AddTransient<Retrospective.Domain.ICommentManager, Retrospective.Domain.CommentManager>();
+      services.AddTransient<Retrospective.Domain.IUserManager, Retrospective.Domain.UserManager>();
 
       services.Configure<JWTTokenConfiguration>(Configuration.GetSection("JWTTokenConfiguration"));
 
