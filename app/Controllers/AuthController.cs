@@ -26,14 +26,14 @@ namespace app.Controllers
   {
 
     private readonly ILogger<AuthController> logger;
-   private readonly IUserManager usermanager;
-    private readonly IOptions<JWTTokenConfiguration> tokenConfig;
+    private readonly IUserManager usermanager;
+    private readonly IConfiguration configuration;
 
-    public AuthController(ILogger<AuthController> logger, IUserManager usermanager, IOptions<JWTTokenConfiguration> tokenConfig)
+    public AuthController(ILogger<AuthController> logger, IUserManager usermanager, IConfiguration configuration)
     {
       this.logger = logger;
       this.usermanager = usermanager;
-      this.tokenConfig = tokenConfig;
+      this.configuration = configuration;
     }
 
 
@@ -44,41 +44,7 @@ namespace app.Controllers
       return Ok();
     }
 
-  /*
-    [HttpPost("[action]")]
-    public ActionResult<UserLoginToken> GenerateToken([FromBody] UserLogin login)
-    {
-
-      if (string.IsNullOrEmpty(login.LoginName))
-      {
-        logger.LogWarning("username not supplied");
-        return new BadRequestResult();
-      }
-
-      logger.LogDebug("login: " + login.LoginName);
-
-      // authentication successful so generate jwt token
-      var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-      var key = Encoding.ASCII.GetBytes(tokenConfig.Value.Key);
-      var tokenDescriptor = new SecurityTokenDescriptor
-      {
-        Subject = new ClaimsIdentity(new Claim[]
-          {
-                    new Claim(ClaimTypes.Name, login.LoginName)
-          }),
-        Expires = DateTime.UtcNow.AddDays(7),
-        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-      };
-      var token = tokenHandler.CreateToken(tokenDescriptor);
-
-      UserLoginToken userToken = new UserLoginToken();
-      userToken.Token = tokenHandler.WriteToken(token);
-
-      return userToken;
-    }
-    */
-
-    [HttpPost("[action]")]
+     [HttpPost("[action]")]
     public async Task<ActionResult<UserLoginToken>> LoginGoogle([FromBody] UserLoginToken googleToken)
     {
       logger.LogInformation("LoginGoogle called with {0}", googleToken.Token);
@@ -157,7 +123,8 @@ namespace app.Controllers
     private UserLoginToken CreateToken(string email, string userId, bool isDemoUser)
     {
       var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
-      var key = Encoding.ASCII.GetBytes(tokenConfig.Value.Key);
+      var key = Encoding.ASCII.GetBytes(configuration["JWTTokenConfiguration:Key"]);
+
       var tokenDescriptor = new SecurityTokenDescriptor
       {
         Subject = new ClaimsIdentity(new Claim[]
