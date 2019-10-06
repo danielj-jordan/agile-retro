@@ -8,7 +8,7 @@ import { User } from '../models/user';
 
 declare const gapi: any;
 
-
+  
 @Injectable({
   providedIn: 'root'
 })
