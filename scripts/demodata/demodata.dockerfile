@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2
 
 ENV ASPNETCORE_ENVIRONMENT=Development
 ENV DB_CONNECTIONSTRING=mongodb://localhost:27017

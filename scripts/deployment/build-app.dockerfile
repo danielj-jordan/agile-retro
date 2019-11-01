@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:sdk AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
 WORKDIR /agile-retro/app
 
 # Copy source and restore 
@@ -16,7 +16,7 @@ RUN dotnet publish -c Release -o out
 
 # Build runtime image
 #FROM nginx:alpine
-FROM microsoft/dotnet:aspnetcore-runtime
+FROM microsoft/dotnet:sdk:2.2aspnetcore-runtime
 WORKDIR /app
 COPY --from=build-env /agile-retro/app/out .
 ENTRYPOINT ["dotnet", "app.dll"]
