@@ -24,7 +24,7 @@ try {
     }
     stage('Push to Registry')
     {
-        withEnv(['PATH+EXTRA=/Users/Shared/Jenkins/google-cloud-sdk/bin'])
+        withEnv(['PATH+EXTRA=/Users/jenkins/google-cloud-sdk/bin'])
         {
         sh "gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://gcr.io"
         sh "docker push gcr.io/${projectid}/agile-retro-web:${version}"
