@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: agile-retro-app
-          image: "gcr.io/agileretro-232800/agile-retro-app"
+          image: "gcr.io/agileretro-232800/agile-retro-app:v1.0.52"
           ports:
             - name: http
               containerPort: 5000
@@ -42,8 +42,13 @@ spec:
           - name: DB_CONNECTIONSTRING
             valueFrom:
               secretKeyRef:
-                name:  db-connectionstring
-                key: connection.txt
+                name:  agile-retro-secret
+                key: connectionstring.txt
+          - name: JWTTokenConfiguration__Key
+            valueFrom:
+              secretKeyRef:
+                name:  agile-retro-secret
+                key: jwtkey.txt
           - name: DB_NAME
             value: agile-retro-prod
 
