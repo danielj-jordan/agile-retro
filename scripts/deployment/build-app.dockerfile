@@ -16,7 +16,7 @@ RUN dotnet publish -c Release -o out
 
 # Build runtime image
 #FROM nginx:alpine
-FROM microsoft/dotnet:sdk:2.2aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 WORKDIR /app
 COPY --from=build-env /agile-retro/app/out .
 ENTRYPOINT ["dotnet", "app.dll"]
