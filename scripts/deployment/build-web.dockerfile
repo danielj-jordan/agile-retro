@@ -1,5 +1,5 @@
 # The builder from node image
-FROM node:alpine as builder
+FROM node:10.17-alpine as builder
 
 # build-time variables 
 # prod|sandbox its value will be come from outside 
@@ -19,7 +19,7 @@ RUN cd /app && npm install
 RUN cd /app && npm run build
 
 # Build a small nginx image with static website
-FROM nginx:alpine
+FROM nginx:1.16-alpine
 RUN mkdir -p /run/nginx
 RUN apk add --no-cache nginx-mod-http-lua
 RUN rm -rf /usr/share/nginx/html/*
