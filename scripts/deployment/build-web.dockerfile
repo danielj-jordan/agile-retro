@@ -19,7 +19,7 @@ RUN cd /app && npm install
 RUN cd /app && npm run build
 
 # Build a small nginx image with static website
-FROM nginx:1.16-alpine
+FROM nginx:1.17.5-alpine
 RUN mkdir -p /run/nginx
 RUN apk add --no-cache nginx-mod-http-lua
 RUN rm -rf /usr/share/nginx/html/*
