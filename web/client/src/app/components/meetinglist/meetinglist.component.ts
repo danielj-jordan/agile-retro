@@ -21,7 +21,7 @@ export class MeetingListComponent implements OnInit {
   }
 
   public teams: Team[];
-  public inviteTeams : Team[];
+  public inviteTeams: Team[];
 
   ngOnInit() {
     this.getTeamData();
@@ -35,16 +35,21 @@ export class MeetingListComponent implements OnInit {
       });
   }
 
-  inviteCount(): number{
-    if(this.inviteTeams==undefined)return 0;
+  inviteCount(): number {
+    if (this.inviteTeams == undefined) return 0;
     return this.inviteTeams.length;
   }
 
-  ownedTeamCount(): number {
+  isDemoUser(): boolean {
+    if (this.storage.user.isDemoUser) {
+      return true;
+    }
+    return false;
+  }
 
-    if(this.storage.user==null ||
-      this.teams == undefined)
-    {
+  ownedTeamCount(): number {
+    if (this.storage.user == null ||
+      this.teams == undefined) {
       return 0;
     }
     let activeUserId = this.storage.user.userId;
@@ -63,7 +68,7 @@ export class MeetingListComponent implements OnInit {
     return count;
   }
 
-  acceptInvitation(teamId: string):void {
+  acceptInvitation(teamId: string): void {
     this.noteService.acceptnvitations(teamId).subscribe(
       data => {
         this.getTeamData();
@@ -72,18 +77,17 @@ export class MeetingListComponent implements OnInit {
     )
   }
 
-  getInviteData(): void{
+  getInviteData(): void {
     this.noteService.getMyInvitations().subscribe(
-      data =>{
-        this.inviteTeams=data;
+      data => {
+        this.inviteTeams = data;
       }
     )
   }
-  
-  canEditTeam(teamId: string): boolean{
-    if(this.storage.user==null ||
-      this.teams == undefined)
-    {
+
+  canEditTeam(teamId: string): boolean {
+    if (this.storage.user == null ||
+      this.teams == undefined) {
       return false;
     }
     let activeUserId = this.storage.user.userId;
@@ -94,7 +98,7 @@ export class MeetingListComponent implements OnInit {
           if (member.userId != null &&
             member.userId == activeUserId &&
             (member.role == 'Owner' ||
-            member.role == 'ScrumMaster')) {
+              member.role == 'ScrumMaster')) {
             return true;
           }
         }

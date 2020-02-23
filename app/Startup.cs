@@ -20,7 +20,6 @@ namespace app
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
-      Console.WriteLine("injected Configuration");
     }
 
     public IConfiguration Configuration { get; }
@@ -28,6 +27,15 @@ namespace app
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+
+      string jwtKey = Configuration["JWTTokenConfiguration:Key"];
+      if(string.IsNullOrWhiteSpace(jwtKey))
+      {
+        Console.WriteLine("*** JWT Key is not set ***");
+
+      }
+
+
 
       services.AddAuthentication(options =>
       {
@@ -44,7 +52,7 @@ namespace app
               ValidateAudience = false,
              // ValidAudience = Configuration["JWTTokenConfiguration:Audience"],
               ValidateIssuerSigningKey = true,
-              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTTokenConfiguration:Key"])),
+              IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
 
             };
             config.RequireHttpsMetadata =  false;
