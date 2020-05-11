@@ -41,6 +41,10 @@ export class MeetingListComponent implements OnInit {
   }
 
   isDemoUser(): boolean {
+    if(!this.storage.user)
+    {
+      return false;
+    }
     if (this.storage.user.isDemoUser) {
       return true;
     }
