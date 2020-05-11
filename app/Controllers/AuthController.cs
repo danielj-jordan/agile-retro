@@ -140,7 +140,7 @@ namespace app.Controllers
       UserLoginToken userToken = new UserLoginToken();
       userToken.Token = tokenHandler.WriteToken(token);
       userToken.UserId=userId;
-      userToken.IsDemoUser=false;
+      userToken.IsDemoUser=isDemoUser;
 
       return userToken;
     }
